@@ -1,0 +1,8 @@
+/* The lock screen on a private app's page, before it's unlocked. The rest of the look is the store's. */
+@import url("../store.css");
+
+.lockpage { max-width: 420px; margin: 0 auto; padding: 12vh 20px 40px; text-align: center; }
+.lockpage > img { width: 96px; height: 96px; margin: 0 auto; border-radius: 22.5%; box-shadow: 0 0 0 .5px #00000026, 0 10px 30px #0000001f; }
+.lockpage h1 { margin: 18px 0 0; font-size: 26px; font-weight: 800; letter-spacing: -.01em; }
+.lockpage .unlock { text-align: left; }
+.lockpage .wait { color: var(--muted); margin-top: 24px; }

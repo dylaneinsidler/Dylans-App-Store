@@ -1,0 +1,25 @@
+{
+  "name": "Dylan's Co-Star",
+  "short": "Co-Star",
+  "subtitle": "Your day and your chart, in the style of Co-Star",
+  "category": "Every Day",
+  "order": 5,
+  "background": "#0d0d0d",
+  "internet": "Needed the first time (for the astronomy)",
+  "source": ["Dylan's Co-Star", "Star Wall"],
+  "copy": ["astro.js", "reading.js", "explain.js", "wall.js", "guide.js", "wall.css"],
+  "description": [
+    "Your day at a glance, in the spare black-and-white style of the Co-Star app: a line for the day, a short reading, what to do and not do, and the transits behind it, with grainy planet pictures drawn dot by dot.",
+    "Below it: your birth chart with the sky right now around the outside, where every planet is today next to where it was when you were born, and the moon's phase. The planets are worked out on your phone from real astronomy, nothing made up.",
+    "The first time, type in your birth date, time and place. They stay on your phone."
+  ],
+  "features": [
+    "A daily reading from today's real planets and your chart",
+    "Do and don't lists, and your transits in plain words",
+    "Your birth chart, with the sky right now around it",
+    "Every planet now next to where it was at your birth",
+    "The moon's phase",
+    "Dark or light, like the app",
+    "Your birth details stay on your phone"
+  ]
+}

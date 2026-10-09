@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ukulele">
+<meta name="theme-color" content="#17110d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Baritone Ukulele</title>
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Baritone Ukulele</h1>
+    <p>tuned D · G · B · E</p>
+  </div>
+  <button id="sound" class="pill"></button>
+</header>
+
+<main class="screens">
+  <section class="screen" id="neck-screen">
+    <div class="screen-name">The neck</div>
+    <div class="readout" id="readout">
+      <div class="row1">
+        <div id="chord">
+          <div class="name"></div>
+          <div class="words"></div>
+          <div class="feel"></div>
+        </div>
+        <button id="strum">▶ Strum</button>
+      </div>
+      <div class="strip" id="strip"></div>
+    </div>
+    <svg id="neck" viewBox="0 0 360 712" aria-label="Ukulele neck"></svg>
+    <div class="under-neck">
+      <p class="hint">Tap a spot to press it, and again to lift your finger. Tap a letter at the top to switch that string off.</p>
+      <div class="buttons">
+        <button id="names" class="pill"></button>
+        <button id="clear" class="pill">Back to open strings</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="notes-screen">
+    <div class="screen-name">Chords</div>
+    <p class="hint">Tap a chord to hear it, see how to play it, and put it on the neck.</p>
+    <div id="chords"></div>
+
+    <div class="screen-name">Notes</div>
+    <p class="hint">Every note the neck can play. Uke music is written one octave above how it sounds (like guitar). That’s normal.</p>
+    <div id="staff"></div>
+    <p class="legend">Fingers: 1 pointer · 2 middle · 3 ring · 4 pinky. O = play the string open, ✕ = don’t play it.</p>
+  </section>
+</main>
+
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <button class="sheet-close" aria-label="Close">✕</button>
+  <div class="sheet-body"></div>
+</aside>
+
+<script src="desktop/music.js"></script>
+<script src="desktop/sound.js"></script>
+<script src="../../shared/phone.js" data-name="Dylan's Baritone Ukulele" data-sound></script>
+<script src="app.js"></script>
+</body>
+</html>

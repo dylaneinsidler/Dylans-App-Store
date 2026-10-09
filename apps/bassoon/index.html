@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bassoon">
+<meta name="theme-color" content="#15100e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Bassoon</title>
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <h1>Dylan's Bassoon</h1>
+  <p>Tap the keys to see what note they play, or pick a note to see how to play it.</p>
+</header>
+
+<main class="screens">
+  <section class="screen" id="keys-screen">
+    <div class="screen-name">The keys</div>
+    <div class="result" id="result">
+      <div class="r-main">
+        <div class="r-words">
+          <div class="label" id="r-label"></div>
+          <div id="r-name"></div>
+          <div id="r-sub"></div>
+        </div>
+        <svg id="r-staff" viewBox="0 0 300 150"></svg>
+      </div>
+      <div id="r-last"></div>
+    </div>
+    <p id="r-tip"></p>
+    <div id="r-alt"></div>
+    <ul class="near" id="r-near"></ul>
+
+    <div class="panels" id="panels"></div>
+
+    <div class="pressing">
+      <div class="label">What you're pressing</div>
+      <dl class="words" id="words"></dl>
+      <button id="clear" class="pill">Let go of everything</button>
+    </div>
+  </section>
+
+  <section class="screen" id="notes-screen">
+    <div class="screen-name">Pick a note</div>
+    <p class="hint">Tap a note to see how to finger it. Low and middle notes are in <b>bass clef</b>. The high ones are in <b>tenor clef</b>: the line through the middle of the clef is middle C.</p>
+    <div id="staves"></div>
+  </section>
+</main>
+
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <button class="sheet-close" aria-label="Close">✕</button>
+  <div class="sheet-body">
+    <div class="label" id="n-label">How to play it</div>
+    <div class="n-head">
+      <div id="n-name"></div>
+      <div class="steppers"><button class="pill" id="lower" aria-label="Lower note">◀</button><button class="pill" id="higher" aria-label="Higher note">▶</button></div>
+    </div>
+    <div id="n-sub"></div>
+    <div id="picture"></div>
+    <dl class="words" id="n-words"></dl>
+    <p id="n-tip"></p>
+    <button class="pill" id="try">Try it on the keys ↑</button>
+    <div class="label" id="o-label"></div>
+    <div class="alts" id="o-alts"></div>
+  </div>
+</aside>
+
+<script src="desktop/fingerings.js"></script>
+<script src="desktop/bassoon.js"></script>
+<script src="desktop/staff.js"></script>
+<script src="../../shared/phone.js" data-name="Dylan's Bassoon"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+/* The shared look of both screens: laid out after Sefaria (sefaria.org), in the colors of Co-Star (and
+   Dylan's Co-Star): off-white paper, black ink, gray lines, and nothing else. A Garamond serif for
+   English, a Frank Rühl serif for Hebrew. Dark mode (below) is the same in near-black and light gray. */
+
+:root {
+  --ink: #161616;         /* all text */
+
+  --page: #f7f7f7;        /* the paper */
+  --panel: #fbfbfb;       /* the side panels */
+  --tint: #ececec;        /* things already done: past days, past portions */
+  --mark: #d4d4d4;        /* what's now: today, this week's portion */
+  --rule: #cdcdcd;        /* thin lines */
+  --rule-light: #e6e6e6;
+
+  --sepia: #161616;       /* section lines, the year wheel's hand, the progress bar (black, as on Co-Star) */
+  --sepia-2: #8b8b8b;
+  --sepia-3: #b9b9b9;
+
+  --wheel-a: #efefef;     /* the year wheel's months, alternating */
+  --wheel-b: #e2e2e2;
+  --moon-dark: #cfcfcf;   /* the moon in the middle of the wheel */
+  --moon-lit: #fbfbfb;
+  --moon-edge: #8b8b8b;
+
+  --serif: 'EB Garamond', 'Frank Ruhl Libre', Georgia, 'Times New Roman', serif;
+  --hebrew: 'Frank Ruhl Libre', 'Taamey Frank CLM', 'Times New Roman', serif;
+  --sans: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --hebrew-sans: 'Heebo', 'Roboto', sans-serif;
+}
+
+/* Dark mode (theme: 'dark' in config.js, or ?theme=dark on the address): Co-Star's dark look, near-black
+   pages, light gray text, and dark gray lines. */
+:root[data-theme="dark"] {
+  --ink: #ececec;
+  --page: #0d0d0d;
+  --panel: #121212;
+  --tint: #1b1b1b;
+  --mark: #3a3a3a;
+  --rule: #3a3a3a;
+  --rule-light: #1f1f1f;
+  --sepia: #b4b4b4;
+  --sepia-2: #8b8b8b;
+  --sepia-3: #555555;
+  --wheel-a: #161616;
+  --wheel-b: #202020;
+  --moon-dark: #262626;
+  --moon-lit: #ececec;
+  --moon-edge: #8b8b8b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100vw; height: 100vh; overflow: hidden;
+  background: var(--page); color: var(--ink);
+  font-family: var(--serif); font-size: 22px; line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  cursor: default; user-select: none;
+}
+
+.he { font-family: var(--hebrew); direction: rtl; unicode-bidi: isolate; }
+.he-sans { font-family: var(--hebrew-sans); direction: rtl; unicode-bidi: isolate; }
+.sans { font-family: var(--sans); }
+
+/* ---- The header bar ---- */
+header.bar {
+  height: 76px; padding: 0 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+  background: var(--page);
+}
+.wordmark { display: flex; align-items: center; gap: 16px; color: var(--ink); }
+.wordmark svg { width: 34px; height: 34px; }
+.wordmark .name { font-family: var(--serif); font-size: 32px; letter-spacing: 0.01em; }
+.wordmark .screen {
+  font-family: var(--sans); font-size: 15px; color: var(--ink);
+  border-left: 1px solid var(--rule); padding-left: 16px; margin-left: 2px;
+  text-transform: uppercase; letter-spacing: 0.12em;
+}
+.bar .date { display: flex; align-items: baseline; gap: 22px; font-family: var(--sans); font-size: 19px; color: var(--ink); }
+.bar .date .he { font-size: 25px; color: var(--ink); }
+.bar .date .sep { color: var(--ink); }
+
+/* ---- Small labels over each section ---- */
+.label {
+  font-family: var(--sans); font-size: 15px; font-weight: 500;
+  color: var(--ink); text-transform: uppercase; letter-spacing: 0.1em;
+}
+.label .he-sans { text-transform: none; letter-spacing: 0; font-weight: 400; margin-inline-start: 10px; font-size: 17px; }
+
+/* A section with its line on top: darkest for the Torah itself, lighter for what comments on it. */
+.block { border-top: 4px solid var(--sepia); padding-top: 14px; }
+.block.tanakh { border-top-color: var(--sepia); }
+.block.commentary { border-top-color: var(--sepia-2); }
+.block.talmud { border-top-color: var(--sepia-3); }
+
+.ref { font-family: var(--sans); font-size: 16px; color: var(--ink); }
+.ref .he-sans { margin-inline-start: 8px; }
+
+/* Text from Sefaria fades in when it arrives. */
+.fill { transition: opacity 0.6s; }
+.fill.waiting { opacity: 0; }
+
+/* The Light / Dark switch, at the end of the header. */
+.theme-switch { display: inline-flex; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; margin-left: 8px; cursor: pointer;
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; align-self: center; }
+.theme-switch span { padding: 5px 11px; }
+.theme-switch span.on { background: var(--ink); color: var(--page); }
+
+/* The X in the top right corner closes both screens (as a click anywhere else does). */
+.close-x { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-left: 4px; border: 1px solid var(--rule);
+  border-radius: 6px; font-family: var(--sans); font-size: 17px; cursor: pointer; align-self: center; }
+
+/* "Full text": opens a section's details in a window over the screen. */
+.more-btn { display: inline-block; margin-top: 10px; padding: 4px 12px; border: 1px solid var(--rule); border-radius: 999px; cursor: pointer;
+  font-family: var(--sans); font-size: 14px; letter-spacing: 0.04em; color: var(--ink); background: var(--page); }
+.more-btn::after { content: ' ↗'; }
+.details { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; cursor: pointer;
+  background: color-mix(in srgb, var(--page) 70%, transparent); backdrop-filter: blur(4px); }
+.details-card { width: min(1500px, 86vw); max-height: 86vh; overflow: auto; box-sizing: border-box; padding: 34px 48px 40px;
+  background: var(--panel); border: 1px solid var(--rule); border-top: 4px solid var(--sepia); }
+.details-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+.details-x { font-family: var(--sans); font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+.details-body { font-size: 25px; line-height: 1.5; }
+.details-body .he { font-size: 27px; line-height: 1.7; text-align: right; margin-top: 18px; }
+.details-body .en + .en { margin-top: 14px; }
+.details-body .lemma { font-size: 0.82em; letter-spacing: 0.03em; font-weight: 600; }
+
+.offline {
+  font-family: var(--sans); font-size: 16px; color: var(--ink); font-style: normal;
+}

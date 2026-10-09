@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Corkboard">
+<meta name="theme-color" content="#6b4a2b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Corkboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<main class="screens">
+  <section class="screen" id="going-screen">
+    <div class="title-card paper"><i class="pin" style="--base:#555"></i><h1>Local Events</h1><p>Things to do around South Florida</p></div>
+    <div class="map-card paper"><i class="pin" style="--base:#555"></i><div id="map"></div><div id="orlando"></div><div class="credit">Map data: US Census Bureau</div></div>
+    <div id="going"></div>
+  </section>
+
+  <section class="screen" id="mine-screen">
+    <div class="title-card paper"><i class="pin" style="--base:#555"></i><h1>Appointments &amp; Reminders</h1><p>Yours, kept on this phone</p></div>
+    <div class="row"><button class="add" id="add-btn">+ Add a reminder</button><button class="add" id="bday-btn">+ Add a birthday</button></div>
+    <div id="birthdays"></div>
+    <div id="mine"></div>
+  </section>
+</main>
+
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <button class="sheet-close" aria-label="Close">✕</button>
+  <form id="form"></form>
+</aside>
+
+<script src="desktop/going.js"></script>
+<script src="desktop/mapdata.js"></script>
+<script src="../../shared/phone.js" data-name="Dylan's Corkboard"></script>
+<script src="app.js"></script>
+</body>
+</html>

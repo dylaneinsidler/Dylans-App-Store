@@ -1,0 +1,6 @@
+[
+  { "name": "Your day", "url": "?demo", "settle": 6000 },
+  { "name": "The reading and your transits", "url": "?demo", "settle": 6000, "scroll": ".detail", "offset": 0 },
+  { "name": "Your chart", "url": "?demo", "settle": 7000, "scroll": "#sky-screen", "offset": 0 },
+  { "name": "In light", "url": "?demo&theme=light", "settle": 6000 }
+]

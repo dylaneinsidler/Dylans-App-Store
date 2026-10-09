@@ -1,0 +1,6 @@
+[
+  { "name": "Today's insight", "url": "", "settle": 7000 },
+  { "name": "The verse, Rashi and the Talmud", "url": "", "settle": 7000, "scroll": ".reading", "offset": 0 },
+  { "name": "This week's portion", "url": "", "settle": 7000, "scroll": "#week-screen", "offset": 0 },
+  { "name": "Where we are in the year, in dark", "url": "?theme=dark", "settle": 7000, "scroll": ".year", "offset": 10 }
+]

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Daily Torah">
+<meta name="theme-color" content="#F3E8CF">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="desktop/wall.css">
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+<!-- This page is made by build.mjs from index.template.html and the desktop app's two screens. Edit the template. -->
+<script>
+  // Light or dark: the switch in the header (desktop/wall.js) is remembered on this phone. The desktop
+  // code reads it from the address, so put it there before that code runs.
+  (function () {
+    var q = new URLSearchParams(location.search), saved;
+    try { saved = JSON.parse(localStorage.getItem('torah.theme')); } catch (e) {}
+    if (!q.get('theme')) { q.set('theme', saved || 'light'); history.replaceState(null, '', '?' + q + location.hash); }
+  })();
+</script>
+</head>
+<body>
+<script src="desktop/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hebcal/core@6.13.0/dist/bundle.min.js"></script>
+<script src="desktop/parshiyot.js"></script>
+<script src="desktop/talmud.js"></script>
+<script src="desktop/lessons-genesis.js"></script>
+<script src="desktop/lessons-exodus.js"></script>
+<script src="desktop/lessons-leviticus.js"></script>
+<script src="desktop/lessons-numbers.js"></script>
+<script src="desktop/lessons-deuteronomy.js"></script>
+<script src="desktop/wall.js"></script>
+
+<main class="screens">
+  <section class="screen" id="today-screen">
+    <div id="header"></div>
+    <div class="today-main">
+<section class="insight">
+    <div class="label" id="insight-label">Today's insight</div>
+    <div class="insight-top" id="insight-top">
+      <div class="headline" id="headline"></div>
+      <div class="thought" id="thought"></div>
+      <div class="try" id="try"><div class="label">Try this today</div><div class="t" id="try-text"></div></div>
+    </div>
+    <div class="weekplan">
+      <div class="label">This week, a section a day</div>
+      <div id="days"></div>
+    </div>
+  </section>
+
+  <section class="reading">
+    <div class="reading-head">
+      <div class="label" id="reading-label">Today's reading</div>
+      <div class="title"><span id="reading-ref"></span><span class="he-sans" id="reading-he"></span></div>
+    </div>
+
+    <div class="block tanakh verse">
+      <div class="who"><div class="label" id="verse-label">Verse of the day</div><div class="ref he-sans" id="verse-he-ref"></div></div>
+      <div class="verse-box fill waiting" id="verse-box"><div class="he" id="verse-he"></div><div class="en" id="verse-en"></div></div>
+    </div>
+
+    <div class="block commentary rashi">
+      <div class="who"><div class="label" id="comm-label">Rashi <span class="he-sans">רש״י</span></div><div class="about" id="comm-about">Rabbi Shlomo Yitzchaki · France, 1040–1105</div></div>
+      <div class="body fill waiting" id="comm"></div>
+      <div><span class="more-btn" id="comm-more" data-details hidden>Full text</span></div>
+    </div>
+
+    <div class="block talmud">
+      <div class="who"><div class="label" id="talmud-label">From the Talmud</div><div class="about">The Babylonian Talmud, finished around 500 CE</div></div>
+      <div class="about-verse" id="talmud-verse"></div>
+      <div class="body fill waiting" id="talmud"><div class="en" id="talmud-en"></div><div class="he" id="talmud-he"></div></div>
+      <div><span class="more-btn" id="talmud-more" data-details hidden>Full passage</span></div>
+    </div>
+  </section>
+    </div>
+  </section>
+  <section class="screen" id="week-screen">
+    <div id="header"></div>
+    <div class="week-main">
+<section class="portion">
+    <div class="label" id="when"></div>
+    <div class="title-row"><h1 id="name"></h1><div class="he" id="he-name"></div></div>
+    <div class="meaning" id="meaning"></div>
+    <div class="holiday" id="holiday"></div>
+    <p class="summary" id="summary"></p>
+    <div class="lessons-head"><div class="label">The main lessons</div></div>
+    <div class="lessons" id="lessons"></div>
+    <div class="foot" id="foot"></div>
+  </section>
+
+  <aside>
+    <section>
+      <div class="label">Where we are in the Torah <span class="he-sans">חמישה חומשי תורה</span></div>
+      <div class="progress"><div class="track"><div id="bar"></div></div><span id="progress-text"></span></div>
+      <div class="books" id="books"></div>
+    </section>
+
+    <section class="year">
+      <div class="label">Where we are in the year <span class="he-sans" id="year-he"></span></div>
+      <div class="year-row">
+        <svg class="wheel" id="wheel" viewBox="0 0 330 330"></svg>
+        <div class="upcoming">
+          <h4>Coming up</h4>
+          <div id="holidays"></div>
+        </div>
+      </div>
+    </section>
+  </aside>
+    </div>
+  </section>
+</main>
+
+<script src="../../shared/phone.js" data-name="Dylan's Daily Torah"></script>
+<script src="app.js"></script>
+<script src="desktop/today.js"></script>
+<script src="desktop/week.js"></script>
+</body>
+</html>

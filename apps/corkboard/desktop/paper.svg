@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="360">
+  <!-- Paper grain, and faint fibers running across the sheet. Drawn over the paper's own color. -->
+  <filter id="g" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" seed="2" stitchTiles="stitch"/>
+    <feColorMatrix values="0 0 0 0 0.35  0 0 0 0 0.3  0 0 0 0 0.22  0.26 0 0 0 -0.1"/>
+  </filter>
+  <filter id="f" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.004 0.6" numOctaves="2" seed="5" stitchTiles="stitch"/>
+    <feColorMatrix values="0 0 0 0 0.4  0 0 0 0 0.34  0 0 0 0 0.25  0.14 0 0 0 -0.05"/>
+  </filter>
+  <rect width="100%" height="100%" filter="url(#g)"/>
+  <rect width="100%" height="100%" filter="url(#f)"/>
+</svg>

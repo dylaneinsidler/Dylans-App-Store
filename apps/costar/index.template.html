@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" class="flow">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Co-Star">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Co-Star</title>
+<link rel="stylesheet" href="desktop/wall.css">
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+<!-- This page is made by build.mjs from index.template.html and the desktop app's two screens. Edit the template. -->
+</head>
+<body>
+<div class="topbar"><button class="pill" id="me-btn">Your birth details</button><div id="switches"></div></div>
+
+<main class="screens" id="stage" hidden>
+  <section class="screen" id="today-screen">
+{{TODAY}}
+  </section>
+  <section class="screen" id="sky-screen">
+    <div class="screen-name">Your chart</div>
+{{SKY}}
+  </section>
+</main>
+
+<aside class="setup" id="setup" hidden>
+  <h1>Co-Star</h1>
+  <p>Your day and your chart, worked out from where the planets really are. To begin, tell it when and where you were born. It stays on this phone.</p>
+  <form id="me-form">
+    <label>Your first name<input id="f-name" autocomplete="given-name" required></label>
+    <label>Birthday<input id="f-date" type="date" required></label>
+    <label>Time you were born<input id="f-time" type="time"><small>The closer, the better: it sets your rising sign. Leave it empty if you don't know.</small></label>
+    <label>Where you were born<input id="f-place" type="search" placeholder="Town or city" autocomplete="off" required></label>
+    <ul id="f-results"></ul>
+    <button class="pill solid" id="f-save" type="submit">Show my day</button>
+    <button class="pill" id="f-cancel" type="button" hidden>Cancel</button>
+  </form>
+</aside>
+
+<script src="../../shared/phone.js" data-name="Dylan's Co-Star"></script>
+<script src="app.js"></script>
+</body>
+</html>

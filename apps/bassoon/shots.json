@@ -1,0 +1,6 @@
+[
+  { "name": "A note on the keys", "url": "?keys=W,L1,L2,L3" },
+  { "name": "The keys, further down", "url": "?keys=W,L1h,L2,L3,R1", "scroll": ".pressing", "offset": 300 },
+  { "name": "Pick a note", "url": "", "scroll": "#notes-screen", "offset": 8 },
+  { "name": "How to play a note", "url": "?note=55", "scroll": "#notes-screen", "offset": 8 }
+]

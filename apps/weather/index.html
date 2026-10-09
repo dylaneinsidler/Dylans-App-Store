@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Weather">
+<meta name="theme-color" content="#0a0e13">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Weather App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <button class="place" id="place-btn"><span id="place"></span><small>Change ›</small></button>
+  <div class="clock"><div id="clockTime">--:--</div><div id="clockDate"></div></div>
+</header>
+<div id="alerts"></div>
+
+<main class="screens">
+  <section class="screen" id="radar-screen">
+    <div class="screen-name">Radar</div>
+    <div class="radar-card">
+      <div id="map"></div>
+      <div class="radar-top">
+        <div><div id="frameTime">--:--</div><div id="frameAge">Loading…</div></div>
+        <div class="zoom" id="zoom"><button data-z="near" class="on">Near</button><button data-z="region">Region</button></div>
+      </div>
+      <div id="status"></div>
+    </div>
+    <div class="radar-bottom">
+      <div id="timeline"><div id="progress"></div></div>
+      <div id="legend"><div id="ramp"></div><div class="labels"><span>Light</span><span>Moderate</span><span>Heavy</span><span>Severe</span></div></div>
+    </div>
+  </section>
+
+  <section class="screen" id="forecast-screen">
+    <div class="screen-name">Forecast</div>
+    <div class="card now">
+      <div class="eyebrow">Right now</div>
+      <div class="now-main"><div id="nowTemp">--°</div><div id="nowIcon"></div></div>
+      <div id="nowDesc"></div>
+      <div class="stats">
+        <div><div class="eyebrow">Feels like</div><div class="v" id="nowFeels">--</div></div>
+        <div><div class="eyebrow">Humidity</div><div class="v" id="nowHum">--</div></div>
+        <div><div class="eyebrow">Wind</div><div class="v" id="nowWind">--</div></div>
+      </div>
+    </div>
+    <div class="card today">
+      <h3 id="todayName">Today</h3>
+      <p id="todayText"></p>
+      <h3>Chance of rain by hour</h3>
+      <div id="rainRows"></div>
+      <div class="rhours" id="rainHours"></div>
+    </div>
+    <div id="days"></div>
+    <p id="updated">Loading forecast…</p>
+  </section>
+</main>
+
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <button class="sheet-close" aria-label="Close">✕</button>
+  <h2>Your place</h2>
+  <p class="muted">US places only (the forecast and radar come from the National Weather Service). It's saved on this phone only.</p>
+  <button class="pill wide" id="here">📍 Use where I am</button>
+  <form id="search"><input id="q" type="search" placeholder="Search for a town or city" autocomplete="off" enterkeyhint="search"></form>
+  <ul id="results"></ul>
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="../../shared/phone.js" data-name="Dylan's Weather App"></script>
+<script src="app.js"></script>
+</body>
+</html>

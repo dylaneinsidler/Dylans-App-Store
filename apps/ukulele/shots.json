@@ -1,0 +1,6 @@
+[
+  { "name": "A chord on the neck", "url": "#frets=0,0,0,3" },
+  { "name": "How to play a chord", "url": "#chord=D7", "scroll": "#chords", "offset": 60 },
+  { "name": "Chords", "url": "#frets=2,0,0,0", "scroll": "#chords", "offset": 70 },
+  { "name": "A note", "url": "#note=57", "scroll": "#staff", "offset": 120 }
+]

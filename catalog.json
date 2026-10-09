@@ -1,0 +1,253 @@
+{
+  "name": "Dylan's App Store",
+  "url": "https://dylaneinsidler.github.io/Dylans-App-Store/",
+  "categories": [
+    "Music",
+    "Learn",
+    "Every Day",
+    "Art"
+  ],
+  "apps": [
+    {
+      "id": "ukulele",
+      "name": "Dylan's Baritone Ukulele",
+      "short": "Ukulele",
+      "subtitle": "Chords and notes for baritone uke",
+      "category": "Music",
+      "description": [
+        "A baritone ukulele (tuned D G B E, like a guitar's top four strings) that you play with your finger. Tap spots on the neck to press the strings: it plays each note and tells you, in plain English, which chord you've made.",
+        "Below the neck are 21 common chords and every note the neck can play. Tap one to hear it, see how to finger it, and put it on the neck."
+      ],
+      "features": [
+        "A neck you can press, with a real plucked-string sound",
+        "Names any chord you make (\"G major chord, bright and happy\")",
+        "21 chords with finger-by-finger steps",
+        "Every note on the staff, and everywhere it's played on the neck",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#17110d",
+      "icon": "apps/ukulele/icons/icon-512.png",
+      "url": "apps/ukulele/",
+      "external": false,
+      "shots": [
+        "apps/ukulele/shots/1.jpg",
+        "apps/ukulele/shots/2.jpg",
+        "apps/ukulele/shots/3.jpg",
+        "apps/ukulele/shots/4.jpg"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "bassoon",
+      "name": "Dylan's Bassoon",
+      "short": "Bassoon",
+      "subtitle": "An interactive bassoon fingering chart",
+      "category": "Music",
+      "description": [
+        "Every key and hole of a German-system bassoon, both hands, front and back. Tap them to press them (as many as you like) and it tells you which note that plays, or what's closest if it isn't a real fingering.",
+        "Or go the other way: pick any note from low B♭ to high D and see exactly how to finger it, in a picture and in plain words, with the other common ways to play it."
+      ],
+      "features": [
+        "All 42 notes, from low B♭ to high D, in bass and tenor clef",
+        "Press the keys yourself and see what note you get",
+        "Half-holes, flick keys and other ways to play each note",
+        "Fingerings checked against the International Double Reed Society's chart",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#15100e",
+      "icon": "apps/bassoon/icons/icon-512.png",
+      "url": "apps/bassoon/",
+      "external": false,
+      "shots": [
+        "apps/bassoon/shots/1.jpg",
+        "apps/bassoon/shots/2.jpg",
+        "apps/bassoon/shots/3.jpg",
+        "apps/bassoon/shots/4.jpg"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "weather",
+      "name": "Dylan's Weather App",
+      "short": "Weather",
+      "subtitle": "Live radar and the forecast, at a glance",
+      "category": "Every Day",
+      "description": [
+        "A live, animated weather radar in a soft Windy-style look, with the last hour of rain playing on a loop. Below it: the weather right now, any alerts, the chance of rain hour by hour for the next three days, and the 7-day forecast.",
+        "It starts on Fort Lauderdale. Tap the place's name to pick yours, or use where you are. Your place stays on your phone. US places only: the forecast and radar come from the National Weather Service."
+      ],
+      "features": [
+        "The last hour of radar, animated, recolored from light rain to severe storms",
+        "Right now: temperature, feels like, humidity and wind",
+        "Weather alerts for your area",
+        "Chance of rain hour by hour, three days ahead",
+        "The 7-day forecast",
+        "No account, no ads: straight from the National Weather Service"
+      ],
+      "internet": "Needed (for the forecast and radar)",
+      "color": "#0a0e13",
+      "icon": "apps/weather/icons/icon-512.png",
+      "url": "apps/weather/",
+      "external": false,
+      "shots": [
+        "apps/weather/shots/1.jpg",
+        "apps/weather/shots/2.jpg",
+        "apps/weather/shots/3.jpg"
+      ],
+      "version": "1.2"
+    },
+    {
+      "id": "torah",
+      "name": "Dylan's Daily Torah",
+      "short": "Daily Torah",
+      "subtitle": "This week's portion, a section a day",
+      "category": "Learn",
+      "description": [
+        "This week's Torah portion in English and Hebrew: what happens in it, its four main lessons, its haftarah, where it falls among all 54 portions, and the Hebrew year as a wheel with the moon and the holidays coming up.",
+        "Then today: the day's section of the portion, an insight to take into the day, the verse of the day in Hebrew and English, Rashi on it, and a passage of the Talmud that discusses it, each with its full text a tap away."
+      ],
+      "features": [
+        "A section a day: the whole portion in a week",
+        "Lessons and a daily insight in plain English, written for every portion",
+        "The verse of the day in Hebrew and English",
+        "Rashi and the Talmud on it, with the full text a tap away",
+        "The Hebrew date, the year as a wheel, and the next holidays",
+        "Light (old-paper sepia) or dark"
+      ],
+      "internet": "Needed the first time each day (for the texts)",
+      "color": "#F3E8CF",
+      "icon": "apps/torah/icons/icon-512.png",
+      "url": "apps/torah/",
+      "external": false,
+      "shots": [
+        "apps/torah/shots/1.jpg",
+        "apps/torah/shots/2.jpg",
+        "apps/torah/shots/3.jpg",
+        "apps/torah/shots/4.jpg"
+      ],
+      "version": "1.7"
+    },
+    {
+      "id": "costar",
+      "name": "Dylan's Co-Star",
+      "short": "Co-Star",
+      "subtitle": "Your day and your chart, in the style of Co-Star",
+      "category": "Every Day",
+      "description": [
+        "Your day at a glance, in the spare black-and-white style of the Co-Star app: a line for the day, a short reading, what to do and not do, and the transits behind it, with grainy planet pictures drawn dot by dot.",
+        "Below it: your birth chart with the sky right now around the outside, where every planet is today next to where it was when you were born, and the moon's phase. The planets are worked out on your phone from real astronomy, nothing made up.",
+        "The first time, type in your birth date, time and place. They stay on your phone."
+      ],
+      "features": [
+        "A daily reading from today's real planets and your chart",
+        "Do and don't lists, and your transits in plain words",
+        "Your birth chart, with the sky right now around it",
+        "Every planet now next to where it was at your birth",
+        "The moon's phase",
+        "Dark or light, like the app",
+        "Your birth details stay on your phone"
+      ],
+      "internet": "Needed the first time (for the astronomy)",
+      "color": "#0d0d0d",
+      "icon": "apps/costar/icons/icon-512.png",
+      "url": "apps/costar/",
+      "external": false,
+      "shots": [
+        "apps/costar/shots/1.jpg",
+        "apps/costar/shots/2.jpg",
+        "apps/costar/shots/3.jpg",
+        "apps/costar/shots/4.jpg"
+      ],
+      "version": "1.3"
+    },
+    {
+      "id": "tarot",
+      "name": "Dylan's Tarot",
+      "short": "Tarot",
+      "subtitle": "Learn to read tarot, in plain English",
+      "category": "Learn",
+      "description": [
+        "A tarot teacher in your pocket, with the classic 1909 Rider-Waite-Smith deck. Draw a card of the day, lay out a reading and see it read the way a teacher would: each card in its spot, what stands out across the table, famous pairs, and the story put together.",
+        "Twelve short lessons take you from the very basics to reading for someone else, and every one of the 78 cards is explained in plain English: what it means right side up and upside down, what's in the picture, and a trick for remembering it."
+      ],
+      "features": [
+        "A card of the day",
+        "Readings with six spreads, from one card to the Celtic Cross, read aloud like a teacher would",
+        "Love, work, money or decision questions",
+        "12 short lessons, from the basics up",
+        "All 78 cards, each with its meaning, picture and memory trick",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#14121f",
+      "icon": "apps/tarot/icons/icon-512.png",
+      "url": "apps/tarot/",
+      "external": false,
+      "shots": [
+        "apps/tarot/shots/1.jpg",
+        "apps/tarot/shots/2.jpg",
+        "apps/tarot/shots/3.jpg",
+        "apps/tarot/shots/4.jpg",
+        "apps/tarot/shots/5.jpg"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "corkboard",
+      "name": "Dylan's Corkboard",
+      "short": "Corkboard",
+      "subtitle": "South Florida events, and your own reminders",
+      "category": "Every Day",
+      "description": [
+        "A cork board with pages torn off notepads, one page per month. The first board is things to do around South Florida: Greater Fort Lauderdale's big yearly events (the boat show, Winterfest, Tortuga, the air show and more), the Las Olas art fairs, Art Basel, the Delray Affair, Halloween Horror Nights and IBJJF jiu-jitsu tournaments, with a map showing where each one is.",
+        "The second board is yours: add your appointments, reminders and birthdays, and they land on the right month's page. They stay on your phone."
+      ],
+      "features": [
+        "South Florida's big events, a page per month",
+        "A map with a pin for each one, in its month's color",
+        "Countdowns for anything coming up this week",
+        "Your own appointments, reminders and birthdays",
+        "Your reminders stay on your phone",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#6b4a2b",
+      "icon": "apps/corkboard/icons/icon-512.png",
+      "url": "apps/corkboard/",
+      "external": false,
+      "shots": [
+        "apps/corkboard/shots/1.jpg",
+        "apps/corkboard/shots/2.jpg",
+        "apps/corkboard/shots/3.jpg"
+      ],
+      "version": "1.9"
+    },
+    {
+      "id": "artshow",
+      "name": "Dylan's World Art Show",
+      "short": "Art Show",
+      "subtitle": "New art from living artists, a piece every minute",
+      "category": "Art",
+      "description": [
+        "A gallery wall for your phone or iPad: new hand-made and digital art by living artists from around the world, a new piece every minute, with who made it and where they're from.",
+        "It's its own website, kept up to date with new art every day. Open it, then add it to your Home Screen to show it full screen."
+      ],
+      "features": [
+        "A new piece every minute",
+        "Hand-made and digital art by living artists",
+        "Who made it, and where they're from",
+        "Full screen from the Home Screen"
+      ],
+      "internet": "Needed",
+      "color": "#0c0c0d",
+      "icon": "apps/artshow/icons/icon-512.png",
+      "url": "https://dylaneinsidler.github.io/World-Art-Show/",
+      "external": true,
+      "shots": [],
+      "version": "2.6"
+    }
+  ],
+  "updated": "2026-10-09"
+}

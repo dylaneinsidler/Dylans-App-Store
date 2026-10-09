@@ -1,0 +1,23 @@
+{
+  "name": "Dylan's Tarot",
+  "short": "Tarot",
+  "subtitle": "Learn to read tarot, in plain English",
+  "category": "Learn",
+  "order": 6,
+  "background": "#14121f",
+  "internet": "Not needed",
+  "source": ["Dylan's Tarot", "Tarot Wall"],
+  "copy": ["cards.js", "spreads.js", "lessons.js", "combos.js", "reading.js", "decks"],
+  "description": [
+    "A tarot teacher in your pocket, with the classic 1909 Rider-Waite-Smith deck. Draw a card of the day, lay out a reading and see it read the way a teacher would: each card in its spot, what stands out across the table, famous pairs, and the story put together.",
+    "Twelve short lessons take you from the very basics to reading for someone else, and every one of the 78 cards is explained in plain English: what it means right side up and upside down, what's in the picture, and a trick for remembering it."
+  ],
+  "features": [
+    "A card of the day",
+    "Readings with six spreads, from one card to the Celtic Cross, read aloud like a teacher would",
+    "Love, work, money or decision questions",
+    "12 short lessons, from the basics up",
+    "All 78 cards, each with its meaning, picture and memory trick",
+    "Works without internet"
+  ]
+}

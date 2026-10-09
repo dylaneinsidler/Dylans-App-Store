@@ -1,0 +1,105 @@
+// Co-Star on a phone. The two screens are the desktop app's own (desktop/today.js, desktop/sky.js and the
+// rest of desktop/); this supplies what the desktop app's config.js would: the person's birth details,
+// typed in here the first time and kept on this phone only. Then it loads the desktop code.
+(function () {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const KEY = 'costar.me';
+  // For the store's screenshots (?demo): a made-up person, so nobody's real birth details are pictured.
+  const DEMO = { name: 'Alex', date: '1990-06-15', time: '09:30', place: 'New York, New York', lat: 40.7143, lon: -74.006, timeZone: 'America/New_York' };
+  const me = Phone.params.has('demo') ? DEMO : Phone.store.get(KEY, null);
+
+  // ---------------------------------------------------------------- Your birth details
+  let picked = null;
+  function showSetup(editing) {
+    $('setup').hidden = false;
+    $('stage').hidden = true;
+    $('f-cancel').hidden = !editing;
+    if (editing && me) {
+      $('f-name').value = me.name; $('f-date').value = me.date; $('f-time').value = me.unknownTime ? '' : me.time;
+      $('f-place').value = me.place; picked = me;
+    }
+  }
+  // Birthplaces anywhere in the world, from Open-Meteo's free place finder (it also gives the time zone,
+  // which the chart needs to turn the birth time into the planets' positions).
+  let timer;
+  $('f-place').addEventListener('input', () => {
+    picked = null;
+    clearTimeout(timer);
+    timer = setTimeout(async () => {
+      const q = $('f-place').value.trim();
+      if (q.length < 2) { $('f-results').innerHTML = ''; return; }
+      try {
+        const r = await (await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=en`)).json();
+        const list = r.results || [];
+        $('f-results').innerHTML = list.map((x, i) => `<li data-i="${i}">${esc(x.name)}<small>${esc([x.admin1, x.country].filter(Boolean).join(', '))}</small></li>`).join('')
+          || '<li class="none">No place by that name</li>';
+        $('f-results').onclick = e => {
+          const li = e.target.closest('li[data-i]');
+          if (!li) return;
+          const x = list[+li.dataset.i];
+          picked = { place: [x.name, x.admin1 || x.country].filter(Boolean).join(', '), lat: +x.latitude.toFixed(4), lon: +x.longitude.toFixed(4), timeZone: x.timezone };
+          $('f-place').value = picked.place;
+          $('f-results').innerHTML = '';
+        };
+      } catch (e) { $('f-results').innerHTML = '<li class="none">Can’t search right now</li>'; }
+    }, 300);
+  });
+  $('me-form').addEventListener('submit', e => {
+    e.preventDefault();
+    if (!picked) { Phone.toast('Pick your birthplace from the list'); $('f-place').focus(); return; }
+    const time = $('f-time').value;
+    Phone.store.set(KEY, { name: $('f-name').value.trim(), date: $('f-date').value, time: time || '12:00', unknownTime: !time,
+      place: picked.place, lat: picked.lat, lon: picked.lon, timeZone: picked.timeZone });
+    location.reload();
+  });
+  $('f-cancel').addEventListener('click', () => { $('setup').hidden = true; $('stage').hidden = false; });
+  $('me-btn').addEventListener('click', () => showSetup(true));
+
+  if (!me) { showSetup(false); return; }
+
+  // ---------------------------------------------------------------- The desktop app, with these details
+  window.STAR_WALL = {
+    appName: "Dylan's Co-Star",
+    name: me.name,
+    birth: { date: me.date, time: me.time, place: me.place, lat: me.lat, lon: me.lon, timeZone: me.timeZone },
+    // The weather in the greeting: the place picked in Dylan's Weather App on this phone, if any (US only).
+    weather: Phone.store.get('weather.place', null),
+    houseSystem: 'placidus',
+    wordmark: '',
+    theme: 'dark',
+  };
+  window.STAR_WALL_THEME = Phone.store.get('costar.theme', null);
+  $('stage').hidden = false;
+
+  // The chart and the Earth in its middle share one square box, so the Earth stays centered at any size.
+  const box = document.createElement('div');
+  box.className = 'chart-box';
+  $('wheel').before(box);
+  box.append($('wheel'), $('earth'));
+
+  const load = src => new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = () => reject(new Error(src));
+    document.body.appendChild(s);
+  });
+  (async () => {
+    try {
+      await load('https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js');
+      for (const f of ['astro', 'reading', 'explain', 'wall', 'guide', 'today', 'sky']) await load(`desktop/${f}.js`);
+    } catch (e) {
+      $('stage').innerHTML = '<p class="offline">Co-Star needs the internet the first time it opens. Try again when you’re online.</p>';
+      return;
+    }
+    // The Light / Dark switch and the guide button go at the top; the switch is remembered on this phone.
+    // Each screen added a switch (one will do) and its own guide (keep both: the day, and the chart).
+    document.querySelectorAll('#stage > .theme-switch').forEach((el, i) => i ? el.remove() : $('switches').appendChild(el));
+    document.querySelectorAll('#stage > .help-button').forEach((el, i) => {
+      el.innerHTML = `<i>i</i>${i ? 'The chart' : 'Your day'}`;
+      $('switches').appendChild(el);
+    });
+    new MutationObserver(() => Phone.store.set('costar.theme', document.documentElement.dataset.theme))
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+})();

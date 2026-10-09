@@ -1,0 +1,24 @@
+{
+  "name": "Dylan's World Art Show",
+  "short": "Art Show",
+  "subtitle": "New art from living artists, a piece every minute",
+  "category": "Art",
+  "order": 8,
+  "background": "#0c0c0d",
+  "internet": "Needed",
+  "source": [
+    "Dylan's World Art Show",
+    "World Art Show"
+  ],
+  "url": "https://dylaneinsidler.github.io/World-Art-Show/",
+  "description": [
+    "A gallery wall for your phone or iPad: new hand-made and digital art by living artists from around the world, a new piece every minute, with who made it and where they're from.",
+    "It's its own website, kept up to date with new art every day. Open it, then add it to your Home Screen to show it full screen."
+  ],
+  "features": [
+    "A new piece every minute",
+    "Hand-made and digital art by living artists",
+    "Who made it, and where they're from",
+    "Full screen from the Home Screen"
+  ]
+}

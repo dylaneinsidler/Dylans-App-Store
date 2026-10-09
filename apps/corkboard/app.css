@@ -1,0 +1,100 @@
+/* Dylan's Corkboard on a phone: a cork board with pages torn off notepads, like the desktop app. */
+:root {
+  --bg: #6b4a2b;
+  --card: #fbf6e6;
+  --line: #00000022;
+  --ink: #2a2620;
+  --ink-2: #4c463d;
+  --ink-3: #8a8274;
+  --muted: #f3e3c7;
+  --accent: #b3283c;
+  --hand: 'Caveat', 'Segoe Print', cursive;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans: -apple-system, 'Segoe UI', system-ui, sans-serif;
+}
+body { background: #8a6038 url("desktop/cork.svg") repeat; background-size: 360px; color: var(--ink); }
+.screen { padding: 14px 14px 0; }
+.screen + .screen { margin-top: 18px; }
+.phone-footer { background: #000a; border-radius: 16px; margin: 30px 14px 20px; padding: 14px; border: 0; color: #fff; --ink: #fff; --line: #fff3; --muted: #ddd; }
+.phone-share { color: #fff; }
+
+/* Paper, pinned */
+.paper { position: relative; background: var(--card) url("desktop/paper.svg"); background-size: 300px; box-shadow: 0 2px 2px #0003, 0 8px 22px #0005; border-radius: 2px; }
+.pin { position: absolute; left: 50%; top: -7px; width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; z-index: 3;
+  background: radial-gradient(circle at 35% 30%, #fff9 0 12%, transparent 30%), var(--base, #b3283c);
+  box-shadow: 0 3px 4px #0006, inset -2px -3px 4px #0004; }
+
+.title-card { padding: 22px 18px 16px; text-align: center; margin-top: 8px; }
+.title-card h1 { font-family: var(--serif); font-size: 26px; margin: 0; }
+.title-card p { font-family: var(--hand); font-size: 22px; margin: 2px 0 0; color: var(--ink-2); }
+
+/* The map */
+.map-card { margin-top: 18px; padding: 16px 12px 10px; background: #f4efe2; }
+#map svg { display: block; width: 100%; height: auto; }
+#map .land { fill: #f1ead6; stroke: #b9ae94; stroke-width: 1; }
+#map .sea { fill: #cfe0e6; }
+#map .road.minor { fill: none; stroke: #d9cdb2; stroke-width: .8; }
+#map .road.major { fill: none; stroke: #c9a26b; stroke-width: 1.6; }
+#map .city { font: 600 9.5px var(--sans); fill: #5d5546; }
+#map .city-dot { fill: #5d5546; }
+#map .water-name { font: italic 10px var(--serif); fill: #5f8794; text-anchor: middle; }
+#map .mpin { stroke: #fff; stroke-width: 1.6; }
+#map .mlabel { font: 700 9px var(--sans); fill: #2a2620; paint-order: stroke; stroke: #f4efe2; stroke-width: 3px; }
+#orlando { font-size: 13px; color: var(--ink-2); margin-top: 6px; line-height: 1.4; }
+#orlando:empty { display: none; }
+#orlando b { color: var(--ink); }
+.credit { font-size: 10px; color: var(--ink-3); text-align: right; margin-top: 4px; }
+
+/* A month's page */
+.month { margin-top: 22px; padding: 22px 16px 14px 46px; background: #fdf3b8 repeating-linear-gradient(#0000 0 29px, #6a8fc455 29px 30px); background-position: 0 50px;
+  clip-path: polygon(0 6px, 4% 0, 9% 5px, 15% 1px, 22% 6px, 30% 2px, 37% 5px, 45% 0, 52% 4px, 60% 1px, 68% 6px, 75% 2px, 83% 5px, 90% 0, 96% 4px, 100% 1px, 100% 100%, 0 100%); }
+.month.white { background-color: #fbfbf6; }
+.month::before { content: ''; position: absolute; left: 34px; top: 0; bottom: 0; width: 1px; background: #d9534f88; }
+.month .pin { top: 6px; }
+.month h2 { font-family: var(--serif); font-size: 26px; margin: 4px 0 6px; color: var(--mc); display: flex; align-items: baseline; gap: 8px; }
+.month h2 small { font-family: var(--sans); font-size: 12px; letter-spacing: .14em; color: var(--ink-3); }
+.month h2 .now { margin-left: auto; font-size: 11px; letter-spacing: .14em; color: var(--accent); font-family: var(--sans); font-weight: 700; }
+.item { display: grid; grid-template-columns: 30px 1fr; gap: 0 8px; padding: 5px 0 6px; margin-left: -36px; line-height: 1.3; }
+.item .d { text-align: right; font: 700 17px var(--serif); color: var(--ink-2); }
+.item .d small { display: block; font: 600 9px var(--sans); letter-spacing: .08em; color: var(--ink-3); text-transform: uppercase; }
+.item .w { font-size: 15.5px; font-weight: 600; }
+.item .x { font-size: 12.5px; color: var(--ink-3); margin-top: 1px; }
+.item .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--mc); margin-right: 6px; vertical-align: 1px; }
+.item.past .w, .item.past .x { text-decoration: line-through; color: var(--ink-3); }
+.tag { font: 700 10px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 999px; padding: 1px 7px; margin-left: 6px; white-space: nowrap; vertical-align: 1px; }
+.tag.today { background: var(--accent); color: #fff; }
+.del { float: right; border: 0; background: none; color: var(--ink-3); font-size: 14px; padding: 0 0 0 8px; }
+.empty-note { font-family: var(--hand); font-size: 21px; color: var(--ink-2); padding: 4px 0 6px; }
+
+.row { display: flex; gap: 8px; margin-top: 16px; }
+.add { flex: 1; border: 0; border-radius: 999px; padding: 11px; font: 600 15px var(--sans); background: #fbf6e6; color: var(--ink); box-shadow: 0 2px 6px #0004; }
+
+/* Birthdays */
+.bdays { margin-top: 20px; padding: 18px 16px 12px; }
+.bdays h3 { margin: 0 0 6px; text-align: center; font: 600 12px var(--sans); letter-spacing: .3em; color: var(--ink-3); }
+.bday { display: flex; align-items: baseline; gap: 10px; padding: 5px 0; border-top: 1px solid #0001; font-size: 15px; }
+.bday:first-of-type { border-top: 0; }
+.bday .on { width: 48px; color: var(--ink-3); font-size: 13px; }
+.bday b { font-weight: 600; }
+.bday small { color: var(--ink-3); }
+.bday .del { margin-left: auto; }
+.bday .tag { margin-left: auto; }
+.bday .tag + .del { margin-left: 4px; }
+
+/* Adding (slides up from the bottom) */
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; max-height: 90vh; overflow-y: auto; background: #fbf6e6;
+  border-radius: 22px 22px 0 0; box-shadow: 0 -14px 40px #0008; padding: 20px 16px calc(24px + env(safe-area-inset-bottom));
+  transform: translateY(105%); visibility: hidden; transition: transform .28s cubic-bezier(.2, .8, .2, 1), visibility 0s .28s;
+}
+.sheet.open { transform: none; visibility: visible; transition: transform .28s cubic-bezier(.2, .8, .2, 1); }
+.sheet-close { position: absolute; right: 12px; top: 12px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: #0000000f; color: var(--ink-3); font-size: 15px; }
+#form h2 { font-family: var(--serif); font-size: 22px; margin: 0 40px 14px 0; }
+#form label { display: block; font-size: 13px; color: var(--ink-3); margin-bottom: 12px; }
+#form input { display: block; width: 100%; margin-top: 5px; font: inherit; font-size: 17px; color: var(--ink); background: #fff; border: 1px solid #0002; padding: 11px 12px; border-radius: 10px; }
+#form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+#form button[type=submit] { width: 100%; border: 0; border-radius: 999px; padding: 13px; font: 600 16px var(--sans); background: var(--accent); color: #fff; margin-top: 6px; }
+
+@media (min-width: 960px) and (orientation: landscape) {
+  .screen + .screen { margin-top: 0; }
+}

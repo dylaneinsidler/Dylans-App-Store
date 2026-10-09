@@ -1,0 +1,97 @@
+/* Shared look for both screens: Co-Star's off-white paper, black ink, one serif for all the writing,
+   and a monospace only for small labels and planet positions. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Linden+Hill&family=Noto+Sans+Symbols:wght@300;400&display=block');
+
+:root {
+  --bg: #f7f7f7;
+  --paper: #fbfbfb;
+  --ink: #161616;
+  --text: #3d3d3d;
+  --muted: #8b8b8b;
+  --faint: #b9b9b9;
+  --line: #cdcdcd;
+  --grid: #e6e6e6;
+  --disc: #efefef;
+  --shade: #e2e2e2;
+  --band: #161616;
+  --band-text: #f3f3f3;
+
+  --serif: 'Linden Hill', 'EB Garamond', Georgia, serif;
+  --mono: 'DM Mono', Consolas, monospace;
+  --glyph: 'Noto Sans Symbols', 'Segoe UI Symbol', sans-serif;
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d0d;
+  --paper: #121212;
+  --ink: #ececec;
+  --text: #cfcfcf;
+  --muted: #8b8b8b;
+  --faint: #555;
+  --line: #3a3a3a;
+  --grid: #1b1b1b;
+  --disc: #161616;
+  --shade: #262626;
+  --band: #b4b4b4;
+  --band-text: #121212;
+}
+
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); }
+body { font-family: var(--serif); -webkit-font-smoothing: antialiased; }
+
+/* Everything is laid out on a 1920×1080 stage, scaled to fit the monitor (see wall.js). */
+#stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 50% 50%; }
+#grid { position: fixed; inset: 0; width: 100%; height: 100%; }
+#grid line, #grid rect { stroke: var(--grid); stroke-width: 1; fill: none; }
+
+.serif { font-family: var(--serif); font-weight: 400; }
+.mono { font-family: var(--mono); font-weight: 400; text-transform: uppercase; letter-spacing: .06em; }
+.glyph { font-family: var(--glyph); font-weight: 300; }
+.label { font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink); }
+
+.card { background: var(--paper); border: 1px solid var(--line); }
+
+/* Things fade in after the fonts load, the way the app eases content in. */
+.rise { opacity: 0; transform: translateY(10px); transition: opacity 1.2s ease, transform 1.2s ease; }
+.ready .rise { opacity: 1; transform: none; }
+
+footer.hint { position: absolute; right: 64px; bottom: 34px; font-family: var(--mono); font-size: 12px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+
+/* The Light / Dark switch, bottom left on both screens, styled like the app's outlined buttons. */
+.theme-switch { position: absolute; left: 64px; bottom: 24px; z-index: 5; display: flex; cursor: pointer;
+  border: 1px solid var(--line); font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.theme-switch span { padding: 9px 18px; color: var(--muted); }
+.theme-switch span.on { background: var(--ink); color: var(--bg); }
+
+/* "How to read this": a button beside the switch, and the guide it opens. */
+.help-button { position: absolute; left: 236px; bottom: 24px; z-index: 5; display: flex; align-items: center; gap: 10px;
+  cursor: pointer; border: 1px solid var(--line); padding: 8px 16px 8px 12px; color: var(--muted);
+  font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.help-button i { font-style: normal; width: 17px; height: 17px; border: 1px solid currentColor; border-radius: 50%;
+  display: grid; place-items: center; font-size: 11px; letter-spacing: 0; text-transform: none; }
+.help { position: absolute; inset: 0; z-index: 20; display: none; place-items: center; cursor: pointer;
+  background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(4px); }
+.help.open { display: grid; }
+.help-card { width: 1660px; box-sizing: border-box; padding: 46px 56px 30px; background: var(--paper);
+  border: 1px solid var(--line); color: var(--text); }
+.help-card h2 { font-family: var(--serif); font-weight: 400; font-size: 48px; line-height: 1.1; color: var(--ink); margin: 0 0 10px; }
+.help-card .lede { font-size: 23px; line-height: 1.4; margin: 0 0 30px; max-width: 1200px; }
+.help-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px; }
+.help-cols h3 { font-family: var(--mono); font-weight: 400; font-size: 14px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); margin: 0 0 4px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.help-cols dl { margin: 0; }
+.help-cols dt { font-family: var(--serif); font-size: 23px; color: var(--ink); margin-top: 14px; }
+.help-cols dd { margin: 3px 0 0; font-size: 18px; line-height: 1.4; }
+.help-cols dd b { font-weight: 400; color: var(--ink); }
+.help-cols .key { display: grid; grid-template-columns: 44px 120px 1fr; row-gap: 4px; align-items: baseline; margin-top: 14px;
+  font-size: 18px; line-height: 1.3; }
+.help-cols .key .glyph { font-size: 19px; color: var(--ink); }
+.help-cols .key .nm { font-family: var(--serif); font-size: 20px; color: var(--ink); }
+.help-close { margin-top: 28px; text-align: center; font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--faint); }
+
+/* The X in the window's top right corner: closes both screens. */
+.close-x { position: fixed; top: 12px; right: 12px; z-index: 30; width: 38px; height: 38px; display: grid; place-items: center;
+  border: 1px solid var(--line); border-radius: 50%; color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer;
+  background: color-mix(in srgb, var(--bg) 80%, transparent); font-family: 'Segoe UI', system-ui, sans-serif; }
+.close-x:hover { background: #d64838; border-color: #d64838; color: #fff; }

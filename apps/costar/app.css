@@ -1,0 +1,143 @@
+/* Co-Star on a phone. Colors and type are the desktop app's (desktop/wall.css); this lays its two
+   1920 x 1080 screens out as one column. */
+:root { --card: var(--paper); --accent: var(--ink); }
+html, body { height: auto; overflow: visible; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans, -apple-system, sans-serif); }
+#stage { position: static !important; width: auto !important; height: auto !important; transform: none !important; }
+#stage[hidden] { display: none; }
+footer.hint, .close-x, #grid { display: none !important; }
+.screen { padding: 0 16px; }
+.offline { padding: 40px 16px; color: var(--muted); }
+.pill { border: 1px solid var(--line); background: none; color: var(--ink); font: 500 14px var(--mono, monospace); padding: 8px 14px; letter-spacing: .02em; }
+.pill.solid { background: var(--ink); color: var(--bg); }
+
+/* Top: your details, Light / Dark, and the two guides */
+.topbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 12px 16px 0; max-width: 760px; margin: 0 auto; }
+#switches { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.theme-switch, .help-button { position: static !important; font-size: 11px; }
+.theme-switch span { padding: 7px 11px; }
+.help-button { padding: 6px 10px; gap: 6px; }
+
+/* ---- Today ---- */
+#today-screen header { position: static; height: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.who .name { font-size: 26px; color: var(--ink); }
+.who .big3 { margin-top: 4px; font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
+.big3 .glyph { color: var(--ink); margin-right: 4px; }
+.wordmark:empty { display: none; }
+.when { text-align: right; }
+.when .time { font-size: 26px; line-height: 1; color: var(--ink); }
+.when .date { margin-top: 4px; font-size: 11px; color: var(--muted); }
+
+.glance { position: static; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 26px 0 8px; }
+.greet { font-size: 17px; line-height: 1.4; margin: 0; color: var(--text); }
+.headline { font-size: 40px; line-height: 1.1; font-weight: 400; color: var(--ink); margin: 18px 0 22px; text-wrap: balance; }
+.portrait { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.portrait canvas { display: block; max-width: 70vw; height: auto !important; }
+.caption { font-size: 12px; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+.pp { list-style: none; padding: 0; margin: 24px 0 0; text-align: left; display: flex; flex-direction: column; gap: 10px; font-size: 18px; color: var(--text); }
+.pp li { display: flex; align-items: center; gap: 12px; }
+.pp .e { font-size: 16px; width: 22px; text-align: center; }
+.pp u { text-decoration-thickness: 1px; text-underline-offset: 4px; color: var(--ink); }
+
+.detail { position: static; display: block; margin-top: 18px; }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; padding: 18px 0 16px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.week .d { font-size: 10px; color: var(--muted); }
+.week .n { margin: 8px auto 0; width: 32px; height: 32px; line-height: 32px; border-radius: 50%; font-size: 14px; color: var(--ink); }
+.week .today .d { color: var(--ink); }
+.week .today .n { background: var(--ink); color: var(--bg); }
+.through { text-align: center; margin-top: 22px; }
+.para { font-family: var(--serif); font-size: 22px !important; line-height: 1.38; color: var(--ink); margin: 10px 0 0; text-align: center; text-wrap: pretty; }
+.dodont { display: grid; grid-template-columns: 1fr 1fr; text-align: center; margin-top: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.dodont h3 { font-family: var(--mono); font-weight: 400; font-size: 12px; margin: 0 0 10px; color: var(--ink); }
+.dodont ul { list-style: none; padding: 0; margin: 0; font-family: var(--serif); font-size: 20px; line-height: 1.45; color: var(--ink); }
+.transits-label { margin-top: 22px; text-align: center; }
+.cards { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
+.cards .card { padding: 18px 18px 20px; text-align: center; }
+.cards .dates { font-size: 11px; color: var(--ink); }
+.cards h2 { font-family: var(--serif); font-weight: 400; font-size: 26px; line-height: 1.15; color: var(--ink); margin: 10px 0 6px; }
+.cards .plain { font-family: var(--mono); font-size: 11px; line-height: 1.5; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+.cards p { font-size: 16px; line-height: 1.45; color: var(--text); margin: 0; }
+
+/* ---- The chart ---- */
+#sky-screen .screen-name { margin-top: 34px; }
+.chart-box { position: relative; width: 100%; aspect-ratio: 1; }
+#wheel { position: absolute !important; inset: 0; left: 0 !important; top: 0 !important; width: 100% !important; height: 100% !important; overflow: visible; }
+#earth { position: absolute !important; left: 50% !important; top: 50% !important; width: 16% !important; height: auto !important; transform: translate(-50%, -50%); }
+#wheel text { font-family: var(--mono); }
+#wheel .sign { font-size: 13px; font-weight: 500; letter-spacing: .22em; fill: var(--band-text); text-transform: uppercase; }
+#wheel .house { font-size: 12px; fill: var(--muted); }
+#wheel .g { font-family: var(--glyph); font-weight: 300; fill: var(--ink); }
+#wheel .g.word { font-family: var(--mono); font-size: 13px; }
+#wheel .tick { stroke: var(--ink); stroke-width: 1; }
+#wheel .leader { stroke: var(--faint); stroke-width: 1; }
+#wheel .cusp { stroke: var(--line); stroke-width: 1; }
+#wheel .axis { stroke: var(--muted); stroke-width: 1; }
+#wheel .asp { stroke: var(--muted); stroke-width: 1; opacity: .7; fill: none; }
+#wheel .asp.soft { stroke-dasharray: 5 5; }
+#wheel .ring { fill: none; stroke: var(--line); }
+#wheel .hl-shade { fill: var(--shade); }
+#wheel .hl-arc { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 3 7; animation: march 1.6s linear infinite; }
+#wheel .hl-spoke { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 2 4; }
+#wheel .hl-ring { fill: none; stroke: var(--ink); stroke-width: 1; }
+#wheel .hl-label { font-size: 13px; letter-spacing: .2em; fill: var(--ink); }
+#wheel .arrow { fill: var(--ink); }
+#highlight { transition: opacity .8s ease; }
+@keyframes march { to { stroke-dashoffset: -20; } }
+
+#sky-screen aside { position: static; display: block; margin-top: 20px; }
+.row { display: flex; justify-content: space-between; align-items: baseline; }
+.row .aside-note { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; }
+.feature { margin-top: 10px; min-height: 230px; padding: 18px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.feature .body { transition: opacity .8s ease; display: flex; flex-direction: column; align-items: center; flex: 1; }
+.feature .body.out { opacity: 0; }
+.feature .dates { font-size: 11px; color: var(--ink); }
+.feature h2 { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; color: var(--ink); margin: 10px 0 6px; }
+.feature .plain { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
+.feature p { font-size: 16px; line-height: 1.45; margin: 0; color: var(--text); }
+.dots { display: flex; gap: 8px; margin-top: 14px; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--ink); }
+.dots i.on { background: var(--ink); }
+.planets { margin-top: 22px; }
+.planets .p { display: grid; grid-template-columns: 30px 82px 1fr 1fr; align-items: center; min-height: 32px; border-bottom: 1px solid var(--line); }
+.planets .head { height: auto; padding-bottom: 8px; text-align: center; }
+.planets .head b { display: block; font-family: var(--mono); font-weight: 400; font-size: 11px; color: var(--ink); text-transform: uppercase; }
+.planets .head small { display: block; margin-top: 3px; font-family: var(--mono); font-size: 10px; color: var(--muted); text-transform: uppercase; }
+.planets .glyph { font-size: 18px; color: var(--ink); }
+.planets .nm { font-family: var(--serif); font-size: 17px; color: var(--ink); }
+.planets .pos { font-family: var(--mono); font-size: 11.5px; color: var(--ink); white-space: nowrap; text-align: center; }
+.planets .pos.birth { color: var(--muted); }
+.planets .pos .rx { color: var(--muted); margin-left: 4px; }
+.planets .pos .h { display: none; }
+.compare { font-family: var(--serif); font-size: 19px; line-height: 1.3; color: var(--ink); margin: 14px 0 0; text-align: center; text-wrap: balance; }
+.moon { margin-top: 24px; display: flex; align-items: center; gap: 18px; }
+.moon canvas { display: block; flex: none; width: 90px !important; height: 90px !important; }
+.moon h3 { font-family: var(--serif); font-weight: 400; font-size: 24px; color: var(--ink); margin: 0 0 6px; }
+.moon .facts { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; line-height: 1.8; }
+
+/* The guides: full screen, scrolling */
+.help { position: fixed !important; inset: 0; overflow-y: auto; place-items: start center; padding: 16px 10px calc(16px + env(safe-area-inset-bottom)); }
+.help-card { width: 100% !important; padding: 22px 18px !important; }
+.help-card h2 { font-size: 30px !important; }
+.help-card .lede { font-size: 16px !important; }
+.help-cols, .help-card [class*="cols"] { grid-template-columns: 1fr !important; gap: 14px !important; }
+.help-card p, .help-card li { font-size: 15px !important; }
+
+/* ---- Your birth details ---- */
+.setup { max-width: 520px; margin: 0 auto; padding: 30px 20px 40px; color: var(--ink); font-family: -apple-system, "Segoe UI", sans-serif; }
+.setup[hidden] { display: none; }
+.setup h1 { font-family: var(--serif); font-weight: 400; font-size: 40px; margin: 0 0 8px; }
+.setup p { color: var(--muted); font-size: 15px; line-height: 1.45; margin: 0 0 22px; }
+.setup label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.setup input { display: block; width: 100%; margin-top: 6px; font: inherit; font-size: 17px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); padding: 12px; border-radius: 10px; color-scheme: dark; }
+:root[data-theme="light"] .setup input { color-scheme: light; }
+.setup small { display: block; margin-top: 6px; font-size: 12px; line-height: 1.35; }
+#f-results { list-style: none; padding: 0; margin: -8px 0 16px; }
+#f-results li { padding: 11px 4px; border-bottom: 1px solid var(--line); font-size: 16px; }
+#f-results li small { display: inline; color: var(--muted); margin-left: 6px; }
+#f-results .none { color: var(--muted); }
+.setup .pill { margin: 6px 8px 0 0; padding: 12px 20px; font-size: 15px; border-radius: 999px; }
+
+@media (min-width: 960px) and (orientation: landscape) {
+  .topbar { max-width: none; padding: 12px 28px 0; }
+  #sky-screen .screen-name { margin-top: 26px; }
+}

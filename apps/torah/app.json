@@ -1,0 +1,24 @@
+{
+  "name": "Dylan's Daily Torah",
+  "short": "Daily Torah",
+  "subtitle": "This week's portion, a section a day",
+  "category": "Learn",
+  "order": 4,
+  "background": "#F3E8CF",
+  "internet": "Needed the first time each day (for the texts)",
+  "source": ["Dylan's Daily Torah", "Torah Wall"],
+  "copy": ["wall.js", "wall.css", "config.js", "parshiyot.js", "talmud.js",
+    "lessons-genesis.js", "lessons-exodus.js", "lessons-leviticus.js", "lessons-numbers.js", "lessons-deuteronomy.js"],
+  "description": [
+    "This week's Torah portion in English and Hebrew: what happens in it, its four main lessons, its haftarah, where it falls among all 54 portions, and the Hebrew year as a wheel with the moon and the holidays coming up.",
+    "Then today: the day's section of the portion, an insight to take into the day, the verse of the day in Hebrew and English, Rashi on it, and a passage of the Talmud that discusses it, each with its full text a tap away."
+  ],
+  "features": [
+    "A section a day: the whole portion in a week",
+    "Lessons and a daily insight in plain English, written for every portion",
+    "The verse of the day in Hebrew and English",
+    "Rashi and the Talmud on it, with the full text a tap away",
+    "The Hebrew date, the year as a wheel, and the next holidays",
+    "Light (old-paper sepia) or dark"
+  ]
+}

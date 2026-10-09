@@ -1,0 +1,131 @@
+/* Dylan's Baritone Ukulele on a phone. Same colors as the desktop app. */
+:root {
+  --bg: #17110d;
+  --card: #241a14;
+  --panel-2: #30241c;
+  --line: #46372b;
+  --ink: #f4ebdc;
+  --muted: #bfae96;
+  --faint: #85745f;
+  --red: #e5383b;
+  --red-dark: #a8191c;
+  --amber: #f4b740;
+  --accent: #f4b740;
+  --paper: #f7f0e2;
+  --paper-ink: #241a13;
+  color-scheme: dark;
+}
+body { background: radial-gradient(ellipse at 50% 0%, #2a1c12 0%, var(--bg) 60%) fixed, var(--bg); user-select: none; -webkit-user-select: none; }
+
+.top { display: flex; align-items: center; gap: 12px; padding: 14px 16px 0; max-width: 760px; margin: 0 auto; }
+.top div { flex: 1; }
+.top h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: .2px; }
+.top p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+
+.pill {
+  border: 1.5px solid var(--line); background: var(--panel-2); color: var(--ink);
+  border-radius: 999px; padding: 8px 14px; font-size: 15px; font-weight: 500;
+}
+.pill.on { background: #4a3a1c; border-color: var(--amber); }
+.pill.off { color: var(--muted); }
+.hint { color: var(--faint); font-size: 14px; line-height: 1.4; margin: 0 0 12px; }
+.legend { color: var(--faint); font-size: 13px; line-height: 1.4; margin: 14px 0 0; }
+
+/* ---- The neck screen ---- */
+.readout {
+  position: sticky; top: env(safe-area-inset-top); z-index: 5;
+  margin: 0 -16px; padding: 10px 16px 8px;
+  background: linear-gradient(var(--bg) 88%, #17110d00);
+}
+.row1 { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1.5px solid var(--line); border-radius: 18px; padding: 10px 10px 10px 16px; }
+#chord { flex: 1; min-width: 0; }
+#chord .name { font-size: 40px; font-weight: 700; line-height: 1.05; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#chord .words { font-size: 15px; margin-top: 2px; }
+#chord .feel { font-size: 13px; color: var(--muted); margin-top: 1px; }
+#strum {
+  flex: none; width: 92px; height: 72px; border-radius: 16px; border: 2px solid var(--red);
+  background: #5b1a1b; color: var(--ink); font-size: 17px; font-weight: 600;
+}
+#strum:active { background: #7a2224; }
+
+/* What each string is playing, lined up over the strings below */
+.strip { position: relative; height: 40px; margin-top: 6px; }
+.strip > div { position: absolute; top: 0; width: 22%; transform: translateX(-50%); text-align: center; line-height: 1.1; }
+.strip .note { font-size: 17px; font-weight: 700; }
+.strip .where { font-size: 11px; color: var(--muted); }
+.strip .pressed .note { color: #ff6b6d; }
+.strip .muted { opacity: .45; }
+
+#neck { display: block; width: 100%; height: auto; margin-top: -2px; touch-action: manipulation; }
+#neck text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; pointer-events: none; }
+#neck .cell, #neck .label { cursor: pointer; }
+.string { transition: filter .25s; }
+.string.ring { animation: ring .9s ease-out; }
+@keyframes ring { 0% { filter: drop-shadow(0 0 6px #fff7d6) brightness(1.7); } 100% { filter: none; } }
+.under-neck { margin-top: 10px; }
+.under-neck .buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---- Chords ---- */
+.kind { display: flex; align-items: baseline; gap: 8px; margin: 14px 0 8px; }
+.kind b { font-size: 18px; }
+.kind span { font-size: 14px; color: var(--muted); }
+.chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (min-width: 560px) { .chips { grid-template-columns: repeat(7, 1fr); } }
+.chip {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 6px;
+  border-radius: 14px; border: 1.5px solid var(--line); background: var(--panel-2);
+}
+.chip .cname { font-size: 20px; font-weight: 700; line-height: 1.1; }
+.chip svg { width: 56px; height: 47px; }
+.chip.pinned { border-color: var(--amber); box-shadow: inset 0 0 0 1.5px var(--amber); }
+.chip.onneck { background: #5b1a1b; border-color: var(--red); }
+
+/* ---- The staff ---- */
+#staff { background: var(--paper); border-radius: 18px; padding: 4px 4px 2px; }
+#staff svg { display: block; width: 100%; height: auto; }
+#staff text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; pointer-events: none; }
+#staff .clef { font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Music", serif; }
+#staff .col { cursor: pointer; }
+#staff .col rect.hit { fill: transparent; }
+#staff .col.pinned rect.hit { fill: #f4b74033; stroke: #f4b740; stroke-width: 1.5; }
+#staff .col .head { fill: var(--paper); stroke: var(--paper-ink); stroke-width: 2.2; }
+#staff .col.pinned .head { fill: #f4b740; }
+#staff .col.onneck .head { fill: var(--red); stroke: var(--red-dark); }
+#staff .col.onneck .name { fill: var(--red-dark); font-weight: 700; }
+
+/* ---- How to play it (slides up from the bottom) ---- */
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; max-height: 72vh; overflow-y: auto;
+  background: #241a14f5; border-top: 1.5px solid var(--line); border-radius: 22px 22px 0 0;
+  box-shadow: 0 -14px 40px #000a; padding: 16px 16px calc(18px + env(safe-area-inset-bottom));
+  transform: translateY(105%); visibility: hidden;
+  transition: transform .28s cubic-bezier(.2, .8, .2, 1), visibility 0s .28s;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+}
+.sheet.open { transform: none; visibility: visible; transition: transform .28s cubic-bezier(.2, .8, .2, 1); }
+body.sheet-open main { padding-bottom: 52vh; }
+.sheet-close { position: absolute; right: 12px; top: 12px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: var(--panel-2); color: var(--muted); font-size: 15px; }
+.sheet .tag { font-size: 12px; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+.sheet .big { font-size: 46px; font-weight: 700; line-height: 1.05; margin-top: 2px; }
+.sheet .words { font-size: 17px; margin-top: 2px; }
+.sheet .feel { font-size: 14px; color: var(--muted); margin-top: 2px; }
+.sheet .body { display: flex; gap: 14px; margin-top: 12px; align-items: flex-start; }
+.sheet .picture { flex: none; width: 118px; }
+.sheet .picture svg { width: 100%; height: auto; display: block; }
+.sheet .picture svg text { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+.sheet .text { flex: 1; font-size: 15px; line-height: 1.4; }
+.sheet .text p { margin: 0 0 10px; }
+.sheet .text .tip { color: var(--muted); font-size: 14px; }
+.sheet ol { margin: 0 0 10px; padding: 0; list-style: none; }
+.sheet ol li { margin-bottom: 8px; }
+.sheet .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.sheet .hear { background: #5b1a1b; border-color: var(--red); }
+
+/* An iPad held sideways: the neck and the chords side by side, like the two monitors. */
+@media (min-width: 960px) and (orientation: landscape) {
+  .top { max-width: none; padding: 14px 28px 0; }
+  .readout { margin: 0; padding: 10px 0 8px; }
+  .sheet { left: auto; right: 16px; bottom: 16px; width: min(520px, 46vw); border-radius: 22px; border: 1.5px solid var(--line); padding-bottom: 18px; }
+  body.sheet-open main { padding-bottom: 0; }
+  .sheet .to-neck { display: none; }
+}

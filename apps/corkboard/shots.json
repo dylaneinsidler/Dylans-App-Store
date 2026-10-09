@@ -1,0 +1,5 @@
+[
+  { "name": "Local events, with the map", "url": "?demo" },
+  { "name": "A month's events", "url": "?demo", "scroll": "#going", "offset": 10 },
+  { "name": "Your reminders and birthdays", "url": "?demo", "scroll": "#mine-screen", "offset": 0 }
+]

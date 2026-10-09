@@ -1,0 +1,22 @@
+{
+  "name": "Dylan's Baritone Ukulele",
+  "short": "Ukulele",
+  "subtitle": "Chords and notes for baritone uke",
+  "category": "Music",
+  "order": 1,
+  "background": "#17110d",
+  "internet": "Not needed",
+  "source": ["Dylan's Baritone Ukulele", "Ukulele Wall"],
+  "copy": ["music.js", "sound.js"],
+  "description": [
+    "A baritone ukulele (tuned D G B E, like a guitar's top four strings) that you play with your finger. Tap spots on the neck to press the strings: it plays each note and tells you, in plain English, which chord you've made.",
+    "Below the neck are 21 common chords and every note the neck can play. Tap one to hear it, see how to finger it, and put it on the neck."
+  ],
+  "features": [
+    "A neck you can press, with a real plucked-string sound",
+    "Names any chord you make (\"G major chord, bright and happy\")",
+    "21 chords with finger-by-finger steps",
+    "Every note on the staff, and everywhere it's played on the neck",
+    "Works without internet"
+  ]
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Daily Torah">
+<meta name="theme-color" content="#F3E8CF">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="desktop/wall.css">
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+<!-- This page is made by build.mjs from index.template.html and the desktop app's two screens. Edit the template. -->
+<script>
+  // Light or dark: the switch in the header (desktop/wall.js) is remembered on this phone. The desktop
+  // code reads it from the address, so put it there before that code runs.
+  (function () {
+    var q = new URLSearchParams(location.search), saved;
+    try { saved = JSON.parse(localStorage.getItem('torah.theme')); } catch (e) {}
+    if (!q.get('theme')) { q.set('theme', saved || 'light'); history.replaceState(null, '', '?' + q + location.hash); }
+  })();
+</script>
+</head>
+<body>
+<script src="desktop/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hebcal/core@6.13.0/dist/bundle.min.js"></script>
+<script src="desktop/parshiyot.js"></script>
+<script src="desktop/talmud.js"></script>
+<script src="desktop/lessons-genesis.js"></script>
+<script src="desktop/lessons-exodus.js"></script>
+<script src="desktop/lessons-leviticus.js"></script>
+<script src="desktop/lessons-numbers.js"></script>
+<script src="desktop/lessons-deuteronomy.js"></script>
+<script src="desktop/wall.js"></script>
+
+<main class="screens">
+  <section class="screen" id="today-screen">
+    <div id="header"></div>
+    <div class="today-main">
+{{TODAY}}
+    </div>
+  </section>
+  <section class="screen" id="week-screen">
+    <div id="header"></div>
+    <div class="week-main">
+{{WEEK}}
+    </div>
+  </section>
+</main>
+
+<script src="../../shared/phone.js" data-name="Dylan's Daily Torah"></script>
+<script src="app.js"></script>
+<script src="desktop/today.js"></script>
+<script src="desktop/week.js"></script>
+</body>
+</html>

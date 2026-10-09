@@ -1,0 +1,22 @@
+{
+  "name": "Dylan's Bassoon",
+  "short": "Bassoon",
+  "subtitle": "An interactive bassoon fingering chart",
+  "category": "Music",
+  "order": 2,
+  "background": "#15100e",
+  "internet": "Not needed",
+  "source": ["Dylan's Bassoon", "Bassoon Wall"],
+  "copy": ["fingerings.js", "bassoon.js", "staff.js"],
+  "description": [
+    "Every key and hole of a German-system bassoon, both hands, front and back. Tap them to press them (as many as you like) and it tells you which note that plays, or what's closest if it isn't a real fingering.",
+    "Or go the other way: pick any note from low B♭ to high D and see exactly how to finger it, in a picture and in plain words, with the other common ways to play it."
+  ],
+  "features": [
+    "All 42 notes, from low B♭ to high D, in bass and tenor clef",
+    "Press the keys yourself and see what note you get",
+    "Half-holes, flick keys and other ways to play each note",
+    "Fingerings checked against the International Double Reed Society's chart",
+    "Works without internet"
+  ]
+}

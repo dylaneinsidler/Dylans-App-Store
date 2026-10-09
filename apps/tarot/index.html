@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Tarot">
+<meta name="theme-color" content="#14121f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Tarot</title>
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <h1>Dylan's Tarot</h1>
+  <p>Learn to read the cards, in plain English.</p>
+</header>
+
+<main class="screens">
+  <section class="screen" id="table">
+    <div class="screen-name">Card of the day</div>
+    <div class="cotd" id="cotd"></div>
+
+    <div class="screen-name">A reading</div>
+    <div class="chips" id="spreads"></div>
+    <div class="chips topics" id="topics"></div>
+    <button class="pill solid wide" id="deal">Shuffle and deal</button>
+    <div id="layout"></div>
+    <div id="reading"></div>
+  </section>
+
+  <section class="screen" id="teacher">
+    <div class="screen-name">Lessons</div>
+    <ol class="lessons" id="lessons"></ol>
+
+    <div class="screen-name">All 78 cards</div>
+    <div class="chips" id="suits"></div>
+    <div class="grid" id="cards"></div>
+  </section>
+</main>
+
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <button class="sheet-close" aria-label="Close">✕</button>
+  <div class="sheet-body" id="sheet-body"></div>
+</aside>
+
+<script src="desktop/cards.js"></script>
+<script src="desktop/spreads.js"></script>
+<script src="desktop/lessons.js"></script>
+<script src="desktop/combos.js"></script>
+<script src="desktop/reading.js"></script>
+<script src="../../shared/phone.js" data-name="Dylan's Tarot"></script>
+<script src="app.js"></script>
+</body>
+</html>
