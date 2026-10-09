@@ -2,10 +2,10 @@
   "name": "Dylan's App Store",
   "url": "https://dylaneinsidler.github.io/Dylans-App-Store/",
   "categories": [
-    "Music",
-    "Learn",
     "Every Day",
-    "Art"
+    "Learn",
+    "Art",
+    "Music"
   ],
   "apps": [
     {
