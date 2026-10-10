@@ -309,5 +309,70 @@ window.StarWall = (() => {
     };
   }
 
-  return { cfg, NS, glyph, help: addHelp, fmtTime, fmtDay, fmtWeekday, esc, start, planet, get scale() { return scale; } };
+  // ---- The object of the day (objects.js), in the same grainy dots ----
+  // Each pixel sends a ray into the scene until it meets the object's surface, which is then lit from the upper left;
+  // the brightness becomes dots exactly as for the planets. Drawn once (and again when the theme or size changes).
+  function thing(canvas, obj, size) {
+    let px, threshold, image;
+    const rad = d => d * Math.PI / 180;
+    const [pitch, yaw] = (obj.turn || [0, 0]).map(rad);
+    const cp = Math.cos(pitch), sp = Math.sin(pitch), cy = Math.cos(yaw), sy = Math.sin(yaw);
+    // From the view (x right, y up, z toward you) into the object's own frame.
+    const f = (x, y, z) => {
+      const y1 = y * cp + z * sp, z1 = -y * sp + z * cp;
+      return obj.sdf(x * cy - z1 * sy, y1, x * sy + z1 * cy);
+    };
+    function setup() {
+      px = Math.max(8, Math.round(size * scale * (devicePixelRatio || 1)));
+      canvas.width = canvas.height = px;
+      canvas.style.width = canvas.style.height = size + 'px';
+      threshold = new Float32Array(px * px);
+      for (let i = 0; i < threshold.length; i++) threshold[i] = Math.random();
+      image = canvas.getContext('2d').createImageData(px, px);
+    }
+    function draw() {
+      const [ir, ig, ib] = inkColor(), data = image.data, L = UPPER_LEFT, e = 0.002;
+      const lightDots = document.documentElement.dataset.theme === 'dark';
+      const half = px / 2, span = 1.12;
+      data.fill(0);
+      for (let j = 0; j < px; j++) {
+        const y = (half - j - 0.5) / half * span;
+        for (let i = 0; i < px; i++) {
+          const x = (i + 0.5 - half) / half * span;
+          let t = 0, hit = false;
+          for (let s = 0; s < 96 && t < 5; s++) {
+            const d = f(x, y, 2.4 - t);
+            if (d < 0.0015) { hit = true; break; }
+            t += d * 0.85;
+          }
+          if (!hit) continue;
+          const z = 2.4 - t;
+          let nx = f(x + e, y, z) - f(x - e, y, z), ny = f(x, y + e, z) - f(x, y - e, z), nz = f(x, y, z + e) - f(x, y, z - e);
+          const nl = Math.hypot(nx, ny, nz) || 1;
+          nx /= nl; ny /= nl; nz /= nl;
+          const diff = Math.max(0, nx * L[0] + ny * L[1] + nz * L[2]);
+          let b = Math.pow(0.9 * diff + 0.05 * Math.max(0, nz), 0.72) + 0.03;
+          if (obj.glow && y > 0.22) b = lightDots ? 1 : 0.62;   // a candle's flame gives its own light
+          const k = j * px + i;
+          if (lightDots ? b > threshold[k] : b < threshold[k]) {
+            data[k * 4] = ir; data[k * 4 + 1] = ig; data[k * 4 + 2] = ib; data[k * 4 + 3] = 255;
+          }
+        }
+      }
+      canvas.getContext('2d').putImageData(image, 0, 0);
+    }
+    setup();
+    draw();
+    scaleListeners.push(() => { setup(); draw(); });
+    painters.push(draw);
+  }
+  // Today's object: a different one each day, in a fixed shuffled order, so it doesn't repeat for weeks.
+  function objectOfDay(date = new Date()) {
+    const list = window.STAR_OBJECTS || [];
+    const day = Math.floor(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 864e5);
+    const n = list.length, step = [7, 11, 5, 3].find(s => n % s) || 1;   // a step that visits every one
+    return list[(day * step) % n];
+  }
+
+  return { cfg, NS, glyph, help: addHelp, fmtTime, fmtDay, fmtWeekday, esc, start, planet, thing, objectOfDay, get scale() { return scale; } };
 })();

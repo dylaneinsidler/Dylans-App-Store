@@ -1,0 +1,6 @@
+[
+  { "name": "The technique of the day, step by step", "url": "?d=bjj" },
+  { "name": "Key details, mistakes and where it's legal", "url": "?d=bjj", "scroll": ".side", "offset": 10 },
+  { "name": "The Library, with search and filters", "url": "?d=bjj#view=library" },
+  { "name": "Judo: the throw of the day", "url": "?d=judo" }
+]

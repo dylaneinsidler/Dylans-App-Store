@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Open Mats">
+<meta name="theme-color" content="#6b4a2b">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Open Mats</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<main class="screens">
+  <section class="screen" id="map-screen">
+    <div class="title-card paper"><i class="pin" style="--base:#555"></i><h1>Open Mats</h1><p>Saturday &amp; Sunday, Jupiter to Miami</p></div>
+    <div class="key paper"><i class="pin" style="--base:#b08d57"></i>
+      <div class="key-row"><span><i class="sw" style="background:var(--sat)"></i>Saturday</span><span><i class="sw" style="background:var(--sun)"></i>Sunday</span><span><i class="sw" style="background:var(--wknd)"></i>Both days</span></div>
+      <div class="key-row"><b style="color:var(--gi)">Gi</b><b style="color:var(--nogi)">No-gi</b><b style="color:var(--both)">Both</b><b>Not listed</b><span class="stamp">Free</span></div>
+    </div>
+    <div class="map-card paper"><i class="pin" style="--base:#888"></i>
+      <div class="tabs" id="tabs"></div>
+      <div id="map"></div>
+      <div class="credit">Map data: US Census Bureau</div>
+    </div>
+  </section>
+
+  <section class="screen" id="days-screen">
+    <div id="sat"></div>
+    <div id="sun"></div>
+    <p class="source" id="source"></p>
+  </section>
+</main>
+
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <button class="sheet-close" aria-label="Close">✕</button>
+  <div id="gym"></div>
+</aside>
+
+<script src="desktop/mats.js"></script>
+<script src="desktop/mapdata.js"></script>
+<script src="../../shared/phone.js" data-name="Dylan's Open Mats"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "Dylan's Aesop's Fables",
+  "short_name": "Fables",
+  "description": "A fable a day, with its moral",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f3ead8",
+  "theme_color": "#f3ead8",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

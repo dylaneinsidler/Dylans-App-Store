@@ -1,0 +1,26 @@
+[
+ {
+  "name": "Today's Pokémon",
+  "url": "",
+  "settle": 6000
+ },
+ {
+  "name": "Stats and matchups",
+  "url": "",
+  "settle": 5000,
+  "scroll": ".stat",
+  "offset": 60
+ },
+ {
+  "name": "The Pokédex",
+  "url": "",
+  "settle": 8000,
+  "scroll": "#dex",
+  "offset": 0
+ },
+ {
+  "name": "In light",
+  "url": "?theme=light",
+  "settle": 6000
+ }
+]

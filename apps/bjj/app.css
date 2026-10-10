@@ -1,0 +1,75 @@
+/* Dylan's Jiu-Jitsu & Judo on a phone. Colors and pieces are the desktop app's (desktop/wall.css); this lays its
+   1920 x 1080 screen out as one column. */
+:root { --accent: #e2603f; --card: var(--paper); --muted: #8d8d8d; }
+html, body { height: auto !important; overflow: visible !important; }
+body { user-select: auto; }
+#stage { position: static !important; width: auto !important; height: auto !important; transform: none !important; overflow: visible !important; }
+#main { position: static !important; padding: 0 14px; opacity: 1 !important; }
+
+/* The header: the name, the Jiu-Jitsu / Judo switch, the week, the tabs */
+header.top { position: static !important; display: flex !important; flex-wrap: wrap; align-items: center; gap: 12px; height: auto !important;
+  padding: calc(14px + env(safe-area-inset-top)) 14px 14px; border-bottom: 1px solid var(--line); }
+.brand { flex: 1; min-width: 0; }
+.brand .title { font-size: 34px; }
+.disc { display: flex; border: 1px solid var(--line); font-size: 12px; }
+.disc span { padding: 9px 12px; color: var(--muted); cursor: pointer; }
+.disc span.on { background: var(--ink); color: var(--bg); }
+.center { flex-basis: 100%; }
+.center:empty { display: none; }
+.week { grid-template-columns: repeat(7, 1fr) !important; }
+.week .n { width: 34px; height: 34px; line-height: 34px; }
+.nav { flex-basis: 100%; justify-content: flex-start; flex-wrap: wrap; font-size: 12px; }
+.nav-tab { padding: 9px 14px; }
+.theme-switch { margin-left: auto; }
+.theme-switch span { padding: 9px 11px; }
+.filters-btn { display: none; }
+body:has(.main-library) .filters-btn { display: inline-block; }
+body.filters .filters-btn { background: var(--grid); color: var(--ink); }
+
+/* A technique */
+.tech { display: block !important; height: auto !important; }
+.tech .lead, .tech .side { height: auto !important; overflow: visible !important; --k: 1 !important; }
+.tech .lead { padding-top: 18px; }
+.name { font-size: 44px !important; }
+.aka { font-size: 18px !important; }
+.summary { font-size: 19px !important; margin: 14px 0 18px; }
+.steps.row3, .steps.grid6, .steps.row4 { grid-template-columns: 1fr 1fr !important; gap: 10px; }
+.step figcaption, .steps.grid6 .step figcaption, .steps.row4 .step figcaption { font-size: 15px !important; padding: 4px 10px 10px; }
+.side { padding-top: 24px; gap: 22px !important; }
+.side li { font-size: 16.5px !important; margin-bottom: 7px !important; }
+.dodont { grid-template-columns: 1fr !important; gap: 22px; }
+.rules .rsum { font-size: 17px !important; }
+.rrow { grid-template-columns: 1fr !important; gap: 4px; margin-bottom: 6px; }
+.cells { overflow-x: auto; }
+.cell { width: 40px; flex: none; }
+.jrow { font-size: 16px !important; }
+.jtitle { gap: 16px; }
+.english { font-size: 21px !important; }
+.kanji { font-size: 54px; }
+.note { font-size: 16px !important; }
+
+/* The Library */
+.library { display: block !important; height: auto !important; }
+.facets { height: auto !important; overflow: visible !important; padding: 16px 0 0 !important; }
+.search input { font-size: 21px; }
+.facet { display: none; }
+body.filters .facet { display: block; }
+.facet li { font-size: 17px; }
+.results { height: auto !important; }
+.rhead { flex-wrap: wrap; gap: 10px; padding: 18px 0 12px; }
+.count { font-size: 24px; }
+.groupby { flex-wrap: wrap; }
+.list { overflow: visible !important; padding: 0 !important; }
+.list h2 { font-size: 26px; margin: 22px 0 10px; }
+.cards { grid-template-columns: 1fr 1fr !important; gap: 10px; }
+.cname { font-size: 18px; }
+
+@media (min-width: 760px) {
+  .steps.row3, .steps.grid6 { grid-template-columns: repeat(3, 1fr) !important; }
+  .cards { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (min-width: 1100px) {
+  .tech { display: grid !important; grid-template-columns: 1.4fr 1fr; gap: 36px; }
+  .cards { grid-template-columns: repeat(4, 1fr) !important; }
+}
+.phone-footer { margin-top: 40px; }

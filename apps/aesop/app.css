@@ -1,0 +1,8 @@
+/* Aesop's Fables on a phone: old-book colors, the picture like a plate in the 1919 book, the story, the moral. */
+:root[data-theme="light"] { --bg: #f3ead8; --card: #fbf6ea; --ink: #2b2118; --muted: #7d6b55; --line: rgba(60, 40, 10, .14); --accent: #9a5b1e; }
+:root[data-theme="dark"] { --bg: #16120d; --card: #1f1a13; --ink: #efe4cf; --muted: #a8977c; --line: rgba(255, 240, 210, .1); --accent: #d9a35a; }
+.plate { padding: 10px; background: var(--card); } .plate img { border-radius: 6px; }
+.plate-credit { margin: 6px 16px 0; font-size: 12px; color: var(--muted); text-align: center; }
+.story { margin: 18px 16px 0; font-size: 19px; line-height: 1.55; color: var(--ink); }
+.story p { margin: 0 0 14px; } .story p:first-child::first-letter { font-size: 3.1em; float: left; line-height: .9; padding: 4px 8px 0 0; color: var(--accent); }
+.moral .big { font-style: italic; }

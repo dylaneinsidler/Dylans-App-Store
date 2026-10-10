@@ -1,0 +1,19 @@
+[
+ {
+  "name": "Today's fable",
+  "url": "",
+  "settle": 3000
+ },
+ {
+  "name": "The moral",
+  "url": "",
+  "settle": 3000,
+  "scroll": ".moral",
+  "offset": 200
+ },
+ {
+  "name": "In light",
+  "url": "?theme=light",
+  "settle": 3000
+ }
+]

@@ -1,0 +1,38 @@
+/* Shared by the "of the day" phone apps (Element, Animal, Poetry, Aesop's Fables, Pokemon) and Flags: a header with the
+   date and Light / Dark, a big picture, then the facts in cards. Each app sets its colors (and may add its own bits). */
+:root { --bg: #0e0f12; --ink: #f1efe9; --muted: #9a978f; --line: rgba(255, 255, 255, .1); --card: #17191e; --accent: #e8b04a; }
+:root[data-theme="light"] { --bg: #f5f3ee; --ink: #1c1d21; --muted: #77746c; --line: rgba(0, 0, 0, .1); --card: #ffffff; --accent: #b07a12; }
+body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif; }
+.serif { font-family: "Iowan Old Style", "Palatino", Georgia, serif; }
+
+.d-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 16px 6px; }
+.d-head .k { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+.d-head .date { font-size: 14px; color: var(--muted); margin-top: 3px; }
+.d-theme { display: flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; flex: none; }
+.d-theme button { border: 0; background: transparent; padding: 6px 12px; font-size: 12px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); }
+.d-theme button.on { background: var(--ink); color: var(--bg); }
+
+.d-title { padding: 4px 16px 0; }
+.d-title h1 { margin: 0; font-size: 44px; line-height: 1.04; font-weight: 600; color: var(--ink); letter-spacing: -.01em; }
+.d-title .sub { margin-top: 6px; font-size: 17px; color: var(--muted); font-style: italic; }
+.d-pic { margin: 16px 16px 0; border-radius: 16px; overflow: hidden; background: var(--card); border: 1px solid var(--line); position: relative; }
+.d-pic img { display: block; width: 100%; height: auto; }
+.d-pic .credit { position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 12px 7px; font-size: 11px; color: #ddd;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .7)); }
+.d-tag { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; background: var(--accent); color: #1a1205; }
+
+.d-card { margin: 14px 16px 0; padding: 16px 16px 14px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+.d-card h2 { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.d-card p { margin: 0; font-size: 17px; line-height: 1.5; color: var(--ink); }
+.d-card .big { font-size: 22px; line-height: 1.38; font-family: "Iowan Old Style", "Palatino", Georgia, serif; }
+.d-card ol, .d-card ul { margin: 0; padding-left: 20px; font-size: 16px; line-height: 1.5; }
+.d-card li + li { margin-top: 6px; }
+.d-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.d-facts div { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.d-facts b { display: block; margin-top: 3px; font-size: 18px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--ink); }
+.d-next { display: flex; justify-content: space-between; gap: 12px; margin: 14px 16px 0; font-size: 14px; color: var(--muted); }
+.d-next b { display: block; color: var(--ink); font-size: 17px; font-weight: 600; margin-top: 2px; }
+.d-map { margin-top: 4px; border-radius: 10px; overflow: hidden; background: var(--bg); }
+.d-map svg { display: block; width: 100%; height: auto; }

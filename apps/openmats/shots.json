@@ -1,0 +1,6 @@
+[
+  { "name": "The map, with a pin for every gym", "url": "?demo" },
+  { "name": "Saturday's open mats, by time", "url": "?demo", "scroll": "#sat", "offset": 10 },
+  { "name": "Sunday's open mats", "url": "?demo", "scroll": "#sun", "offset": 10 },
+  { "name": "A gym: times, directions and Instagram", "url": "?demo", "do": "document.querySelector('[data-gym=\"26\"]').click()", "wait": 600 }
+]

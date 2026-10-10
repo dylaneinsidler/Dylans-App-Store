@@ -1,0 +1,19 @@
+[
+ {
+  "name": "Today's animal",
+  "url": "",
+  "settle": 6000
+ },
+ {
+  "name": "Where it lives",
+  "url": "",
+  "settle": 5000,
+  "scroll": ".d-map",
+  "offset": 90
+ },
+ {
+  "name": "In light",
+  "url": "?theme=light",
+  "settle": 6000
+ }
+]

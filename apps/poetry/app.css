@@ -1,0 +1,12 @@
+/* Daily Poetry on a phone: the whole poem in a book face, then the shared cards. */
+:root { --sea: #13161c; --land: #2a2d34; --edge: #3a3e47; }
+:root[data-theme="light"] { --sea: #e9e5dc; --land: #fbf9f4; --edge: #c9c3b6; }
+.d-title .where { margin-top: 4px; font-size: 14px; color: var(--muted); }
+.poem { margin: 18px 16px 4px; font-size: 21px; line-height: 1.5; color: var(--ink); }
+.poem p { margin: 0 0 18px; }
+.keep { font-style: italic; color: var(--accent); }
+.words { display: grid; gap: 8px; } .words b { font-size: 19px; color: var(--ink); font-style: italic; margin-right: 10px; } .words span { color: var(--muted); font-size: 15px; }
+.week { display: grid; gap: 8px; }
+.week div { display: grid; grid-template-columns: 52px 1fr; column-gap: 10px; font-size: 14px; color: var(--muted); }
+.week div b { font-size: 17px; color: var(--ink); font-weight: 500; } .week div small { grid-column: 2; font-size: 13px; }
+.week div.now span { color: var(--accent); font-weight: 700; }

@@ -36,7 +36,7 @@
         "apps/ukulele/shots/3.jpg",
         "apps/ukulele/shots/4.jpg"
       ],
-      "version": "1.0"
+      "version": "1.1"
     },
     {
       "id": "bassoon",
@@ -69,6 +69,36 @@
       "version": "1.0"
     },
     {
+      "id": "poetry",
+      "name": "Dylan's Daily Poetry",
+      "short": "Poetry",
+      "subtitle": "A poem a day, and why it matters",
+      "category": "Art",
+      "description": [
+        "A great poem every day, the whole thing, the same one as on the wall: then what it says in one sentence, why it has lasted, a line to keep, the old words explained, the poet, and a map of where it was written.",
+        "Forty-six of the best-loved poems in English, all free to share, from Emily Dickinson and Robert Frost to Shakespeare and Langston Hughes."
+      ],
+      "features": [
+        "A new poem every day, the whole poem",
+        "What it says, in plain English",
+        "A line to keep, and the old words explained",
+        "Where and when it was written",
+        "Light or dark"
+      ],
+      "internet": "Not needed",
+      "color": "#0e0f12",
+      "icon": "apps/poetry/icons/icon-512.png",
+      "url": "apps/poetry/",
+      "external": false,
+      "shots": [
+        "apps/poetry/shots/1.jpg",
+        "apps/poetry/shots/2.jpg",
+        "apps/poetry/shots/3.jpg",
+        "apps/poetry/shots/4.jpg"
+      ],
+      "version": "1.1"
+    },
+    {
       "id": "weather",
       "name": "Dylan's Weather App",
       "short": "Weather",
@@ -96,7 +126,7 @@
         "apps/weather/shots/2.jpg",
         "apps/weather/shots/3.jpg"
       ],
-      "version": "1.2"
+      "version": "1.3"
     },
     {
       "id": "torah",
@@ -127,7 +157,7 @@
         "apps/torah/shots/3.jpg",
         "apps/torah/shots/4.jpg"
       ],
-      "version": "1.7"
+      "version": "1.9"
     },
     {
       "id": "costar",
@@ -160,7 +190,37 @@
         "apps/costar/shots/3.jpg",
         "apps/costar/shots/4.jpg"
       ],
-      "version": "1.3"
+      "version": "1.5"
+    },
+    {
+      "id": "element",
+      "name": "Dylan's Element of the Day",
+      "short": "Element",
+      "subtitle": "A chemical element a day, and the periodic table",
+      "category": "Learn",
+      "description": [
+        "One chemical element a day, in a shuffled order: all 118 before any comes back. Its photo, where you meet it in everyday life, what it is, and its facts: when it melts and boils, how heavy it is, when it was found, and its electrons.",
+        "Below it, the whole periodic table with today's element lit up and the ones you've already seen this round shaded, every family in its own pastel color."
+      ],
+      "features": [
+        "A new element every day, the same one as on the wall",
+        "Where you meet it, in one plain line",
+        "A real photo of each element",
+        "The periodic table, with today's lit up",
+        "Light or dark"
+      ],
+      "internet": "Not needed",
+      "color": "#0e0f12",
+      "icon": "apps/element/icons/icon-512.png",
+      "url": "apps/element/",
+      "external": false,
+      "shots": [
+        "apps/element/shots/1.jpg",
+        "apps/element/shots/2.jpg",
+        "apps/element/shots/3.jpg",
+        "apps/element/shots/4.jpg"
+      ],
+      "version": "1.2"
     },
     {
       "id": "tarot",
@@ -195,6 +255,35 @@
       "version": "1.0"
     },
     {
+      "id": "animal",
+      "name": "Dylan's Animal of the Day",
+      "short": "Animal",
+      "subtitle": "An animal a day, and what it teaches",
+      "category": "Learn",
+      "description": [
+        "A new animal every day, the same one as on the wall: a real photo, what it teaches (a lesson to take from it), where in the world it lives on a map, what it eats, three fun facts, its size and how it's doing in the wild.",
+        "53 animals, from the snow leopard to the tardigrade, in a shuffled order: all of them before any comes back."
+      ],
+      "features": [
+        "A new animal every day",
+        "What it teaches: something meaningful from each one",
+        "A map of where it lives",
+        "Three fun facts",
+        "Light or dark"
+      ],
+      "internet": "Needed (for the photos)",
+      "color": "#0e0f12",
+      "icon": "apps/animal/icons/icon-512.png",
+      "url": "apps/animal/",
+      "external": false,
+      "shots": [
+        "apps/animal/shots/1.jpg",
+        "apps/animal/shots/2.jpg",
+        "apps/animal/shots/3.jpg"
+      ],
+      "version": "1.0"
+    },
+    {
       "id": "corkboard",
       "name": "Dylan's Corkboard",
       "short": "Corkboard",
@@ -222,7 +311,35 @@
         "apps/corkboard/shots/2.jpg",
         "apps/corkboard/shots/3.jpg"
       ],
-      "version": "1.9"
+      "version": "1.12"
+    },
+    {
+      "id": "aesop",
+      "name": "Dylan's Aesop's Fables",
+      "short": "Fables",
+      "subtitle": "A fable a day, with its moral",
+      "category": "Learn",
+      "description": [
+        "One of Aesop's fables every day, the same one as on the wall: the whole story, with Milo Winter's color picture from The Aesop for Children (1919), and its moral.",
+        "105 fables, from the Tortoise and the Hare to the Boy Who Cried Wolf, in a shuffled order: all of them before any comes back."
+      ],
+      "features": [
+        "A new fable every day",
+        "The whole story, and its moral",
+        "Milo Winter's 1919 pictures",
+        "Old-book colors, light or dark"
+      ],
+      "internet": "Not needed",
+      "color": "#f3ead8",
+      "icon": "apps/aesop/icons/icon-512.png",
+      "url": "apps/aesop/",
+      "external": false,
+      "shots": [
+        "apps/aesop/shots/1.jpg",
+        "apps/aesop/shots/2.jpg",
+        "apps/aesop/shots/3.jpg"
+      ],
+      "version": "1.0"
     },
     {
       "id": "artshow",
@@ -247,7 +364,130 @@
       "external": true,
       "shots": [],
       "version": "2.6"
+    },
+    {
+      "id": "openmats",
+      "name": "Dylan's Open Mats",
+      "short": "Open Mats",
+      "subtitle": "Weekend jiu-jitsu open mats, Jupiter to Miami",
+      "category": "Every Day",
+      "description": [
+        "Every weekend jiu-jitsu open mat from Jupiter down to Miami and out west, on a cork board: a map with a numbered pin for each gym, and a Saturday paper and a Sunday paper listing every open mat by time.",
+        "Gi open mats are in blue, no-gi in red, both in purple, and the free ones get a green FREE stamp. On the day, what's over is crossed off and what's on now turns red. Tap any gym for its address, its times, directions and its Instagram."
+      ],
+      "features": [
+        "Saturday and Sunday open mats, by time",
+        "A map with a numbered pin for every gym",
+        "Gi in blue, no-gi in red, both in purple",
+        "Free open mats stamped FREE",
+        "On the day: what's over is crossed off, what's on now is in red",
+        "Tap a gym for directions and its Instagram",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#6b4a2b",
+      "icon": "apps/openmats/icons/icon-512.png",
+      "url": "apps/openmats/",
+      "external": false,
+      "shots": [
+        "apps/openmats/shots/1.jpg",
+        "apps/openmats/shots/2.jpg",
+        "apps/openmats/shots/3.jpg",
+        "apps/openmats/shots/4.jpg"
+      ],
+      "version": "1.3"
+    },
+    {
+      "id": "pokemon",
+      "name": "Dylan's Pokémon of the Day",
+      "short": "Pokémon",
+      "subtitle": "A Pokémon a day, and the whole Pokédex",
+      "category": "Learn",
+      "description": [
+        "A new Pokémon every day, the same one as on the wall: its official art, what the Pokédex says about it in three games, its base stats, what it's weak to and resists, its evolution family, and tomorrow's as a silhouette: who's that Pokémon?",
+        "Below it, the whole Pokédex: all 1,025 Pokémon from Kanto to Paldea as the games' pixel sprites. Find one by name or number, or tap any of them to see its entry."
+      ],
+      "features": [
+        "A new Pokémon every day",
+        "Its Pokédex entries, stats and matchups",
+        "Its evolution family, to tap through",
+        "The whole Pokédex: 1,025 Pokémon, nine regions",
+        "Light or dark"
+      ],
+      "internet": "Needed (for the pictures)",
+      "color": "#0e0f12",
+      "icon": "apps/pokemon/icons/icon-512.png",
+      "url": "apps/pokemon/",
+      "external": false,
+      "shots": [
+        "apps/pokemon/shots/1.jpg",
+        "apps/pokemon/shots/2.jpg",
+        "apps/pokemon/shots/3.jpg",
+        "apps/pokemon/shots/4.jpg"
+      ],
+      "version": "1.2"
+    },
+    {
+      "id": "flags",
+      "name": "Dylan's Flags of the World",
+      "short": "Flags",
+      "subtitle": "Learn every flag, and play the 50-flag game",
+      "category": "Learn",
+      "description": [
+        "All 195 flags of the world: the flag of the day, every flag by continent (tap one for its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
+        "Then the 50-flag game, Who Wants to Be a Millionaire style: pick the country, A, B, C or D, and climb the money ladder to $1,000,000, with 50:50, Ask the audience and Phone a friend."
+      ],
+      "features": [
+        "The flag of the day",
+        "Every flag by continent, with a map",
+        "A quiz that remembers what you know",
+        "The 50-flag Millionaire game",
+        "Light or dark"
+      ],
+      "internet": "Not needed",
+      "color": "#0e0f12",
+      "icon": "apps/flags/icons/icon-512.png",
+      "url": "apps/flags/",
+      "external": false,
+      "shots": [
+        "apps/flags/shots/1.jpg",
+        "apps/flags/shots/2.jpg",
+        "apps/flags/shots/3.jpg",
+        "apps/flags/shots/4.jpg"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "bjj",
+      "name": "Dylan's Jiu-Jitsu & Judo",
+      "short": "Jiu-Jitsu",
+      "subtitle": "A technique a day, and every technique explained",
+      "category": "Learn",
+      "description": [
+        "A technique guide for jiu-jitsu and judo. Every day there's a technique of the day (and a throw of the day for judo), drawn step by step, with the key details, the common mistakes, and how people counter it.",
+        "The Library has every technique, with filters (type, position, gi or no-gi, belt level), search by name or nickname, and where each one is legal under the rulebooks you might compete under: IBJJF gi and no-gi, ADCC and more. The judo side has the Kodokan's 68 throws and 32 grappling techniques, with their Japanese names, and links to the matching jiu-jitsu technique."
+      ],
+      "features": [
+        "A technique of the day, drawn step by step",
+        "Key details, common mistakes and counters",
+        "Every technique, with filters and search",
+        "Legal for you: IBJJF gi and no-gi, ADCC and more",
+        "Judo's 68 throws and 32 grappling techniques",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#0b0b0b",
+      "icon": "apps/bjj/icons/icon-512.png",
+      "url": "apps/bjj/",
+      "external": false,
+      "shots": [
+        "apps/bjj/shots/1.jpg",
+        "apps/bjj/shots/2.jpg",
+        "apps/bjj/shots/3.jpg",
+        "apps/bjj/shots/4.jpg"
+      ],
+      "version": "1.1"
     }
   ],
-  "updated": "2026-10-09"
+  "updated": "2026-10-10"
 }

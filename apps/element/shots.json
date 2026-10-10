@@ -1,0 +1,26 @@
+[
+ {
+  "name": "Today's element",
+  "url": "",
+  "settle": 4000
+ },
+ {
+  "name": "Its facts",
+  "url": "",
+  "settle": 3000,
+  "scroll": ".d-facts",
+  "offset": 80
+ },
+ {
+  "name": "The periodic table",
+  "url": "",
+  "settle": 3000,
+  "scroll": "#table",
+  "offset": 0
+ },
+ {
+  "name": "In light",
+  "url": "?theme=light",
+  "settle": 4000
+ }
+]

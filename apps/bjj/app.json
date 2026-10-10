@@ -1,0 +1,23 @@
+{
+  "name": "Dylan's Jiu-Jitsu & Judo",
+  "short": "Jiu-Jitsu",
+  "subtitle": "A technique a day, and every technique explained",
+  "category": "Learn",
+  "order": 10,
+  "background": "#0b0b0b",
+  "internet": "Not needed",
+  "source": ["Dylan's Jiu-Jitsu & Judo"],
+  "copy": ["wall.css", "wall.js", "figures.js", "poses.js", "rules.js", "catalog.js", "bjj-data.js", "judo-data.js", "app.js"],
+  "description": [
+    "A technique guide for jiu-jitsu and judo. Every day there's a technique of the day (and a throw of the day for judo), drawn step by step, with the key details, the common mistakes, and how people counter it.",
+    "The Library has every technique, with filters (type, position, gi or no-gi, belt level), search by name or nickname, and where each one is legal under the rulebooks you might compete under: IBJJF gi and no-gi, ADCC and more. The judo side has the Kodokan's 68 throws and 32 grappling techniques, with their Japanese names, and links to the matching jiu-jitsu technique."
+  ],
+  "features": [
+    "A technique of the day, drawn step by step",
+    "Key details, common mistakes and counters",
+    "Every technique, with filters and search",
+    "Legal for you: IBJJF gi and no-gi, ADCC and more",
+    "Judo's 68 throws and 32 grappling techniques",
+    "Works without internet"
+  ]
+}

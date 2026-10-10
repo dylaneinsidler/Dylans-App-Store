@@ -1,0 +1,22 @@
+{
+  "name": "Dylan's Flags of the World",
+  "short": "Flags",
+  "subtitle": "Learn every flag, and play the 50-flag game",
+  "category": "Learn",
+  "order": 10,
+  "background": "#0e0f12",
+  "internet": "Not needed",
+  "source": ["Dylan's Flags of the World"],
+  "copy": ["flags.js", "common.js", "flags"],
+  "description": [
+    "All 195 flags of the world: the flag of the day, every flag by continent (tap one for its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
+    "Then the 50-flag game, Who Wants to Be a Millionaire style: pick the country, A, B, C or D, and climb the money ladder to $1,000,000, with 50:50, Ask the audience and Phone a friend."
+  ],
+  "features": [
+    "The flag of the day",
+    "Every flag by continent, with a map",
+    "A quiz that remembers what you know",
+    "The 50-flag Millionaire game",
+    "Light or dark"
+  ]
+}

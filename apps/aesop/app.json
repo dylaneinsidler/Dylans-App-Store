@@ -1,0 +1,25 @@
+{
+  "name": "Dylan's Aesop's Fables",
+  "short": "Fables",
+  "subtitle": "A fable a day, with its moral",
+  "category": "Learn",
+  "order": 8,
+  "background": "#f3ead8",
+  "internet": "Not needed",
+  "source": [
+    "Dylan's Aesop's Fables"
+  ],
+  "copy": [
+    "fables.js"
+  ],
+  "description": [
+    "One of Aesop's fables every day, the same one as on the wall: the whole story, with Milo Winter's color picture from The Aesop for Children (1919), and its moral.",
+    "105 fables, from the Tortoise and the Hare to the Boy Who Cried Wolf, in a shuffled order: all of them before any comes back."
+  ],
+  "features": [
+    "A new fable every day",
+    "The whole story, and its moral",
+    "Milo Winter's 1919 pictures",
+    "Old-book colors, light or dark"
+  ]
+}

@@ -1,0 +1,22 @@
+[
+ {
+  "name": "The flag of the day",
+  "url": "",
+  "settle": 3000
+ },
+ {
+  "name": "All flags",
+  "url": "?tab=flags",
+  "settle": 4000
+ },
+ {
+  "name": "The quiz",
+  "url": "?tab=quiz",
+  "settle": 3000
+ },
+ {
+  "name": "The 50-flag game",
+  "url": "?tab=game",
+  "settle": 3000
+ }
+]

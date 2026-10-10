@@ -1,0 +1,28 @@
+{
+  "name": "Dylan's Pokémon of the Day",
+  "short": "Pokémon",
+  "subtitle": "A Pokémon a day, and the whole Pokédex",
+  "category": "Learn",
+  "order": 9,
+  "background": "#0e0f12",
+  "internet": "Needed (for the pictures)",
+  "source": [
+    "Dylan's Pokémon of the Day",
+    "Dylan's Pokemon of the Day"
+  ],
+  "copy": [
+    "pokemon.js",
+    "pokedex.js"
+  ],
+  "description": [
+    "A new Pokémon every day, the same one as on the wall: its official art, what the Pokédex says about it in three games, its base stats, what it's weak to and resists, its evolution family, and tomorrow's as a silhouette: who's that Pokémon?",
+    "Below it, the whole Pokédex: all 1,025 Pokémon from Kanto to Paldea as the games' pixel sprites. Find one by name or number, or tap any of them to see its entry."
+  ],
+  "features": [
+    "A new Pokémon every day",
+    "Its Pokédex entries, stats and matchups",
+    "Its evolution family, to tap through",
+    "The whole Pokédex: 1,025 Pokémon, nine regions",
+    "Light or dark"
+  ]
+}

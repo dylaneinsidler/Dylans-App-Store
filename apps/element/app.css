@@ -1,0 +1,19 @@
+/* Element of the Day on a phone: the element's tile beside its name, then the shared cards; the periodic table below. */
+.el-hero { display: flex; align-items: center; gap: 14px; padding: 6px 16px 0; }
+.el-hero .d-title { padding: 0; }
+.el-hero .d-title { min-width: 0; }
+.el-hero h1 { white-space: nowrap; }
+.tile { flex: none; width: 96px; height: 106px; border: 2px solid var(--fam); border-radius: 6px; padding: 6px 8px; position: relative; color: var(--ink); }
+.tile .n { font-size: 12px; color: var(--muted); } .tile .m { position: absolute; right: 7px; top: 6px; font-size: 10px; color: var(--muted); }
+.tile .s { display: block; font-size: 46px; line-height: 1.05; margin-top: 2px; }
+.tile .w { display: block; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fam { display: inline-block; width: 10px; height: 10px; border: 2px solid var(--fam); margin-right: 7px; vertical-align: 0; }
+.ptable { display: grid; grid-template-columns: repeat(18, 1fr); grid-auto-rows: auto; gap: 2px; margin-top: 4px; }
+.ptable .gap { grid-column: 1 / -1; grid-row: 8; height: 6px; }
+.ptable .c { aspect-ratio: 1; display: grid; place-items: center; font-size: clamp(7px, 2.2vw, 12px); color: var(--muted);
+  border: 1px solid var(--fam); border-radius: 2px; overflow: hidden; }
+.ptable .c.done { background: color-mix(in srgb, var(--ink) 12%, transparent); color: var(--ink); }
+.ptable .c.today { background: var(--ink); color: var(--bg); border: 2px solid var(--fam); font-weight: 700; transform: scale(1.25); z-index: 1; }
+.keys { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 14px; font-size: 12px; color: var(--muted); }
+.keys i { display: inline-block; width: 10px; height: 10px; border: 2px solid var(--fam); margin-right: 6px; vertical-align: -1px; }
+.keys i.todaykey { background: var(--ink); border-color: var(--ink); } .keys i.donekey { background: color-mix(in srgb, var(--ink) 12%, transparent); border-color: var(--muted); }

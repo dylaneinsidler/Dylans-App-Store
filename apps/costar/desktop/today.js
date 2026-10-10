@@ -31,16 +31,13 @@ const { cfg, esc, glyph, fmtTime, fmtWeekday, fmtDay } = StarWall;
   $('pp').innerHTML = lines.filter(([, , areas]) => areas.length).map(([emoji, lead, areas]) =>
     `<li><span class="e">${emoji}</span><span>${lead} ${areas.map(a => `<u>${esc(a)}</u>`).join(' and ')}</span></li>`).join('');
 
-  // A grainy picture of the planet behind today's biggest transit.
-  const TILT = { Sun: 7, Mercury: 2, Venus: 3, Mars: 25, Jupiter: 3, Saturn: -18, Uranus: 82, Neptune: 28, Pluto: 60 };
+  // A grainy picture of today's object (objects.js), a different thing each day, like the Co-Star app's pictures.
+  // ?object=3 shows a given one. The caption is today's biggest transit.
   const lead = reading.top;
-  if (lead.body === 'Moon') {
-    const a = StarAstro.moon(now).angle * Math.PI / 180;
-    StarWall.planet($('portrait'), 'Moon', 230, { light: [Math.sin(a), 0, -Math.cos(a)] });
-  } else {
-    StarWall.planet($('portrait'), lead.body, lead.body === 'Saturn' ? 300 : 230,
-      { light: lead.body === 'Sun' ? null : undefined, tilt: TILT[lead.body], turn: 3 });
-  }
+  const pick = new URLSearchParams(location.search).get('object');
+  const obj = (pick != null && window.STAR_OBJECTS[+pick]) || StarWall.objectOfDay(now);
+  StarWall.thing($('portrait'), obj, 250);
+  $('portrait').title = obj.name;
   $('caption').textContent = StarReading.card(lead, noon).title;
 
   function greet(weather) {

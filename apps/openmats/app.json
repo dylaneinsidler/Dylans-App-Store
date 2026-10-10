@@ -1,0 +1,24 @@
+{
+  "name": "Dylan's Open Mats",
+  "short": "Open Mats",
+  "subtitle": "Weekend jiu-jitsu open mats, Jupiter to Miami",
+  "category": "Every Day",
+  "order": 9,
+  "background": "#6b4a2b",
+  "internet": "Not needed",
+  "source": ["Dylan's Open Mats"],
+  "copy": ["mats.js", "mapdata.js", "cork.svg", "paper.svg"],
+  "description": [
+    "Every weekend jiu-jitsu open mat from Jupiter down to Miami and out west, on a cork board: a map with a numbered pin for each gym, and a Saturday paper and a Sunday paper listing every open mat by time.",
+    "Gi open mats are in blue, no-gi in red, both in purple, and the free ones get a green FREE stamp. On the day, what's over is crossed off and what's on now turns red. Tap any gym for its address, its times, directions and its Instagram."
+  ],
+  "features": [
+    "Saturday and Sunday open mats, by time",
+    "A map with a numbered pin for every gym",
+    "Gi in blue, no-gi in red, both in purple",
+    "Free open mats stamped FREE",
+    "On the day: what's over is crossed off, what's on now is in red",
+    "Tap a gym for directions and its Instagram",
+    "Works without internet"
+  ]
+}

@@ -29,6 +29,10 @@
 
   const summary = document.getElementById('summary');
   summary.innerHTML = L.map(l => l.summary).filter(Boolean).join(' ');
+  // Its picture (the first portion's, in a double week): old public-domain art, with what it shows and who made it.
+  const pic = (window.TORAH_PICTURES || {})[a.name];
+  if (pic) document.getElementById('pic').innerHTML = `<img src="${pic.file}" alt="">
+    <figcaption>${pic.shows}${pic.artist ? ` · ${pic.artist.replace(/\s*\(.*$/, '').split(/[,;]/)[0]}` : ''}</figcaption>`;
 
   // Two lessons from each portion in a double week, otherwise the first four.
   const lessons = b ? [...(L[0].lessons || []).slice(0, 2), ...(L[1].lessons || []).slice(0, 2)] : (L[0].lessons || []).slice(0, 4);

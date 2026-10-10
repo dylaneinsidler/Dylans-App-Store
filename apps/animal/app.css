@@ -1,0 +1,4 @@
+/* Animal of the Day on a phone: the shared daily look; the map's land in a quiet color. */
+:root { --land: #2a2d34; }
+:root[data-theme="light"] { --land: #dcd8cf; }
+.d-map { background: transparent; }

@@ -1,0 +1,27 @@
+{
+  "name": "Dylan's Daily Poetry",
+  "short": "Poetry",
+  "subtitle": "A poem a day, and why it matters",
+  "category": "Art",
+  "order": 2,
+  "background": "#0e0f12",
+  "internet": "Not needed",
+  "source": [
+    "Dylan's Daily Poetry"
+  ],
+  "copy": [
+    "poems.js",
+    "mapdata.js"
+  ],
+  "description": [
+    "A great poem every day, the whole thing, the same one as on the wall: then what it says in one sentence, why it has lasted, a line to keep, the old words explained, the poet, and a map of where it was written.",
+    "Forty-six of the best-loved poems in English, all free to share, from Emily Dickinson and Robert Frost to Shakespeare and Langston Hughes."
+  ],
+  "features": [
+    "A new poem every day, the whole poem",
+    "What it says, in plain English",
+    "A line to keep, and the old words explained",
+    "Where and when it was written",
+    "Light or dark"
+  ]
+}
