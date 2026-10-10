@@ -1,0 +1,34 @@
+/* Game Informer on a phone: a game magazine. Bold condensed titles, an orange accent, PlayStation blue for the PS5 bits. */
+:root { --bg: #0d0d10; --card: #17171c; --accent: #ff5a1f; --ps: #3b7cff; }
+:root[data-theme="light"] { --bg: #f3f0ea; --card: #ffffff; --accent: #e04a12; --ps: #2f6be0; }
+.mast { margin: 6px 0 4px; font-family: Impact, "Anton", "Arial Narrow", sans-serif; font-weight: 400; font-size: 40px; line-height: 1.02;
+  text-transform: uppercase; letter-spacing: .01em; color: var(--ink); }
+h2.mast { font-size: 34px; }
+.kick { display: inline-block; padding: 5px 10px 4px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 800;
+  letter-spacing: .16em; text-transform: uppercase; }
+.kick.ps { background: var(--ps); }
+.by { font-size: 14px; font-weight: 600; color: var(--muted); letter-spacing: .02em; }
+.meta { display: inline-block; padding: 1px 7px; border-radius: 5px; background: #3c9c4a; color: #fff; font-weight: 800; }
+.cover .d-pic { margin-top: 10px; }
+.cover .d-title, .indie .d-title, .ps5 .d-title { margin-top: 12px; }
+.indie, .ps5 { margin-top: 28px; padding-top: 14px; border-top: 3px solid var(--ink); margin-left: 16px; margin-right: 16px; }
+.indie .d-title, .ps5 .d-title { padding-left: 0; padding-right: 0; }
+.indie .d-pic, .ps5 .d-pic, .indie .d-card, .ps5 .d-card { margin-left: 0; margin-right: 0; }
+.gpic img { aspect-ratio: 16 / 9; object-fit: cover; }
+.gpic.boxed { background: #000; }
+.gpic.boxed img { object-fit: contain; max-height: 420px; }
+.noimg { aspect-ratio: 16 / 9; display: grid; place-items: center; padding: 20px; text-align: center; color: #fff;
+  font-family: Impact, "Anton", sans-serif; font-size: 30px; text-transform: uppercase; background: linear-gradient(135deg, #0b1d4a, var(--ps)); }
+.count { position: absolute; right: 10px; bottom: 10px; padding: 6px 12px; border-radius: 999px; background: var(--ps); color: #fff;
+  font-size: 15px; font-weight: 800; box-shadow: 0 6px 18px rgba(0, 0, 0, .4); }
+.count.out { background: #3c9c4a; }
+.why { font-size: 19px !important; font-weight: 600; line-height: 1.4 !important; }
+.pitch { margin-top: 10px !important; font-size: 15px !important; color: var(--muted) !important; }
+.ps5 .pitch { margin-top: 0 !important; color: var(--ink) !important; }
+.cal { margin-top: 24px; }
+.cal ol { list-style: none; padding: 0; }
+.cal li { display: flex; gap: 14px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.cal li + li { margin-top: 0; }
+.cal li b { width: 56px; flex: none; color: var(--ps); font-family: Impact, "Anton", sans-serif; font-weight: 400; font-size: 18px; }
+.cal li.on span { font-weight: 700; }
+.credit-line { margin: 18px 16px 30px; font-size: 12px; color: var(--muted); }

@@ -1,0 +1,6 @@
+[
+ { "name": "The cover", "url": "?date=2026-10-10", "settle": 4000 },
+ { "name": "Quirky indie", "url": "?date=2026-10-10", "settle": 3000, "scroll": ".indie", "offset": 10 },
+ { "name": "Coming to PS5", "url": "?date=2026-10-10", "settle": 3000, "scroll": ".ps5", "offset": 10 },
+ { "name": "In light", "url": "?date=2026-10-11&theme=light", "settle": 4000 }
+]

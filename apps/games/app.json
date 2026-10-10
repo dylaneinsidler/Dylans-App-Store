@@ -1,0 +1,22 @@
+{
+  "name": "Dylan's Game Informer",
+  "short": "Game Informer",
+  "subtitle": "A game magazine every day",
+  "category": "Every Day",
+  "order": 10,
+  "background": "#0d0d10",
+  "internet": "Not needed",
+  "source": ["Dylan's Game Informer"],
+  "copy": ["games.js", "config.js"],
+  "description": [
+    "A new issue every day, the same one as on the PC: the cover story is a Switch metroidvania (58 of them, from Hollow Knight to Nine Sols), with a big screenshot, why it's worth playing and the store's pitch.",
+    "Inside: a quirky indie game of the day, a big PS5 game on the way with a countdown to its release, and the next PS5 release dates."
+  ],
+  "features": [
+    "A Switch metroidvania every day",
+    "A quirky indie game every day",
+    "Big PS5 games on the way, with a countdown",
+    "The next PS5 release dates",
+    "Light or dark"
+  ]
+}

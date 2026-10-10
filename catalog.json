@@ -252,7 +252,7 @@
         "apps/tarot/shots/4.jpg",
         "apps/tarot/shots/5.jpg"
       ],
-      "version": "1.0"
+      "version": "1.1"
     },
     {
       "id": "animal",
@@ -454,6 +454,36 @@
         "apps/flags/shots/2.jpg",
         "apps/flags/shots/3.jpg",
         "apps/flags/shots/4.jpg"
+      ],
+      "version": "1.0"
+    },
+    {
+      "id": "games",
+      "name": "Dylan's Game Informer",
+      "short": "Game Informer",
+      "subtitle": "A game magazine every day",
+      "category": "Every Day",
+      "description": [
+        "A new issue every day, the same one as on the PC: the cover story is a Switch metroidvania (58 of them, from Hollow Knight to Nine Sols), with a big screenshot, why it's worth playing and the store's pitch.",
+        "Inside: a quirky indie game of the day, a big PS5 game on the way with a countdown to its release, and the next PS5 release dates."
+      ],
+      "features": [
+        "A Switch metroidvania every day",
+        "A quirky indie game every day",
+        "Big PS5 games on the way, with a countdown",
+        "The next PS5 release dates",
+        "Light or dark"
+      ],
+      "internet": "Not needed",
+      "color": "#0d0d10",
+      "icon": "apps/games/icons/icon-512.png",
+      "url": "apps/games/",
+      "external": false,
+      "shots": [
+        "apps/games/shots/1.jpg",
+        "apps/games/shots/2.jpg",
+        "apps/games/shots/3.jpg",
+        "apps/games/shots/4.jpg"
       ],
       "version": "1.0"
     },

@@ -7,7 +7,7 @@
   "background": "#14121f",
   "internet": "Not needed",
   "source": ["Dylan's Tarot", "Tarot Wall"],
-  "copy": ["cards.js", "spreads.js", "lessons.js", "combos.js", "reading.js", "decks"],
+  "copy": ["cards.js", "spreads.js", "lessons.js", "combos.js", "reading.js", "decks/classic"],
   "description": [
     "A tarot teacher in your pocket, with the classic 1909 Rider-Waite-Smith deck. Draw a card of the day, lay out a reading and see it read the way a teacher would: each card in its spot, what stands out across the table, famous pairs, and the story put together.",
     "Twelve short lessons take you from the very basics to reading for someone else, and every one of the 78 cards is explained in plain English: what it means right side up and upside down, what's in the picture, and a trick for remembering it."
