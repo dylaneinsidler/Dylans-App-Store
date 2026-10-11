@@ -24,3 +24,6 @@
 .browse .pill { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 14px; white-space: nowrap; }
 .browse .find { min-width: 0; padding: 9px 12px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-size: 14px; }
 .back-today { display: inline-block; margin-bottom: 8px; color: var(--ink); opacity: .8; text-decoration: none; font-size: 15px; }
+
+/* Bold, so the letters are easy to see (as on the PC, v1.7) */
+.ptable .c, .tile, .keys, .d-card { font-weight: 700; }

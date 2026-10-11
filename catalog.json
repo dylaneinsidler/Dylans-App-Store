@@ -226,7 +226,7 @@
         "apps/element/shots/4.jpg",
         "apps/element/shots/5.jpg"
       ],
-      "version": "1.6"
+      "version": "1.7"
     },
     {
       "id": "tarot",
@@ -355,7 +355,7 @@
         "apps/aesop/shots/4.jpg",
         "apps/aesop/shots/5.jpg"
       ],
-      "version": "1.3"
+      "version": "1.4"
     },
     {
       "id": "artshow",
@@ -507,7 +507,7 @@
         "apps/games/shots/4.jpg",
         "apps/games/shots/5.jpg"
       ],
-      "version": "1.3"
+      "version": "1.4"
     },
     {
       "id": "bjj",

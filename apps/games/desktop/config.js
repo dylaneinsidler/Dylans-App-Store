@@ -7,4 +7,8 @@ window.GAME_CONFIG = {
   // (Later, your Nintendo and PlayStation games can fill this in by themselves.)
   // For example: played: ['Hollow Knight', 'Untitled Goose Game'],
   played: [],
+
+  // While it's open, the cover, the indie and the PS5 game move on to the next game on their lists every this many
+  // seconds (today's games come first).
+  cycleSeconds: 30,
 };
