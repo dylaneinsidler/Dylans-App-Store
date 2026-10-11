@@ -193,6 +193,8 @@ window.Dex = (() => {
     const dex = p.dex.slice(0, 3).map(d => `<blockquote>“${esc(d.text)}”<cite>Pokémon ${esc(d.game)}</cite></blockquote>`).join('')
       || '<p class="none">No Pokédex entry yet.</p>';
 
+    // A lesson from this Pokémon, for the day (lessons.js); it replaced the Tomorrow "Who's that Pokémon?" teaser.
+    const lesson = (window.POKEMON_LESSONS || {})[p.n];
     document.getElementById('stage').innerHTML = `
       <div class="glow small" style="--c:${color(p)}"></div>
       <header>
@@ -218,9 +220,9 @@ window.Dex = (() => {
         <h2>Matchups</h2>${matchHtml}
         <h2>Family</h2><div class="family">${fam}</div>
       </section>
-      <footer>${browsing
-        ? `<button class="back-today"><img alt="" src="${sprite(todays.n)}"><span><small>Back to</small>Today’s Pokémon</span></button>`
-        : `<div class="tomorrow"><img alt="" src="${official(next.n)}"><div><span>Tomorrow</span><b>Who’s that Pokémon?</b></div></div>`}
+      <footer>${lesson ? `<div class="lesson"><span>${browsing ? `${esc(p.name)}’s lesson` : 'Today’s lesson'}</span>
+          <b>${esc(lesson.title)}</b><p>${esc(lesson.lesson)}</p><p class="try"><em>Try today</em> ${esc(lesson.try)}</p></div>` : ''}
+        ${browsing ? `<button class="back-today"><img alt="" src="${sprite(todays.n)}"><span><small>Back to</small>Today’s Pokémon</span></button>` : ''}
       </footer>`;
     if (!framed) { frame(); framed = true; addDexButton(); }
     const audio = new Audio(cry(p.n));

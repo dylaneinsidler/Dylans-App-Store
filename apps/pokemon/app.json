@@ -12,14 +12,16 @@
   ],
   "copy": [
     "pokemon.js",
-    "pokedex.js"
+    "pokedex.js",
+    "lessons.js"
   ],
   "description": [
-    "A new Pokémon every day, the same one as on the wall: its official art, what the Pokédex says about it in three games, its base stats, what it's weak to and resists, its evolution family, and tomorrow's as a silhouette: who's that Pokémon?",
+    "A new Pokémon every day, the same one as on the wall: its official art, a short life lesson it teaches with one small thing to try today, what the Pokédex says about it in three games, its base stats, what it's weak to and resists, and its evolution family.",
     "Below it, the whole Pokédex: all 1,025 Pokémon from Kanto to Paldea as the games' pixel sprites. Find one by name or number, or tap any of them to see its entry."
   ],
   "features": [
     "A new Pokémon every day",
+    "A lesson from it, and something to try today",
     "Its Pokédex entries, stats and matchups",
     "Its evolution family, to tap through",
     "The whole Pokédex: 1,025 Pokémon, nine regions",

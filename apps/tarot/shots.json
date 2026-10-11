@@ -1,7 +1,36 @@
 [
-  { "name": "Card of the day", "url": "?open" },
-  { "name": "A reading", "url": "?open&deal&spread=ppf", "scroll": "#spreads", "offset": 50 },
-  { "name": "A card", "url": "?open&card=m17" },
-  { "name": "A lesson", "url": "?open&lesson=1" },
-  { "name": "All the cards", "url": "?open", "scroll": "#suits", "offset": 60 }
+ {
+  "name": "Card of the day",
+  "url": "?open"
+ },
+ {
+  "name": "Seven decks to choose from",
+  "url": "?open&deck=solabusca",
+  "scroll": "#decks",
+  "offset": 60
+ },
+ {
+  "name": "A reading",
+  "url": "?open&deal&spread=ppf",
+  "scroll": "#spreads",
+  "offset": 50
+ },
+ {
+  "name": "A card",
+  "url": "?open&card=m17"
+ },
+ {
+  "name": "A card in an old French deck",
+  "url": "?open&deck=conver&card=m17"
+ },
+ {
+  "name": "A lesson",
+  "url": "?open&lesson=1"
+ },
+ {
+  "name": "All the cards",
+  "url": "?open",
+  "scroll": "#suits",
+  "offset": 60
+ }
 ]

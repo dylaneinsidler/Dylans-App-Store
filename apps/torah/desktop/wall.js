@@ -313,7 +313,7 @@
     const more = e.target.closest('[data-details]');
     if (more) { more.dispatchEvent(new CustomEvent('details', { bubbles: true })); return; }
     if (detailsBox()) { closeDetails(); return; }
-    window.close();
+    if (!DylanClose.isControl(e.target)) window.close();   // controls (links, buttons) do their own job
   });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { if (detailsBox()) closeDetails(); else window.close(); }

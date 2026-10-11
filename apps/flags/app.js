@@ -22,6 +22,7 @@
   // ---- What you know (this phone's own) ----
   const progress = Phone.store.get('flags.progress', {});
   let best = Phone.store.get('flags.best', null);
+  if (best && best.right == null) best = null;
   const mark = (code, ok) => { const p = progress[code] = progress[code] || { r: 0, w: 0 }; ok ? p.r++ : p.w++; Phone.store.set('flags.progress', progress); };
   const known = code => { const p = progress[code]; return p && p.r >= 3 && p.r > p.w; };
   const knownCount = () => all.filter(c => known(c.code)).length;
@@ -73,7 +74,7 @@
       <div class="d-title"><h1 class="serif">${esc(c.name)}</h1>${c.official !== c.name ? `<div class="sub">${esc(c.official)}</div>` : ''}</div>
       ${facts(c)}
       <div class="d-card"><h2>You</h2><div class="d-facts"><div>Flags you know<b>${k} of ${all.length}</b></div>
-        <div>Your best game<b>${best ? `question ${best.q}, ${F.money(best.amount)}` : 'not played yet'}</b></div></div></div>`;
+        <div>Your best game<b>${best ? `${best.right} of 50` : 'not played yet'}</b></div></div></div>`;
   }
 
   const fl = { region: 'All', find: '', hide: false };
@@ -128,77 +129,50 @@
       if (wrong.length < 3) wrong = wrong.concat(F.shuffle(all.filter(o => o.code !== c.code && !wrong.includes(o)), Math.random));
       qs.push({ code: c.code, options: F.shuffle([c, ...wrong.slice(0, 3)], Math.random).map(o => o.code) });
     }
-    g = { qs, i: 0, sel: null, phase: 'playing', removed: [], used: {}, audience: null, friend: null, won: 0, result: null };
+    g = { qs, i: 0, sel: null, phase: 'playing', marks: [] };
     drawGame();
   }
-  const banked = n => n > 0 ? F.LADDER[n - 1] : 0;
-  const safeFor = qn => { const s = F.SAFE.filter(x => x < qn).pop(); return s ? F.LADDER[s - 1] : 0; };
+  // The rules (as on the desktop): pick A, B, C or D, then Enter. Right is green; wrong is red, with the right one in
+  // green. The game always goes on to the next flag, all fifty, and the score comes at the end.
+  const right = () => g ? g.marks.filter(Boolean).length : 0;
   function drawGame() {
     if (!g || g.phase === 'over') {
+      const n = right();
       $('main').innerHTML = `<div class="mil intro">
-        ${g ? `<div class="k">${g.result === 'million' ? 'A flag millionaire!' : g.result === 'walked' ? 'You walked away' : 'Game over'}</div>
-          <h1 class="serif">${g.result === 'million' ? 'All fifty!' : `Question ${g.i + 1}`}</h1><div class="won">${F.money(g.won)}</div>
-          <p>${g.result === 'wrong' ? `That flag was ${esc(byCode.get(g.qs[g.i].code).name)}.` : ''}</p>`
-        : `<div class="k">Who wants to be a flag millionaire?</div><h1 class="serif">The 50-flag game</h1>
-          <p>Fifty flags, easy ones first. Pick the country: A, B, C or D. Climb the ladder to a million dollars; get one wrong and you keep
-            the money from your last safe spot (questions 10, 25 and 40). Three lifelines: 50:50, Ask the audience and Phone a friend.</p>`}
+        ${g ? `<div class="k">${n === 50 ? 'Every flag right!' : n >= 40 ? 'Excellent' : n >= 25 ? 'Well played' : 'Game over'}</div>
+          <h1 class="serif">Your score</h1><div class="won">${n} of 50</div><p>${Math.round(n / 50 * 100)}% right.</p>`
+        : `<div class="k">The 50-flag game</div><h1 class="serif">Fifty flags</h1>
+          <p>Easy ones first. Pick the country (A, B, C or D), then press Enter. Right turns green, wrong turns red and shows the right
+            one. Either way you go on to the next flag, all fifty, and your score comes at the end.</p>`}
         <button class="go" data-start="1">${g ? 'Play again' : 'Let’s play'}</button>
-        <div class="best">${best ? `Your best: question ${best.q}, ${F.money(best.amount)}` : 'No games played yet'}</div></div>`;
+        <div class="best">${best ? `Your best: ${best.right} of 50` : 'No games played yet'}</div></div>`;
       return;
     }
-    const qn = g.qs[g.i], c = byCode.get(qn.code), locked = g.phase !== 'playing';
-    const helper = g.audience ? `<div class="helper"><b>The audience says</b><div class="aud">${g.audience.map(a => `<div style="opacity:${a.gone ? .25 : 1}"><i style="height:${Math.max(3, a.pct)}px"></i>${a.pct}%<span>${a.letter}</span></div>`).join('')}</div></div>`
-      : g.friend ? `<div class="helper"><b>&#x260E; Your friend says</b><p>&ldquo;${esc(g.friend)}&rdquo;</p></div>` : '';
+    const qn = g.qs[g.i], c = byCode.get(qn.code), checked = g.phase === 'checked';
     $('main').innerHTML = `<div class="mil">
-      <div class="ladderline"><span>Question <b>${g.i + 1}</b>/50</span><span>for <b>${F.money(F.LADDER[g.i])}</b></span><span>safe <b>${F.money(safeFor(g.i + 1))}</b></span></div>
+      <div class="ladderline"><span>Flag <b>${g.i + 1}</b>/50</span><span><b>${right()}</b> right so far</span></div>
       <div class="flagbox">${img(c.code)}</div>
       <div class="answers">${qn.options.map((code, k) => {
-        const cls = [g.removed.includes(code) ? 'gone' : '', g.sel === code ? 'sel' : '', g.phase === 'right' && code === qn.code ? 'right' : '',
-          g.phase === 'wrong' && code === qn.code ? 'right' : '', g.phase === 'wrong' && code === g.sel ? 'wrong' : ''].filter(Boolean).join(' ');
-        return `<button class="hex ${cls}" data-ans="${code}" ${locked ? 'disabled' : ''}><span class="l">${'ABCD'[k]}:</span>${g.removed.includes(code) ? '' : esc(byCode.get(code).name)}</button>`;
+        const cls = [g.sel === code && !checked ? 'sel' : '', checked && code === qn.code ? 'right' : '',
+          checked && code === g.sel && code !== qn.code ? 'wrong' : ''].filter(Boolean).join(' ');
+        return `<button class="hex ${cls}" data-ans="${code}" ${checked ? 'disabled' : ''}><span class="l">${'ABCD'[k]}:</span>${esc(byCode.get(code).name)}</button>`;
       }).join('')}</div>
-      ${g.sel && g.phase === 'playing' ? '<div class="final"><button data-final="1">Final answer</button><button class="cancel" data-cancel="1">Not yet</button></div>' : ''}
-      <div class="lifelines"><button data-life="fifty" ${g.used.fifty || locked ? 'disabled' : ''}>50:50</button>
-        <button data-life="audience" ${g.used.audience || locked ? 'disabled' : ''}>Audience</button>
-        <button data-life="phone" ${g.used.phone || locked ? 'disabled' : ''}>Phone</button>
-        <button data-walk="1" ${locked ? 'disabled' : ''}>Walk: ${F.money(banked(g.i))}</button></div>
-      ${helper}</div>`;
+      ${!checked ? `<div class="final"><button data-enter="1" ${g.sel ? '' : 'disabled'}>Enter</button></div>` : ''}
+      <div class="marks">${g.qs.map((_, i) => `<i class="${g.marks[i] === true ? 'ok' : g.marks[i] === false ? 'no' : i === g.i ? 'now' : ''}"></i>`).join('')}</div></div>`;
   }
   function answer() {
     const qn = g.qs[g.i], ok = g.sel === qn.code;
-    g.phase = 'thinking'; drawGame();
+    g.phase = 'checked'; g.marks[g.i] = ok; mark(qn.code, ok);
+    drawGame();
     setTimeout(() => {
-      g.phase = ok ? 'right' : 'wrong'; mark(qn.code, ok);
-      if (!ok) { g.won = safeFor(g.i + 1); g.result = 'wrong'; }
-      drawGame();
-      setTimeout(() => {
-        if (!ok || g.i === 49) { if (ok) { g.won = 1000000; g.result = 'million'; } finish(); }
-        else { g.i++; g.sel = null; g.removed = []; g.audience = null; g.friend = null; g.phase = 'playing'; drawGame(); }
-      }, ok ? 1500 : 2400);
-    }, 1300);
+      if (g.i === 49) return finish();
+      g.i++; g.sel = null; g.phase = 'playing'; drawGame();
+    }, ok ? 1300 : 2400);
   }
   function finish() {
-    const reached = g.result === 'million' ? 50 : g.i + 1;
-    if (!best || g.won > best.amount || (g.won === best.amount && reached > best.q)) { best = { q: reached, amount: g.won }; Phone.store.set('flags.best', best); }
+    const n = right();
+    if (!best || best.right == null || n > best.right) { best = { right: n }; Phone.store.set('flags.best', best); }
     g.phase = 'over'; drawGame();
-  }
-  function lifeline(kind) {
-    const qn = g.qs[g.i], n = g.i + 1, left = qn.options.filter(o => !g.removed.includes(o));
-    g.used[kind] = true;
-    if (kind === 'fifty') { g.removed = F.shuffle(left.filter(o => o !== qn.code), Math.random).slice(0, 2); if (g.removed.includes(g.sel)) g.sel = null; }
-    else if (kind === 'audience') {
-      const right = Math.max(25, Math.min(92, Math.round(88 - n * 0.9 + (Math.random() - 0.5) * 24)));
-      const others = left.filter(o => o !== qn.code), cuts = others.map(() => Math.random()), sum = cuts.reduce((a, b) => a + b, 0) || 1;
-      const votes = { [qn.code]: right }; let rest = 100 - right;
-      others.forEach((o, k) => { const v = k === others.length - 1 ? rest : Math.round((100 - right) * cuts[k] / sum); votes[o] = v; rest -= v; });
-      g.audience = qn.options.map((o, k) => ({ letter: 'ABCD'[k], pct: votes[o] ?? 0, gone: g.removed.includes(o) }));
-    } else {
-      const sure = Math.random() < Math.max(0.35, 0.97 - n * 0.013);
-      const pk = sure ? qn.code : F.shuffle(left.filter(o => o !== qn.code), Math.random)[0] || qn.code;
-      const name = byCode.get(pk).name, letter = 'ABCD'[qn.options.indexOf(pk)];
-      g.friend = sure && n < 30 ? `Oh, that's easy. It's ${letter}, ${name}. I'm sure.` : sure ? `I'm fairly sure it's ${letter}, ${name}.` : `Hmm. Maybe ${letter}, ${name}... but don't hold me to it.`;
-    }
-    drawGame();
   }
 
   $('main').addEventListener('click', e => {
@@ -211,11 +185,8 @@
     else if (t.dataset.next) { nextQuiz(); scrollTo(0, 0); }
     else if (t.dataset.start) newGame();
     else if (!g || g.phase !== 'playing') return;
-    else if (t.dataset.ans && !g.removed.includes(t.dataset.ans)) { g.sel = t.dataset.ans; drawGame(); }
-    else if (t.dataset.final) answer();
-    else if (t.dataset.cancel) { g.sel = null; drawGame(); }
-    else if (t.dataset.life && !g.used[t.dataset.life]) lifeline(t.dataset.life);
-    else if (t.dataset.walk) { g.won = banked(g.i); g.result = 'walked'; finish(); }
+    else if (t.dataset.ans) { g.sel = t.dataset.ans; drawGame(); }
+    else if (t.dataset.enter && g.sel) answer();
   });
   $('head').innerHTML = `<div class="d-head"><div><div class="k">Flags of the World</div>
       <div class="date">${esc(F.today().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>

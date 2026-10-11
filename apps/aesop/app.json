@@ -10,15 +10,17 @@
     "Dylan's Aesop's Fables"
   ],
   "copy": [
-    "fables.js"
+    "fables.js",
+    "all-fables.js"
   ],
   "description": [
     "One of Aesop's fables every day, the same one as on the wall: the whole story, with Milo Winter's color picture from The Aesop for Children (1919), and its moral.",
-    "105 fables, from the Tortoise and the Hare to the Boy Who Cried Wolf, in a shuffled order: all of them before any comes back."
+    "Below it, all 338 of Aesop's fables, numbered: every fable of The Aesop for Children and of George Fyler Townsend's translation, each one once. Search them by title, moral or any word, and tap one to read it."
   ],
   "features": [
     "A new fable every day",
-    "The whole story, and its moral",
+    "All 338 fables, numbered",
+    "Search titles, morals and words",
     "Milo Winter's 1919 pictures",
     "Old-book colors, light or dark"
   ]

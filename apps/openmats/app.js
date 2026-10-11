@@ -1,6 +1,8 @@
 // Dylan's Open Mats on a phone, from the desktop app's mats.js and mapdata.js (copied into desktop/ by the
 // store's build). Top: the title, the key, and a map in four stretches of coast (a phone is too narrow for the whole
-// coast at once), a numbered pin per gym. Below: the Saturday and Sunday papers. Tap a gym for its details.
+// coast at once), a numbered pin per gym. Below: the Saturday and Sunday papers, and every academy north to south.
+// Tap any gym (its number on the map, its line on a paper, or its row in the list) and it's highlighted everywhere,
+// with a sheet: its times, a big Call button, driving directions in Apple Maps, and its Instagram.
 (function () {
   'use strict';
   const D = window.OPEN_MATS || { gyms: [] }, MAPD = window.OPENMATS_MAP;
@@ -8,10 +10,15 @@
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   // Each gym's number is its place north to south, the same as on the desktop.
   const gyms = D.gyms.map((g, i) => ({ ...g, n: i + 1, days: (g.sat?.length ? 1 : 0) + (g.sun?.length ? 2 : 0) }));
-  const dayColor = g => g.days === 3 ? 'var(--wknd)' : g.days === 1 ? 'var(--sat)' : 'var(--sun)';
+  // A gym whose weekend times aren't known yet gets a gray pin, as on the desktop.
+  const dayColor = g => g.days === 3 ? 'var(--wknd)' : g.days === 1 ? 'var(--sat)' : g.days === 2 ? 'var(--sun)' : 'var(--unknown)';
+  const tel = p => 'tel:+1' + String(p).replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
 
   // ?demo (the store's pictures) pretends it's Saturday at 11:15 AM, so a paper shows what's over and what's on.
   const now = Phone.params.has('demo') ? (() => { const d = new Date(); d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7)); d.setHours(11, 15, 0, 0); return d; })() : new Date();
+
+  // The gym that was tapped last: highlighted on the map, the papers and the list (0 = none).
+  let sel = 0;
 
   // ================================================================ The map
   // Four stretches, north to south; each map fits its gyms (and the coast), so the pins have room.
@@ -21,6 +28,7 @@
     { name: 'Broward', from: 25.96, to: 26.30 },
     { name: 'Miami', from: 25.0, to: 25.96 },
   ].map(a => ({ ...a, gyms: gyms.filter(g => g.at[0] >= a.from && g.at[0] < a.to) })).filter(a => a.gyms.length);
+  const areaOf = g => Math.max(0, AREAS.findIndex(a => a.gyms.includes(g)));
   const CITIES = [['Jupiter', 26.934, -80.094], ['West Palm Beach', 26.715, -80.054], ['Wellington', 26.658, -80.24],
     ['Boynton Beach', 26.525, -80.07], ['Delray Beach', 26.461, -80.073], ['Boca Raton', 26.368, -80.11],
     ['Coral Springs', 26.271, -80.27], ['Pompano Beach', 26.238, -80.125], ['Fort Lauderdale', 26.122, -80.137],
@@ -63,11 +71,20 @@
       }
       for (const a of lab) { a.x += (a.px + 13 - a.x) * 0.02; a.y += (a.py - 11 - a.y) * 0.02; a.x = Math.max(12, Math.min(W - 12, a.x)); a.y = Math.max(10, Math.min(H - 10, a.y)); }
     }
+    // The tapped gym is drawn last, so it sits on top of its neighbors.
+    lab.sort((a, b) => (a.g.n === sel) - (b.g.n === sel));
     for (const { px, py, x, y } of lab) svg += `<line class="mline" x1="${px}" y1="${py}" x2="${x}" y2="${y}"/>`;
-    for (const { g, px, py } of lab) svg += `<circle class="mpin" cx="${px}" cy="${py}" r="7" style="fill:${dayColor(g)}"/>`;
+    for (const { g, px, py } of lab) {
+      if (g.n === sel) svg += `<circle class="mring" cx="${px}" cy="${py}" r="13" style="stroke:${dayColor(g)}"/>`;
+      svg += `<circle class="mpin" cx="${px}" cy="${py}" r="7" style="fill:${dayColor(g)}"/>`;
+    }
     for (const { g, x, y } of lab) {
-      const wd = g.n > 9 ? 22 : 17;
-      svg += `<g class="mnum" data-gym="${g.n}"><rect x="${x - wd / 2}" y="${y - 8}" width="${wd}" height="16" rx="8" style="stroke:${dayColor(g)}"/><text x="${x}" y="${y + 4}">${g.n}</text></g>`;
+      const on = g.n === sel, wd = (g.n > 9 ? 22 : 17) + (on ? 8 : 0), h = on ? 22 : 16;
+      // A bigger invisible circle around each number makes it easy to hit with a thumb.
+      svg += `<g class="mnum${on ? ' sel' : ''}" data-gym="${g.n}" role="button" aria-label="${esc(g.name)}">
+        <circle class="hit" cx="${x}" cy="${y}" r="16"/>
+        <rect x="${x - wd / 2}" y="${y - h / 2}" width="${wd}" height="${h}" rx="${h / 2}" style="stroke:${dayColor(g)}${on ? ';fill:' + dayColor(g) : ''}"/>
+        <text x="${x}" y="${y + (on ? 4.5 : 4)}">${g.n}</text></g>`;
     }
     $('map').innerHTML = `<svg viewBox="0 0 ${W} ${H}">${svg}</svg>`;
     $('tabs').innerHTML = AREAS.map((a, i) => `<button class="${i === area ? 'on' : ''}" data-area="${i}">${a.name}</button>`).join('');
@@ -93,7 +110,7 @@
       ${list.map(m => {
         const gi = m.gi || m.g.gi || '', price = m.price || m.g.price, st = state(day, m);
         const tag = price === 'free' ? '<span class="p free">Free</span>' : price ? `<span class="p paid">${esc(price)}</span>` : '';
-        return `<button class="mat ${gi} ${st}" data-gym="${m.g.n}">
+        return `<button class="mat ${gi} ${st}${m.g.n === sel ? ' sel' : ''}" data-gym="${m.g.n}">
           <span class="n" style="background:${dayColor(m.g)}">${m.g.n}</span>
           <span class="t">${fmt(m.from)}&ndash;${fmt(m.to)}${ampm(m.to)}${st === 'now' ? '<em>on now</em>' : ''}</span>
           <span class="g">${esc(m.g.name)}<small>${esc(m.g.city)}</small></span>${tag}</button>`;
@@ -104,39 +121,82 @@
     $('sat').innerHTML = paper('sat', 'Saturday');
     $('sun').innerHTML = paper('sun', 'Sunday');
     const checked = new Date(D.checked + 'T12:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    $('source').innerHTML = `${gyms.length} gyms, from Let's Roll (letsroll.co), checked ${checked}. Times and prices change: check the gym's Instagram before you drive over.`;
+    $('source').innerHTML = `${gyms.length} gyms, from Let's Roll (letsroll.co), checked ${checked}; phone numbers from the gyms' own websites. Times and prices change: call or check the gym's Instagram before you drive over.`;
+  }
+
+  // ================================================================ Every academy, north to south
+  function drawAll() {
+    // Its weekend days; a gym whose weekend times aren't listed says so.
+    const days = g => (g.sat?.length ? '<i class="d sat">Sat</i>' : '') + (g.sun?.length ? '<i class="d sun">Sun</i>' : '') || '<i class="d none">Not listed</i>';
+    $('all').innerHTML = `<div class="dir paper"><i class="pin" style="--base:#6b3aa0"></i>
+      <h2>All academies <span class="count">${gyms.length} gyms</span></h2>
+      <p class="dir-sub">North to south. Tap one to call or drive there.</p>
+      ${AREAS.map(a => `<h3>${a.name}</h3>${a.gyms.map(g => `<button class="row${g.n === sel ? ' sel' : ''}" data-gym="${g.n}">
+          <span class="n" style="background:${dayColor(g)}">${g.n}</span>
+          <span class="g">${esc(g.name)}<small>${esc(g.city)}${g.phone ? ` &middot; ${esc(g.phone)}` : ''}</small></span>
+          <span class="days">${days(g)}</span><span class="chev" aria-hidden="true">&rsaquo;</span></button>`).join('')}`).join('')}
+    </div>`;
+  }
+
+  // Highlights gym n everywhere: its number on the map (switching to its stretch of coast), its paper lines, its row.
+  function select(n) {
+    sel = n;
+    document.querySelectorAll('.mat[data-gym], .row[data-gym]').forEach(el => el.classList.toggle('sel', +el.dataset.gym === n));
+    const g = gyms[n - 1];
+    if (g) area = areaOf(g);
+    drawMap();
   }
 
   // ================================================================ A gym, tapped
-  const sheet = $('sheet');
-  const close = () => { sheet.classList.remove('open'); sheet.setAttribute('aria-hidden', 'true'); };
+  const sheet = $('sheet'), scrim = $('scrim');
+  const close = () => {
+    sheet.classList.remove('open'); scrim.classList.remove('open');
+    sheet.setAttribute('aria-hidden', 'true');
+  };
   sheet.querySelector('.sheet-close').addEventListener('click', close);
+  scrim.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   const GI = { gi: 'Gi', nogi: 'No-gi', both: 'Gi and no-gi' };
+  const ICON = {
+    call: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" fill="currentColor"/></svg>',
+    go: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.7 11.3l-9-9a1 1 0 0 0-1.4 0l-9 9a1 1 0 0 0 0 1.4l9 9a1 1 0 0 0 1.4 0l9-9a1 1 0 0 0 0-1.4zM14 14.5V12h-4v3H8v-4a1 1 0 0 1 1-1h5V7.5l3.5 3.5z" fill="currentColor"/></svg>',
+    ig: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg>',
+  };
   function openGym(n) {
     const g = gyms[n - 1];
     if (!g) return;
+    select(n);
     const when = (day, label) => (g[day] || []).map(m => `<div class="when"><b>${label}</b> ${fmt(m.from)}&ndash;${fmt(m.to)}${ampm(m.to)}${(m.gi || g.gi) ? ` &middot; <span class="${m.gi || g.gi}">${GI[m.gi || g.gi]}</span>` : ''}</div>`).join('');
     const price = g.price === 'free' ? '<span class="p free">Free</span>' : g.price ? esc(g.price) : 'Price not listed';
-    const q = encodeURIComponent(`${g.name}, ${g.street}, ${g.city}, FL`);
+    // Apple Maps, ready to drive to the gym's spot.
+    const drive = `https://maps.apple.com/?daddr=${g.at[0]},${g.at[1]}&dirflg=d`;
     $('gym').innerHTML = `<div class="gym-n" style="background:${dayColor(g)}">${g.n}</div>
       <h2>${esc(g.name)}</h2>
       <p class="addr">${esc(g.street)}, ${esc(g.city)}</p>
       ${when('sat', 'Saturday')}${when('sun', 'Sunday')}
-      <p class="price">${price}</p>
+      ${g.days ? `<p class="price">${price}</p>` : ''}
       ${g.note ? `<p class="gnote">${esc(g.note)}</p>` : ''}
-      <div class="links"><a class="go" href="https://maps.apple.com/?q=${q}&ll=${g.at[0]},${g.at[1]}">Directions</a>
-        ${g.ig ? `<a href="https://instagram.com/${esc(g.ig)}">@${esc(g.ig)}</a>` : ''}</div>`;
-    sheet.classList.add('open');
+      <div class="acts${g.phone ? '' : ' one'}">
+        ${g.phone ? `<a class="act call" href="${tel(g.phone)}">${ICON.call}<span>Call<small>${esc(g.phone)}</small></span></a>` : ''}
+        <a class="act go" href="${drive}">${ICON.go}<span>Directions<small>Apple Maps, driving</small></span></a>
+      </div>
+      ${g.ig ? `<a class="act ig" href="https://instagram.com/${esc(g.ig)}">${ICON.ig}<span>@${esc(g.ig)}</span></a>` : ''}`;
+    sheet.scrollTop = 0;
+    sheet.classList.add('open'); scrim.classList.add('open');
     sheet.setAttribute('aria-hidden', 'false');
   }
 
   document.addEventListener('click', e => {
-    const t = e.target.closest('[data-area]'), gym = e.target.closest('[data-gym]');
+    const t = e.target.closest('[data-area]'), gym = e.target.closest('[data-gym]'), jump = e.target.closest('[data-jump]');
     if (t) { area = +t.dataset.area; drawMap(); }
     else if (gym) openGym(+gym.dataset.gym);
+    else if (jump) { e.preventDefault(); $(jump.dataset.jump).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   });
 
+  $('jump').textContent = `All ${gyms.length} academies`;
+  if (!gyms.some(g => !g.days)) $('key-unknown').remove();
   drawMap();
   drawDays();
+  drawAll();
   setInterval(drawDays, 5 * 60e3);   // crossing off what's over, on the day
 })();

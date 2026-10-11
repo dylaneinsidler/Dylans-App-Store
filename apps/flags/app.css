@@ -66,3 +66,9 @@ html.in-game, html.in-game body { background: #050829; }
 .aud div { width: 44px; text-align: center; font-weight: 700; font-size: 13px; }
 .aud i { display: block; background: linear-gradient(#ffcc3d, #e8860a); border-radius: 4px 4px 0 0; margin-bottom: 4px; }
 .aud span { display: block; color: #ffb43a; }
+
+/* The game without lifelines: Enter, and fifty little marks for right and wrong */
+.final button:disabled { opacity: .35; }
+.marks { display: grid; grid-template-columns: repeat(25, 1fr); gap: 3px; margin: 14px 4px 0; }
+.marks i { height: 8px; border-radius: 2px; background: rgba(255, 255, 255, .15); }
+.marks i.ok { background: #41d97a; } .marks i.no { background: #ff6a6a; } .marks i.now { background: #ffb43a; }

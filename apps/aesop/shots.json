@@ -5,11 +5,23 @@
   "settle": 3000
  },
  {
-  "name": "The moral",
+  "name": "All the fables",
   "url": "",
   "settle": 3000,
-  "scroll": ".moral",
-  "offset": 200
+  "scroll": "#all",
+  "offset": 0
+ },
+ {
+  "name": "A search",
+  "url": "?find=wolf",
+  "settle": 3000,
+  "scroll": "#all",
+  "offset": 0
+ },
+ {
+  "name": "One from the list",
+  "url": "#n=156",
+  "settle": 3000
  },
  {
   "name": "In light",

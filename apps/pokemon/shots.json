@@ -5,6 +5,13 @@
   "settle": 6000
  },
  {
+  "name": "Today's lesson",
+  "url": "",
+  "settle": 5000,
+  "scroll": ".lesson",
+  "offset": 60
+ },
+ {
   "name": "Stats and matchups",
   "url": "",
   "settle": 5000,

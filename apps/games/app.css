@@ -24,11 +24,18 @@ h2.mast { font-size: 34px; }
 .count.out { background: #3c9c4a; }
 .why { font-size: 19px !important; font-weight: 600; line-height: 1.4 !important; }
 .pitch { margin-top: 10px !important; font-size: 15px !important; color: var(--muted) !important; }
-.ps5 .pitch { margin-top: 0 !important; color: var(--ink) !important; }
 .cal { margin-top: 24px; }
 .cal ol { list-style: none; padding: 0; }
-.cal li { display: flex; gap: 14px; align-items: baseline; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+.cal .sub { margin: 2px 0 6px; font-size: 13px; color: var(--muted); }
+.cal li { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
 .cal li + li { margin-top: 0; }
-.cal li b { width: 56px; flex: none; color: var(--ps); font-family: Impact, "Anton", sans-serif; font-weight: 400; font-size: 18px; }
-.cal li.on span { font-weight: 700; }
+.cal li b { width: 56px; flex: none; color: var(--accent); font-family: Impact, "Anton", sans-serif; font-weight: 400; font-size: 18px; white-space: nowrap; }
+.cal li .n { flex: 1; min-width: 0; }
+.cal li.on .n { font-weight: 700; }
+.cal .tags { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding-left: 68px; }
+.tag { padding: 2px 5px 1px; border-radius: 4px; font-style: normal; font-size: 10px; font-weight: 800; line-height: 1.3;
+  letter-spacing: .05em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+.tag-ps { background: var(--ps); }
+.tag-sw { background: #e60012; }
+.tag-indie { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); }
 .credit-line { margin: 18px 16px 30px; font-size: 12px; color: var(--muted); }

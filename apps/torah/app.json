@@ -10,15 +10,17 @@
   "copy": ["wall.js", "wall.css", "config.js", "parshiyot.js", "talmud.js",
     "lessons-genesis.js", "lessons-exodus.js", "lessons-leviticus.js", "lessons-numbers.js", "lessons-deuteronomy.js"],
   "description": [
-    "This week's Torah portion in English and Hebrew: what happens in it, its four main lessons, its haftarah, where it falls among all 54 portions, and the Hebrew year as a wheel with the moon and the holidays coming up.",
-    "Then today: the day's section of the portion, an insight to take into the day, the verse of the day in Hebrew and English, Rashi on it, and a passage of the Talmud that discusses it, each with its full text a tap away."
+    "This week's Torah portion in English and Hebrew: what happens in it, its four main lessons, and its haftarah.",
+    "Then today's section of it: an insight to take into the day, the verse of the day in Hebrew and English, and Rashi on it. Then the Talmud on today's verse: a Mishnah and a passage of the Gemara, each in the original, in English, and in plain English. Every text has a link to read it on Sefaria.",
+    "Last, where the portion falls among all 54, and the Hebrew year as a wheel with the moon and the holidays coming up."
   ],
   "features": [
-    "A section a day: the whole portion in a week",
+    "This week's portion first, then a section a day: the whole portion in a week",
     "Lessons and a daily insight in plain English, written for every portion",
-    "The verse of the day in Hebrew and English",
-    "Rashi and the Talmud on it, with the full text a tap away",
+    "The verse of the day in Hebrew and English, with Rashi on it",
+    "The Talmud on today's verse: a Mishnah and the Gemara, in the original, in English and in plain English",
+    "Read it on Sefaria: a link under every text",
     "The Hebrew date, the year as a wheel, and the next holidays",
-    "Light (old-paper sepia) or dark"
+    "Light or dark"
   ]
 }

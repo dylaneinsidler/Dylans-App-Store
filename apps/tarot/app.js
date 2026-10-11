@@ -8,7 +8,26 @@
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const ALL = D.CARDS.map(c => c.id);
-  const img = (id, small) => `desktop/decks/classic/${small ? 'small/' : ''}${id}.jpg`;
+  // The decks (desktop/decks.js), as on the PC's Deck button. The classic deck has its big pictures; the others come
+  // as their 280 x 480 copies, to keep the app small. The choice is kept on the phone.
+  const DECKS = window.TAROT_DECKS || [{ id: 'classic', name: 'Classic', made: 'London, 1909', sample: 'm01' }];
+  let deck = DECKS.find(x => x.id === (Phone.params.get('deck') || Phone.store.get('tarot.deck', 'classic'))) || DECKS[0];
+  const img = (id, small, dk = deck) => dk.id === 'classic' ? `desktop/decks/classic/${small ? 'small/' : ''}${id}.jpg`
+    : `desktop/decks/${dk.id}/small/${id}.jpg`;
+  // What a card looks like in this deck, its name on the card, and a trick for remembering it (as common.js does).
+  const ROMAN = ['0', 'I', 'II', 'III', 'IIII', 'V', 'VI', 'VII', 'VIII', 'VIIII', 'X', 'XI', 'XII', 'XIII', 'XIIII', 'XV',
+    'XVI', 'XVII', 'XVIII', 'XVIIII', 'XX', 'XXI'];
+  const look = {
+    pic: c => deck.pics ? (deck.pics[c.id] || deck.pips?.[c.id] || (c.major ? c.pic : c.court ? (deck.court ? deck.court(c) : c.pic) : deck.pip(c))) : c.pic,
+    tip: c => {
+      if (deck.tipPrefix && c.major) return deck.tipPrefix + c.tip;
+      if (!deck.tips || c.major && !deck.tips[c.id]) return c.tip;
+      if (c.major) return deck.tips[c.id];
+      const f = D.formula(c);
+      return `${f.rank} = ${f.rankMeans}, ${f.suit} = ${f.suitMeans}: ${c.keys.join(', ')}.`;
+    },
+    localName: c => deck.localName ? (c.major ? deck.names?.[c.id] : deck.localName(c)) || '' : '',
+  };
   const saved = Phone.store.get('tarot.progress', { lessons: {} });
   const save = () => Phone.store.set('tarot.progress', saved);
 
@@ -44,6 +63,7 @@
           ${ctx ? `<div class="eyebrow" style="color:var(--gold)">${esc(ctx)}</div>` : ''}
           <div class="eyebrow">${esc(eyebrow)}</div>
           <h2>${esc(c.name)}${rev ? '<span class="tag">upside down</span>' : ''}</h2>
+          ${look.localName(c) ? `<div class="local">${esc(deck.nameLabel || `In ${deck.lang || 'its own language'}`)}: <i>${esc(look.localName(c))}</i>${c.major && deck.id !== 'classic' ? ` &middot; ${esc((deck.numbers && deck.numbers[c.id]) || ROMAN[c.n])}` : ''}</div>` : ''}
           <div class="keys">${esc((rev ? c.revKeys : c.keys).join(' · '))}</div>
           ${f ? `<div class="formula"><b>${f.rank}</b> = ${esc(f.rankMeans)} + <b>${f.suit}</b> = ${esc(f.suitMeans)}</div>` : ''}
         </div>
@@ -53,8 +73,8 @@
         <div class="keys">${esc(c.keys.join(' · '))}</div>
         <h3>Upside down</h3><p>${esc(cap(c.rev))}.</p>
         <div class="keys">${esc(c.revKeys.join(' · '))}</div>
-        <h3>In the picture</h3><p>${esc(c.pic)}</p>
-        <h3>To remember it</h3><p>${esc(c.tip)}</p>
+        <h3>In the picture${deck.id === 'classic' ? '' : ` <small>(${esc(deck.name)} deck)</small>`}</h3><p>${esc(look.pic(c))}</p>
+        <h3>To remember it</h3><p>${esc(look.tip(c))}</p>
         <h3>Try saying</h3><p>“${esc(rev ? `This one came out upside down, and that points to ${c.rev}.` : c.say)}”</p>
       </div>`);
   }
@@ -154,6 +174,23 @@
   }
   drawChoices();
   drawTable();
+
+  // ---------------------------------------------------------------- The deck picker
+  function drawDecks() {
+    $('decks').innerHTML = DECKS.map(x => `<button class="deck${x.id === deck.id ? ' on' : ''}" data-deck="${x.id}">
+        <img src="${img(x.sample || 'm01', true, x)}" alt="" loading="lazy"><b>${esc(x.name)}</b><span>${esc(x.made || '')}</span></button>`).join('');
+    const on = $('decks').querySelector('.on');   // keep the chosen deck in view
+    if (on) $('decks').scrollLeft = on.offsetLeft - $('decks').offsetLeft - 8;
+    $('deck-about').innerHTML = `${esc(deck.about || '')}${deck.by ? ` <span class="by">${esc(deck.by)}</span>` : ''}`;
+  }
+  $('decks').addEventListener('click', e => {
+    const b = e.target.closest('[data-deck]');
+    if (!b || b.dataset.deck === deck.id) return;
+    deck = DECKS.find(x => x.id === b.dataset.deck) || DECKS[0];
+    Phone.store.set('tarot.deck', deck.id);
+    drawDecks(); drawCotd(saved.cotd === key || Phone.params.has('open')); drawTable(); drawCards();
+  });
+  drawDecks();
 
   // ---------------------------------------------------------------- Lessons
   // The lessons talk about "the left screen" (where the desktop app shows their cards); here the cards

@@ -1,6 +1,7 @@
 [
- { "name": "The cover", "url": "?date=2026-10-10", "settle": 4000 },
- { "name": "Quirky indie", "url": "?date=2026-10-10", "settle": 3000, "scroll": ".indie", "offset": 10 },
- { "name": "Coming to PS5", "url": "?date=2026-10-10", "settle": 3000, "scroll": ".ps5", "offset": 10 },
- { "name": "In light", "url": "?date=2026-10-11&theme=light", "settle": 4000 }
+ { "name": "The cover", "url": "?date=2026-10-11", "settle": 4000 },
+ { "name": "Quirky indie", "url": "?date=2026-10-11", "settle": 3000, "scroll": ".indie", "offset": 10 },
+ { "name": "The PS5 game", "url": "?date=2026-10-11", "settle": 3000, "scroll": ".ps5", "offset": 10 },
+ { "name": "Coming up on PS5 and Switch", "url": "?date=2026-10-11", "settle": 3000, "scroll": ".cal", "offset": 10 },
+ { "name": "In light", "url": "?date=2026-10-12&theme=light", "settle": 4000 }
 ]

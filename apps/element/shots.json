@@ -5,6 +5,13 @@
   "settle": 4000
  },
  {
+  "name": "The periodic table, tap any element",
+  "url": "",
+  "settle": 3000,
+  "scroll": ".ptable",
+  "offset": 120
+ },
+ {
   "name": "Its facts",
   "url": "",
   "settle": 3000,
@@ -12,15 +19,13 @@
   "offset": 80
  },
  {
-  "name": "The periodic table",
-  "url": "",
-  "settle": 3000,
-  "scroll": "#table",
-  "offset": 0
- },
- {
   "name": "In light",
   "url": "?theme=light",
+  "settle": 4000
+ },
+ {
+  "name": "Browse all 118",
+  "url": "#n=79",
   "settle": 4000
  }
 ]

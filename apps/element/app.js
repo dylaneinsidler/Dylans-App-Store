@@ -1,5 +1,7 @@
 // Element of the Day on a phone: the same element as the desktop app on the same day (the same shuffle, from
-// desktop/elements.js), its photo, where you meet it, what it is, its facts, then the periodic table with today's lit.
+// desktop/elements.js): its tile, the periodic table (tap any element), then its photo, where you meet it, what it is
+// and its facts. All 118 can be browsed: Previous / Next (or swipe), a search by name, symbol or number, and
+// "Back to today". #n=26 opens one.
 (function () {
   'use strict';
   const D = window.ELEMENTS, q = Phone.params, html = document.documentElement;
@@ -68,20 +70,30 @@
   }
   addEventListener('resize', fitName);
   if (document.fonts) document.fonts.ready.then(fitName);
+  const picked = () => +((location.hash.match(/n=(\d+)/) || [])[1] || q.get('n') || 0);
   function draw() {
-    const day = today(), e = byN[+q.get('n')] || byN[numberFor(day)], p = place(day);
-    const done = new Set(q.get('n') ? [] : p.order.slice(0, p.k));
+    const day = today(), todays = byN[numberFor(day)], e = byN[picked()] || todays, browsing = e !== todays;
     const prev = byN[numberFor(addDays(day, -1))], next = byN[numberFor(addDays(day, 1))];
     const fam = family(e);
     const photo = e.image && !/no image/i.test(e.imageTitle || '') ? `photos/${e.image.replace(/^images\//, '').replace(/\.\w+$/, '.jpg')}` : '';
     document.getElementById('element').innerHTML = `
-      <div class="d-head"><div><div class="k">Element of the day</div>
+      ${browsing ? '<a class="back-today" href="#">&larr; Back to today\'s element</a>' : ''}
+      <div class="d-head"><div><div class="k">${browsing ? 'Every element' : 'Element of the day'}</div>
         <div class="date">${esc(day.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
         <div class="d-theme"><button data-t="light">Light</button><button data-t="dark">Dark</button></div></div>
       <div class="el-hero">
         <div class="tile" style="--fam:${fam[2]}"><span class="n">${e.number}</span><span class="m">${e.mass.toFixed(e.mass < 100 ? 3 : 2)}</span>
           <span class="s serif">${esc(e.symbol)}</span><span class="w">${esc(e.name)}</span></div>
         <div class="d-title"><h1 class="serif">${esc(e.name)}</h1><div class="sub"><i class="fam" style="--fam:${fam[2]}"></i>${esc(kind(e))} &middot; number ${e.number}</div></div>
+      </div>
+      <div class="d-card"><h2>The periodic table</h2>
+        <div class="ptable">${D.elements.map(el => `<a class="c${el.number === e.number ? ' today' : ''}" href="#n=${el.number}" style="grid-column:${el.x};grid-row:${el.y + (el.y >= 8 ? 1 : 0)};--fam:${family(el)[2]}" title="${esc(el.name)}">${esc(el.symbol)}</a>`).join('')}<div class="gap"></div></div>
+        <div class="keys">${FAMILIES.map(f => `<span><i style="--fam:${f[2]}"></i>${f[1]}</span>`).join('')}</div>
+      </div>
+      <div class="browse">
+        <a class="pill" href="#n=${e.number === 1 ? 118 : e.number - 1}">&lsaquo; ${esc(byN[e.number === 1 ? 118 : e.number - 1].name)}</a>
+        <input class="find" placeholder="Find: name, symbol or number" spellcheck="false" autocomplete="off">
+        <a class="pill" href="#n=${e.number === 118 ? 1 : e.number + 1}">${esc(byN[e.number === 118 ? 1 : e.number + 1].name)} &rsaquo;</a>
       </div>
       ${photo ? `<div class="d-pic"><img src="${photo}" alt="" loading="lazy"><div class="credit">${esc(e.imageTitle || '')}${e.imageCredit ? ` &middot; ${esc(e.imageCredit)}` : ''}</div></div>` : ''}
       ${e.uses ? `<div class="d-card"><h2>Where you meet it</h2><p class="big">${esc(e.uses)}</p></div>` : ''}
@@ -93,23 +105,33 @@
         <div>${/^\d|BC|AD|ancient|prehistor/i.test(e.discovered || '') ? 'Found' : 'Found by'}<b>${esc(e.discovered || '–')}</b></div><div>Electrons<b>${esc((e.shells || []).join(' · '))}</b></div>
         ${e.appearance ? `<div style="grid-column:span 2">Looks like<b>${esc(e.appearance.charAt(0).toUpperCase() + e.appearance.slice(1))}</b></div>` : ''}
       </div></div>
-      <div class="d-next"><div>Yesterday<b>${esc(prev.name)}</b></div><div style="text-align:right">Tomorrow<b>${esc(next.name)}</b></div></div>`;
-    const cells = D.elements.map(el => {
-      const cls = el.number === e.number ? 'today' : done.has(el.number) ? 'done' : '';
-      return `<div class="c ${cls}" style="grid-column:${el.x};grid-row:${el.y + (el.y >= 8 ? 1 : 0)};--fam:${family(el)[2]}" title="${esc(el.name)}">${esc(el.symbol)}</div>`;
-    }).join('');
-    document.getElementById('table').innerHTML = `
-      <div class="screen-name">The periodic table</div>
-      <div class="d-card"><h2>${q.get('n') ? `Number ${e.number}` : `${p.k + 1} of 118 this round`} &middot; every one before any repeats</h2>
-        <div class="ptable">${cells}<div class="gap"></div></div>
-        <div class="keys">${FAMILIES.map(f => `<span><i style="--fam:${f[2]}"></i>${f[1]}</span>`).join('')}</div>
-        <div class="keys" style="margin-top:8px"><span><i class="todaykey"></i>Today</span><span><i class="donekey"></i>Already shown</span></div>
-      </div>`;
+      ${browsing ? '' : `<div class="d-next"><div>Yesterday<b>${esc(prev.name)}</b></div><div style="text-align:right">Tomorrow<b>${esc(next.name)}</b></div></div>`}`;
+    document.getElementById('table').innerHTML = '';
+    const find = document.querySelector('.find');
+    find.onkeydown = ev => {
+      if (ev.key !== 'Enter') return;
+      const s = find.value.trim().toLowerCase();
+      const hit = D.elements.find(x => String(x.number) === s || x.symbol.toLowerCase() === s || x.name.toLowerCase() === s)
+        || D.elements.find(x => x.name.toLowerCase().startsWith(s));
+      if (hit) location.hash = 'n=' + hit.number; else Phone.toast('No element by that name');
+    };
     document.querySelector('.d-theme').onclick = ev => { const b = ev.target.closest('button'); if (b) setTheme(b.dataset.t); };
     setTheme(theme);
     fitName();
   }
   draw();
+  addEventListener('hashchange', () => { draw(); scrollTo(0, 0); });
+  // Swipe left or right on the element to go to the next or previous one.
+  let sx = null, sy = null;
+  addEventListener('touchstart', ev => { sx = ev.touches[0].clientX; sy = ev.touches[0].clientY; }, { passive: true });
+  addEventListener('touchend', ev => {
+    if (sx == null || ev.target.closest('.ptable, input')) return;
+    const dx = ev.changedTouches[0].clientX - sx, dy = ev.changedTouches[0].clientY - sy;
+    sx = null;
+    if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    const n = (byN[picked()] || byN[numberFor(today())]).number;
+    location.hash = 'n=' + (dx < 0 ? (n === 118 ? 1 : n + 1) : (n === 1 ? 118 : n - 1));
+  });
   // A new day while it's open (a phone keeps a page around): show the new element.
   let shown = today().toDateString();
   setInterval(() => { if (today().toDateString() !== shown) { shown = today().toDateString(); draw(); } }, 60e3);

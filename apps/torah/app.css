@@ -1,5 +1,6 @@
 /* Dylan's Daily Torah on a phone. The colors, fonts and pieces are the desktop app's (desktop/wall.css);
-   this lays its two screens out in one column: today first, then the week. */
+   this lays its two screens out in one column: this week's portion, then today's section of it, then the
+   Talmud on today's verse (the phone's own, app.js), and last where we are in the Torah and the year. */
 :root { --bg: var(--page); --card: var(--panel); --line: var(--rule); --muted: var(--sepia); --accent: var(--sepia); }
 html, body { width: auto; height: auto; overflow: visible; font-size: 17px; }
 body { background: var(--page); color: var(--ink); user-select: auto; font-family: var(--serif); }
@@ -88,7 +89,7 @@ h1 { font-family: var(--serif); font-weight: 400; font-size: 44px; line-height: 
 .foot { font-family: var(--sans); font-size: 14px; margin-top: 16px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .foot b { font-weight: 500; }
 
-aside { margin: 24px -16px 0; padding: 20px 16px; background: var(--panel); border-top: 1px solid var(--rule); }
+.week-main aside { margin: 0 -16px; padding: 20px 16px; background: var(--panel); border-top: 1px solid var(--rule); }
 .progress { margin-top: 10px; display: flex; align-items: center; gap: 12px; font-family: var(--sans); font-size: 13px; }
 .progress .track { flex: 1; height: 7px; background: var(--tint); border-radius: 4px; overflow: hidden; }
 .progress .track div { height: 100%; background: var(--sepia); border-radius: 4px; min-width: 4px; }
@@ -116,12 +117,59 @@ aside { margin: 24px -16px 0; padding: 20px 16px; background: var(--panel); bord
 .hol .in { font-family: var(--sans); font-size: 13px; font-weight: 500; white-space: nowrap; }
 .hol .what { font-family: var(--sans); font-size: 13px; margin-top: 2px; }
 
+/* ---- Read it on Sefaria: a link under every text (app.js) ---- */
+.links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 12px; }
+.links .more-btn { margin-top: 0; }
+a.sefaria, .links .more-btn { display: inline-flex; align-items: center; min-height: 38px; padding: 6px 14px; border: 1px solid var(--rule);
+  border-radius: 999px; background: var(--panel); color: var(--ink); text-decoration: none; font-family: var(--sans); font-size: 14px; letter-spacing: .02em; }
+a.sefaria .arrow, .links .more-btn::after { margin-left: 6px; }
+.links .more-btn::after { content: '↗'; }
+.links .more-btn[hidden] { display: none; }
+a.sefaria:active, .links .more-btn:active { background: var(--mark); }
+.reading-head .links { margin-top: 10px; }
+
+/* ---- The Talmud on today's verse: a Mishnah and a passage of the Gemara (app.js) ---- */
+/* The desktop's own Talmud passage is in the Gemara below, with more of it. */
+.reading .block.talmud { display: none; }
+.talmud-today { padding-top: 34px; }
+.tt-head { border-top: 4px solid var(--sepia); padding-top: 10px; }
+.tt-intro { font-size: 17px; line-height: 1.45; margin-top: 8px; }
+.tt-intro b { font-weight: 600; }
+.block.source { margin-top: 26px; border-top-color: var(--sepia-3); }
+.part { margin-top: 16px; }
+.part-label { font-family: var(--sans); font-size: 11.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.part-label span { text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: 6px; color: var(--sepia-2); font-size: 13px; }
+.part-text { margin-top: 5px; }
+.part-text p + p { margin-top: .5em; }
+.part-text.he { font-size: 23px; line-height: 1.65; text-align: right; }
+.part-text.en { font-size: 18px; line-height: 1.45; }
+.part-text.en i { font-style: italic; }
+/* The plain English, set apart like the desktop's "Try this today" */
+.part.plain { padding: 10px 12px 12px; background: var(--panel); border: 1px solid var(--rule-light); border-top: 3px solid var(--sepia-2); }
+.part.plain .part-text.en { font-size: 18.5px; }
+.credit { font-family: var(--sans); font-size: 12px; margin-top: 10px; color: var(--sepia-2); }
+/* A long part shows its start, fading out, and "Show all" */
+.part-text.clamped { overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent); mask-image: linear-gradient(to bottom, #000 62%, transparent); }
+.part-text.clamped.open { -webkit-mask-image: none; mask-image: none; }
+.show-all { display: inline-block; margin-top: 4px; padding: 8px 0; border: 0; background: none; cursor: pointer; color: var(--ink);
+  font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; }
+.source .offline { display: block; margin-top: 10px; }
+
+/* ---- Where we are in the Torah and the year: last on the phone ---- */
+#where-screen { margin-top: 30px; }
+
 .phone-footer { margin-top: 0; padding: 18px 0 0; }
 :root[data-theme="dark"] .phone-store img { filter: none; }
 
-/* An iPad held sideways: the two screens side by side, like the two monitors */
+/* An iPad held sideways: two columns, like the two monitors: the week (and where we are) on the left,
+   today and the Talmud on the right */
 @media (min-width: 960px) and (orientation: landscape) {
   .screen + .screen { margin-top: 0; }
+  .screens { grid-template-rows: auto 1fr auto; }
+  #week-screen { grid-column: 1; grid-row: 1; }
+  #where-screen { grid-column: 1; grid-row: 2; margin-top: 24px; }
+  #today-screen { grid-column: 2; grid-row: 1 / span 2; }
+  .screens > .phone-footer { grid-row: 3; }
   .books { grid-template-columns: repeat(3, 1fr); }
   .year-row { flex-direction: row; align-items: flex-start; }
 }

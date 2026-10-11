@@ -140,7 +140,8 @@ window.StarWall = (() => {
     }
     if (e.key === 't' || e.key === 'T') setTheme(theme === 'dark' ? 'light' : 'dark');
   });
-  document.addEventListener('click', () => window.close());
+  // Only a click on empty space closes; buttons and other controls do their own job (close.js).
+  DylanClose.onEmptyClick();
 
   // A new day brings a new reading, so reload just after midnight.
   const today = new Date().toDateString();

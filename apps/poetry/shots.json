@@ -1,26 +1,33 @@
 [
- {
-  "name": "Today's poem",
-  "url": "",
-  "settle": 3000
- },
- {
-  "name": "What it means",
-  "url": "",
-  "settle": 3000,
-  "scroll": ".d-card",
-  "offset": 20
- },
- {
-  "name": "Where it was written",
-  "url": "",
-  "settle": 3000,
-  "scroll": ".d-map",
-  "offset": 60
- },
- {
-  "name": "In light",
-  "url": "?theme=light",
-  "settle": 3000
- }
+  {
+    "name": "Today's poem",
+    "url": "",
+    "settle": 3000
+  },
+  {
+    "name": "What it means",
+    "url": "",
+    "settle": 3000,
+    "scroll": ".d-card",
+    "offset": 20
+  },
+  {
+    "name": "Where it was written",
+    "url": "",
+    "settle": 3000,
+    "scroll": ".d-map",
+    "offset": 60
+  },
+  {
+    "name": "In light",
+    "url": "?theme=light",
+    "settle": 3000
+  },
+  {
+    "name": "Earlier poems",
+    "url": "?date=2026-10-20",
+    "settle": 3000,
+    "scroll": ".earlier",
+    "offset": 80
+  }
 ]

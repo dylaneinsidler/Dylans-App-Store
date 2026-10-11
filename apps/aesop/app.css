@@ -1,4 +1,5 @@
-/* Aesop's Fables on a phone: old-book colors, the picture like a plate in the 1919 book, the story, the moral. */
+/* Aesop's Fables on a phone: old-book colors, the picture like a plate in the 1919 book, the story, the moral; then all
+   the fables, numbered, with a search. */
 :root[data-theme="light"] { --bg: #f3ead8; --card: #fbf6ea; --ink: #2b2118; --muted: #7d6b55; --line: rgba(60, 40, 10, .14); --accent: #9a5b1e; }
 :root[data-theme="dark"] { --bg: #16120d; --card: #1f1a13; --ink: #efe4cf; --muted: #a8977c; --line: rgba(255, 240, 210, .1); --accent: #d9a35a; }
 .plate { padding: 10px; background: var(--card); } .plate img { border-radius: 6px; }
@@ -6,3 +7,41 @@
 .story { margin: 18px 16px 0; font-size: 19px; line-height: 1.55; color: var(--ink); }
 .story p { margin: 0 0 14px; } .story p:first-child::first-letter { font-size: 3.1em; float: left; line-height: .9; padding: 4px 8px 0 0; color: var(--accent); }
 .moral .big { font-style: italic; }
+
+/* The fable's number, where it's from, the way back, and the fables either side */
+.d-title .num { margin-top: 10px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.to-all { margin-top: 8px; padding: 0; border: 0; background: none; font-size: 14px; font-weight: 600; color: var(--accent); }
+.back { display: block; margin: 8px 16px 2px; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--card);
+  text-decoration: none; color: var(--ink); }
+.back span { display: block; font-size: 13px; font-weight: 600; color: var(--accent); }
+.back b { display: block; margin-top: 2px; font: 500 16px "Iowan Old Style", "Palatino", Georgia, serif; }
+.book { margin: 12px 16px 0; font-size: 13px; color: var(--muted); text-align: center; }
+.steps { display: flex; justify-content: space-between; gap: 12px; margin: 16px 16px 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.steps a { flex: 1; max-width: 50%; text-decoration: none; color: var(--ink); font: 500 15px/1.3 "Iowan Old Style", "Palatino", Georgia, serif; }
+.steps a.r { text-align: right; }
+.steps small { display: block; margin-bottom: 2px; font: 700 11px system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* All the fables */
+#all .screen-name { margin-left: 16px; margin-right: 16px; }
+.find { display: block; width: calc(100% - 32px); margin: 0 16px; height: 44px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--card); color: var(--ink); padding: 0 18px; font-size: 16px; outline: none; -webkit-appearance: none; appearance: none; }
+.find:focus { border-color: var(--accent); }
+.found { margin: 10px 16px 4px; font-size: 13px; color: var(--muted); }
+.rows { margin: 0 16px; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--card); }
+.rows:empty { display: none; }
+.row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; text-decoration: none; color: var(--ink); min-height: 64px; }
+.row + .row { border-top: 1px solid var(--line); }
+.row .no { flex: none; width: 34px; text-align: right; font: 600 15px system-ui, sans-serif; color: var(--muted); font-variant-numeric: tabular-nums; }
+.row .what { flex: 1; min-width: 0; }
+.row b { font: 600 17px/1.25 "Iowan Old Style", "Palatino", Georgia, serif; }
+.row em { margin-left: 8px; padding: 2px 8px; border-radius: 999px; font: 700 10px system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase;
+  font-style: normal; vertical-align: 2px; background: var(--accent); color: var(--bg); }
+.row small { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 3px;
+  font-size: 13px; line-height: 1.35; color: var(--muted); }
+.row img, .row i { flex: none; width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
+.row i { display: none; }
+.row.today .no, .row.open .no { color: var(--accent); }
+.row.open { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: inherit; border-radius: 3px; padding: 0 1px; }
+.books { margin: 14px 16px 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+@media (min-width: 960px) and (orientation: landscape) { .to-all { display: none; } }  /* the list is beside the fable */

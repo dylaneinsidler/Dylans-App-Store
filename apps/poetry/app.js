@@ -1,6 +1,7 @@
 // Daily Poetry on a phone: the same poem as the desktop app on the same day (desktop/poems.js: one a day from start, in
-// its order), the whole poem, then what it says, why it has lasted, a line to keep, old words, the poet, where it was
-// written (desktop/mapdata.js), and the week's poems. (The photo of the day stays on the wall: it's fetched by the PC.)
+// its order), the whole poem, then what it says, why it has lasted, old words, the poet, where it was written
+// (desktop/mapdata.js), and every earlier poem to read again (never the ones still to come: they're a surprise).
+// #id=<poem> (or ?id=) opens an earlier one. (The photo of the day stays on the wall: it's fetched by the PC.)
 (function () {
   'use strict';
   const D = window.POEMS, q = Phone.params, html = document.documentElement;
@@ -42,14 +43,18 @@
   }
 
   function draw() {
-    const day = today(), id = q.get('id'), p = id && D.poems[id] ? { id, ...D.poems[id] } : poemFor(day);
+    const day = today(), hashId = (location.hash.match(/id=([\w-]+)/) || [])[1], id = hashId || q.get('id');
+    const p = id && D.poems[id] ? { id, ...D.poems[id] } : poemFor(day), browsing = p.id !== poemFor(day).id;
+    // Every poem shown before today, from the first day, newest first.
+    const [sy, sm, sd] = D.start.split('-').map(Number), first = new Date(sy, sm - 1, sd), earlier = [];
+    for (let d = new Date(day.getFullYear(), day.getMonth(), day.getDate() - 1); d >= first; d = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1)) earlier.push({ d, q: poemFor(d) });
     const stanzas = [];
     let cur = [];
     for (const l of p.lines) { if (l.trim() === '') { if (cur.length) stanzas.push(cur); cur = []; } else cur.push(l); }
     if (cur.length) stanzas.push(cur);
-    const week = [-3, -2, -1, 0, 1, 2, 3].map(off => { const d = new Date(day.getFullYear(), day.getMonth(), day.getDate() + off); return { d, off, q: poemFor(d) }; });
     document.getElementById('poem').innerHTML = `
-      <div class="d-head"><div><div class="k">Poem of the day</div>
+      ${browsing ? `<a class="back-today" href="#">&larr; Today's poem</a>` : ''}
+      <div class="d-head"><div><div class="k">${browsing ? 'An earlier poem' : 'Poem of the day'}</div>
         <div class="date">${esc(day.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
         <div class="d-theme"><button data-t="light">Light</button><button data-t="dark">Dark</button></div></div>
       <div class="d-title"><h1 class="serif">${esc(p.title)}</h1><div class="sub">${esc(p.author)}</div>
@@ -57,16 +62,17 @@
       <div class="poem serif">${stanzas.map(s => `<p>${s.map(esc).join('<br>')}</p>`).join('')}</div>
       <div class="d-card"><h2>In a sentence</h2><p class="big">${esc(p.sentence)}</p></div>
       <div class="d-card"><h2>Why it has lasted</h2><p>${esc(p.why)}</p></div>
-      ${p.keep ? `<div class="d-card"><h2>A line to keep</h2><p class="big keep">&ldquo;${esc(p.keep)}&rdquo;</p></div>` : ''}
       ${p.words && p.words.length ? `<div class="d-card"><h2>Old words</h2><div class="words">${p.words.map(([w, m]) => `<div><b class="serif">${esc(w)}</b><span>${esc(m)}</span></div>`).join('')}</div></div>` : ''}
       <div class="d-card"><h2>The poet</h2><p>${esc(p.poet)}</p></div>
       <div class="d-card"><h2>Where it was written</h2><div class="d-map">${mapSvg(p, 600, 340)}</div><p style="margin-top:8px">${esc(p.place)}</p></div>
-      <div class="d-card"><h2>This week</h2><div class="week">${week.map(w => `<div class="${w.off === 0 ? 'now' : ''}"><span>${w.off === 0 ? 'Today' : esc(w.d.toLocaleDateString('en-US', { weekday: 'short' }))}</span>
-        <b class="serif">${esc(w.q.title)}</b><small>${esc(w.q.author)}</small></div>`).join('')}</div></div>`;
+      <div class="d-card"><h2>Earlier poems</h2>${earlier.length ? `<div class="earlier">${earlier.map(e => `<a href="#id=${esc(e.q.id)}" class="${e.q.id === p.id ? 'on' : ''}">
+        <span>${esc(e.d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }))}</span>
+        <b class="serif">${esc(e.q.title)}</b><small>${esc(e.q.author)}</small></a>`).join('')}</div>` : '<p>Tomorrow, today\'s poem will be here.</p>'}</div>`;
     document.querySelector('.d-theme').onclick = ev => { const b = ev.target.closest('button'); if (b) setTheme(b.dataset.t); };
     setTheme(theme);
   }
   draw();
+  addEventListener('hashchange', () => { draw(); scrollTo(0, 0); });
   let shown = today().toDateString();
   setInterval(() => { if (today().toDateString() !== shown) { shown = today().toDateString(); draw(); } }, 60e3);
 })();

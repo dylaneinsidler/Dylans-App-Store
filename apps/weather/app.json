@@ -7,16 +7,17 @@
   "background": "#0a0e13",
   "internet": "Needed (for the forecast and radar)",
   "source": ["Dylan's Weather App", "Weather Wall"],
-  "copy": [],
+  "copy": ["rain.js"],
   "description": [
-    "A live, animated weather radar in a soft Windy-style look, with the last hour of rain playing on a loop. Below it: the weather right now, any alerts, the chance of rain hour by hour for the next three days, and the 7-day forecast.",
+    "A live, animated weather radar in a soft Windy-style look, with the last hour of rain playing on a loop. Below it: the weather right now, any alerts, the chance of rain hour by hour for the next three days (colored like the radar, with when to expect rain each day), and the 7-day forecast.",
     "It starts on Fort Lauderdale. Tap the place's name to pick yours, or use where you are. Your place stays on your phone. US places only: the forecast and radar come from the National Weather Service."
   ],
   "features": [
     "The last hour of radar, animated, recolored from light rain to severe storms",
     "Right now: temperature, feels like, humidity and wind",
     "Weather alerts for your area",
-    "Chance of rain hour by hour, three days ahead",
+    "Chance of rain hour by hour, three days ahead, colored like the radar: purple and blue for a small chance up to red and magenta",
+    "When to expect rain each day, in words: \"Rain likely 2 – 5 PM\"",
     "The 7-day forecast",
     "No account, no ads: straight from the National Weather Service"
   ]

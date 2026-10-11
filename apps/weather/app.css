@@ -69,12 +69,16 @@
 
 .today h3 { margin: 0 0 6px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .today p { font-size: 15px; line-height: 1.45; margin: 0 0 16px; }
-#rainRows { display: flex; flex-direction: column; gap: 6px; }
-.rrow, .rhours { display: grid; grid-template-columns: 46px 1fr; gap: 8px; }
-.rrow { height: 64px; }
-.rlabel { align-self: center; font-size: 14px; font-weight: 600; line-height: 1.1; }
+#rainRows { display: flex; flex-direction: column; gap: 10px; }
+.rrow, .rhours { display: grid; grid-template-columns: 46px 1fr; gap: 0 8px; }
+/* Each day: its "when to expect rain" line (if any) above its curve, the day's name beside the curve. */
+.rrow { grid-template-rows: auto 64px; }
+.rlabel { grid-column: 1; grid-row: 2; align-self: center; font-size: 14px; font-weight: 600; line-height: 1.1; }
 .rlabel small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
-.rplot { position: relative; border-bottom: 1px solid var(--line); }
+.rnote { grid-column: 2; grid-row: 1; margin: 2px 0 10px; font-size: 12px; font-weight: 600; line-height: 1.3; }
+.rnote.wet { color: #6cb6ff; }
+.rnote span { font-weight: 400; color: var(--muted); }
+.rplot { grid-column: 2; grid-row: 2; position: relative; border-bottom: 1px solid var(--line); }
 .rplot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .rplot .line { fill: none; stroke: var(--rain); stroke-width: 2.2; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .rplot .now { stroke: var(--ink); stroke-width: 1.5; stroke-dasharray: 3 4; opacity: .6; vector-effect: non-scaling-stroke; }

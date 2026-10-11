@@ -1,6 +1,7 @@
 [
-  { "name": "Today's insight", "url": "", "settle": 7000 },
-  { "name": "The verse, Rashi and the Talmud", "url": "", "settle": 7000, "scroll": ".reading", "offset": 0 },
-  { "name": "This week's portion", "url": "", "settle": 7000, "scroll": "#week-screen", "offset": 0 },
+  { "name": "This week's portion", "url": "", "settle": 9000 },
+  { "name": "Today's section: the verse and Rashi", "url": "", "settle": 7000, "scroll": ".reading", "offset": 0 },
+  { "name": "The Talmud on today's verse: the Mishnah", "url": "", "settle": 7000, "scroll": ".tt-head", "offset": 14 },
+  { "name": "The Gemara: the original, word for word, and in plain English", "url": "", "settle": 7000, "scroll": "#gemara", "offset": 10 },
   { "name": "Where we are in the year, in dark", "url": "?theme=dark", "settle": 7000, "scroll": ".year", "offset": 10 }
 ]

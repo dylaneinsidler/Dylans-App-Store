@@ -1,6 +1,7 @@
 // Dylan's Weather App on a phone: the desktop app's two screens (radar, forecast), one above the other.
 // The radar animation and recoloring, and the forecast, work the way the desktop pages do
-// (Weather Wall's radar.html and forecast.html).
+// (Weather Wall's radar.html and forecast.html). Each day's "when to expect rain" line comes from the
+// desktop app's own rain.js (copied into desktop\ by the store's build).
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
@@ -47,7 +48,9 @@
     const c = i > 0 && rampColor(i * 0.5 - 32.5);
     if (c && !RECOLOR.has(parseInt(hex, 16))) RECOLOR.set(parseInt(hex, 16), c);
   });
-  $('ramp').style.background = 'linear-gradient(90deg,' + RAMP.slice(1).map(s => `rgb(${s[1]},${s[2]},${s[3]})`).join(',') + ')';
+  // The rain colors from drizzle to severe: the radar legend, and the hourly rain curves below.
+  const RAIN_COLORS = RAMP.slice(1).map(s => `rgb(${s[1]},${s[2]},${s[3]})`);
+  $('ramp').style.background = 'linear-gradient(90deg,' + RAIN_COLORS.join(',') + ')';
 
   // One layer for the whole animation: each map tile keeps every frame of the loop (recolored, off
   // screen) and is redrawn as a blend of the two frames on either side of the current moment.
@@ -269,6 +272,7 @@
   }
 
   // Three calendar days of hourly rain chance, one smooth curve per day; the label is the day's peak.
+  // Above each curve, in small type: when to expect rain that day (rain.js, the same words as the PC).
   function renderHourly(periods) {
     const raw = periods.map(q => q.probabilityOfPrecipitation?.value ?? 0);
     const weights = [1, 2, 3, 2, 1];
@@ -288,7 +292,7 @@
       const name = key === dateKey(now) ? 'Today' : day.toLocaleDateString([], { weekday: 'short' });
       const hours = [];
       for (let h = 0; h < 24; h++) { const d = byHour.get(`${key}T${String(h).padStart(2, '0')}`); if (d) hours.push({ h, ...d }); }
-      let plot = '';
+      let plot = '', note = '';
       if (hours.length) {
         const pts = hours.map(d => [X(d.h), Y(d.eased)]);
         const line = curvePath(pts);
@@ -301,17 +305,23 @@
         const left = Math.min(92, Math.max(8, X(peak.h) / 24 * 100));
         const nowX = now.getHours() + now.getMinutes() / 60;
         const nowLine = key === dateKey(now) ? `<line class="now" x1="${nowX}" x2="${nowX}" y1="0" y2="100"/>` : '';
+        // Colored by height like the radar (RAIN_COLORS): low chances purple and blue, then green, yellow,
+        // orange, red, magenta at 100%. The gradient runs from 0% (y 100) to 100% (y 20) whatever the curve's shape.
+        const stops = RAIN_COLORS.map((c, k) => `<stop offset="${k / (RAIN_COLORS.length - 1)}" stop-color="${c}"/>`).join('');
         plot = `<svg viewBox="0 0 24 100" preserveAspectRatio="none">
-          <defs><linearGradient id="rainFill${i}" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" style="stop-color:var(--rain);stop-opacity:.75"/><stop offset="1" style="stop-color:var(--rain);stop-opacity:.12"/>
-          </linearGradient></defs>
-          <path d="${area}" fill="url(#rainFill${i})"/><path class="line" d="${line}"/>${nowLine}</svg>
+          <defs><linearGradient id="rainRamp${i}" gradientUnits="userSpaceOnUse" x1="0" y1="${Y(0)}" x2="0" y2="${Y(100)}">${stops}</linearGradient></defs>
+          <path d="${area}" fill="url(#rainRamp${i})" fill-opacity=".45"/><path class="line" d="${line}" style="stroke:url(#rainRamp${i})"/>${nowLine}</svg>
           <div class="rpeak" style="left:${left}%;top:${Y(peak.eased)}%">${max}%</div>`;
+        const from = key === dateKey(now) ? now : day;
+        const w = window.Rain && Rain.words(periods, from, new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1), '');
+        // On a narrow phone the line can wrap: never between a time and its AM / PM.
+        const words = s => esc(s).replace(/(\d)[ \u202f]([AP]M)/g, '$1\u00a0$2');
+        if (w) note = `<div class="rnote${w.wet ? ' wet' : ''}">${words(w.line)}<span> · ${words(w.sub)}</span></div>`;
       }
-      return `<div class="rrow"><div class="rlabel">${name}<small>${day.toLocaleDateString([], { month: 'short', day: 'numeric' })}</small></div><div class="rplot">${plot}</div></div>`;
+      return `<div class="rrow"><div class="rlabel">${name}<small>${day.toLocaleDateString([], { month: 'short', day: 'numeric' })}</small></div>${note}<div class="rplot">${plot}</div></div>`;
     }).join('');
     $('rainHours').innerHTML = '<div></div><div class="ticks">' +
-      [0, 6, 12, 18].map(h => `<span style="left:${X(h) / 24 * 100}%">${label(h)}</span>`).join('') + '</div>';
+      [0, 3, 6, 9, 12, 15, 18, 21].map(h => `<span style="left:${X(h) / 24 * 100}%">${label(h)}</span>`).join('') + '</div>';
   }
 
   function renderNow(obs, hourly) {

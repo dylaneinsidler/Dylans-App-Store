@@ -10,3 +10,14 @@
 .week div { display: grid; grid-template-columns: 52px 1fr; column-gap: 10px; font-size: 14px; color: var(--muted); }
 .week div b { font-size: 17px; color: var(--ink); font-weight: 500; } .week div small { grid-column: 2; font-size: 13px; }
 .week div.now span { color: var(--accent); font-weight: 700; }
+
+/* Earlier poems: tap one to read it again */
+.earlier { display: flex; flex-direction: column; }
+.earlier a { display: grid; grid-template-columns: 92px 1fr; grid-template-rows: auto auto; column-gap: 12px; padding: 10px 0;
+  border-top: 1px solid var(--line, rgba(127,127,127,.2)); color: inherit; text-decoration: none; }
+.earlier a:first-child { border-top: 0; }
+.earlier a span { grid-row: span 2; font-size: 13px; opacity: .65; padding-top: 3px; }
+.earlier a b { font-size: 18px; font-weight: 500; }
+.earlier a small { font-size: 13px; opacity: .65; }
+.earlier a.on b { color: var(--accent); }
+.back-today { display: inline-block; margin: 0 0 10px; font-size: 15px; color: var(--accent); text-decoration: none; }

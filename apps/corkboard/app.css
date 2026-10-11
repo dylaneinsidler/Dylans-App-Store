@@ -27,22 +27,37 @@ body { background: #8a6038 url("desktop/cork.svg") repeat; background-size: 360p
 .title-card { padding: 22px 18px 16px; text-align: center; margin-top: 8px; }
 .title-card h1 { font-family: var(--serif); font-size: 26px; margin: 0; }
 .title-card p { font-family: var(--hand); font-size: 22px; margin: 2px 0 0; color: var(--ink-2); }
+.title-card .hint { font: 500 12.5px var(--sans); color: var(--ink-3); margin-top: 8px; padding-top: 8px; border-top: 1px solid #0000001a; }
 
 /* The map */
 .map-card { margin-top: 18px; padding: 16px 12px 10px; background: #f4efe2; }
-#map svg { display: block; width: 100%; height: auto; }
-#map .land { fill: #f1ead6; stroke: #b9ae94; stroke-width: 1; }
-#map .sea { fill: #cfe0e6; }
-#map .road.minor { fill: none; stroke: #d9cdb2; stroke-width: .8; }
-#map .road.major { fill: none; stroke: #c9a26b; stroke-width: 1.6; }
-#map .city { font: 600 9.5px var(--sans); fill: #5d5546; }
-#map .city-dot { fill: #5d5546; }
-#map .water-name { font: italic 10px var(--serif); fill: #5f8794; text-anchor: middle; }
-#map .mpin { stroke: #fff; stroke-width: 1.6; }
-#map .mlabel { font: 700 9px var(--sans); fill: #2a2620; paint-order: stroke; stroke: #f4efe2; stroke-width: 3px; }
-#orlando { font-size: 13px; color: var(--ink-2); margin-top: 6px; line-height: 1.4; }
+.mapbox svg { display: block; width: 100%; height: auto; }
+.mapbox .land { fill: #f1ead6; stroke: #b9ae94; stroke-width: 1; }
+.mapbox .sea { fill: #cfe0e6; }
+.mapbox .road.minor { fill: none; stroke: #d9cdb2; stroke-width: .8; }
+.mapbox .road.major { fill: none; stroke: #c9a26b; stroke-width: 1.6; }
+.mapbox .city { font: 600 9.5px var(--sans); fill: #5d5546; }
+.mapbox .city-dot { fill: #5d5546; }
+.mapbox .water-name { font: italic 10px var(--serif); fill: #5f8794; text-anchor: middle; }
+.mapbox .mpin { stroke: #fff; stroke-width: 1.6; transform-box: fill-box; transform-origin: center; transition: transform .2s; }
+.mapbox .hit { fill: transparent; }
+.mapbox .pressing .mpin { transform: scale(1.5); transition: transform .45s; }
+.mapbox .held .mpin { stroke: #2a2620; }
+.mapbox .mlabel { font: 700 9px var(--sans); fill: #2a2620; paint-order: stroke; stroke: #f4efe2; stroke-width: 3px; }
+.mapbox .leader { stroke: #2a2620; stroke-opacity: .45; stroke-width: .7; }
+.mapbox .water { fill: #cfe0e6; stroke: #9fb3b5; stroke-width: .8; }
+.mapbox .close-box { fill: none; stroke: #2a2620b3; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.mapbox .close-name { font: 600 10.5px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin: 10px 0 4px; }
+.mapbox, #orlando { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+/* The key to the pins' colors (the kinds of events), under the map */
+#map-key { display: flex; flex-wrap: wrap; gap: 3px 14px; margin-top: 8px; padding-top: 7px; border-top: 1px solid #0000001a; font: 500 12.5px var(--sans); color: var(--ink-2); }
+#map-key:empty { display: none; }
+#map-key span { white-space: nowrap; }
+.kdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--kc); box-shadow: 0 0 0 1.5px #fff; margin: 0 5px 0 1px; vertical-align: 0; }
+#orlando { font-size: 13px; color: var(--ink-2); margin-top: 6px; line-height: 1.5; }
 #orlando:empty { display: none; }
 #orlando b { color: var(--ink); }
+.orl-ev { white-space: nowrap; }
 .credit { font-size: 10px; color: var(--ink-3); text-align: right; margin-top: 4px; }
 
 /* A month's page */
@@ -59,8 +74,41 @@ body { background: #8a6038 url("desktop/cork.svg") repeat; background-size: 360p
 .item .d small { display: block; font: 600 9px var(--sans); letter-spacing: .08em; color: var(--ink-3); text-transform: uppercase; }
 .item .w { font-size: 15.5px; font-weight: 600; }
 .item .x { font-size: 12.5px; color: var(--ink-3); margin-top: 1px; }
-.item .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--mc); margin-right: 6px; vertical-align: 1px; }
+.item .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--kc, var(--mc)); margin-right: 6px; vertical-align: 1px; }
+/* A Local Event's date is written in its kind's ink, like the desktop's (the key is under the map). */
+.item[data-ev] .d { color: var(--kc); }
 .item.past .w, .item.past .x { text-decoration: line-through; color: var(--ink-3); }
+.item.past .d, .item.past .d small { color: #a8a194; }
+.item.past .dot { opacity: .4; }
+
+/* Holding an event (or its name under the map): a highlighter pen goes across it in a light wash of its
+   kind's ink, in the time it takes (HOLD in app.js); let go and it goes onto the calendar. No text
+   selecting or iPhone menu meanwhile. */
+.item[data-ev], .orl-ev { position: relative; isolation: isolate; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; }
+.item[data-ev]::after, .orl-ev::after {
+  content: ''; position: absolute; z-index: -1; left: -6px; right: -8px; top: 1px; bottom: 1px; border-radius: 7px 3px 8px 4px;
+  background: #fff3a0; background: color-mix(in srgb, var(--kc) 22%, #fffbe6); box-shadow: inset 4px 0 0 var(--kc);
+  transform: scaleX(0); transform-origin: left; transition: transform .15s ease-out; pointer-events: none;
+}
+.orl-ev::after { left: -3px; right: -3px; top: -1px; bottom: -1px; box-shadow: none; }
+.item.pressing::after, .orl-ev.pressing::after { transform: none; transition: transform .45s linear; }
+.item.held::after, .orl-ev.held::after { background: color-mix(in srgb, var(--kc) 30%, #fffbe6); }
+.item.held .w { color: var(--ink); }
+/* The little note at the bottom ("Adding to your calendar") stays on one line. */
+.phone-toast { white-space: nowrap; }
+
+/* Farmers markets this week: a small index card under the map */
+.markets { margin-top: 20px; padding: 18px 16px 10px; background-color: #f8f4e3; }
+.markets h3 { margin: 0; text-align: center; font: 700 19px var(--serif); }
+.mk-sub { text-align: center; font: 600 10px var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); margin: 3px 0 8px; }
+.mk { display: grid; grid-template-columns: 62px 1fr; gap: 8px; padding: 6px 0; border-top: 1px solid #3c321e1a; line-height: 1.3; }
+.mk[hidden] { display: none; }
+.mk-d { font: 700 10.5px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: #2b7a3d; padding-top: 2px; }
+.mk b { display: block; font-size: 14.5px; font-weight: 600; }
+.mk small { display: block; font-size: 12.5px; color: var(--ink-3); }
+.mk.today .mk-d, .mk.today b { color: #b8242b; }
+.mk.none { display: block; font-family: var(--hand); font-size: 20px; color: var(--ink-2); text-align: center; }
+.mk-more { display: block; width: 100%; border: 0; border-top: 1px solid #3c321e1a; background: none; padding: 9px 0 4px; font: 600 13px var(--sans); color: #2b7a3d; }
 .tag { font: 700 10px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 999px; padding: 1px 7px; margin-left: 6px; white-space: nowrap; vertical-align: 1px; }
 .tag.today { background: var(--accent); color: #fff; }
 .del { float: right; border: 0; background: none; color: var(--ink-3); font-size: 14px; padding: 0 0 0 8px; }

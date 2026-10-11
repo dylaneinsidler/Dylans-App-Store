@@ -49,6 +49,7 @@
       `<a class="fm${x.n === p.n ? ' me' : ''}" href="#n=${x.n}"><img src="${sprite(x.n)}" alt=""><span>${esc(x.name)}</span>${i && x.how ? `<small>${esc(x.how)}</small>` : ''}</a>`).join('')}</div>`).join('')
       : `<p>${esc(p.name)} doesn&rsquo;t evolve.</p>`;
     const c = TYPE[p.types[0]] || '#888';
+    const lesson = (window.POKEMON_LESSONS || {})[p.n];   // a lesson from this Pokemon (desktop/lessons.js)
     document.getElementById('entry').innerHTML = `
       <div class="d-head"><div><div class="k">${browsing ? 'The Pok&eacute;dex' : 'Pok&eacute;mon of the day'}</div>
         <div class="date">${esc(day.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
@@ -58,6 +59,8 @@
       <div class="d-title"><div class="meta">No. ${String(p.n).padStart(4, '0')} &middot; Generation ${ROMAN[p.gen] || p.gen} &middot; ${esc(p.region || '')}</div>
         <h1 class="serif">${esc(p.name)}</h1><div class="sub">${esc(p.genus || '')}${p.jp ? ` &middot; ${esc(p.jp)}` : ''}</div>
         <div class="types">${p.types.map(chip).join('')}</div></div>
+      ${lesson ? `<div class="d-card lesson"><h2>${browsing ? `${esc(p.name)}&rsquo;s lesson` : 'Today&rsquo;s lesson'}</h2><p class="lt serif">${esc(lesson.title)}</p>
+        <p>${esc(lesson.lesson)}</p><p class="try"><b>Try today</b> ${esc(lesson.try)}</p></div>` : ''}
       ${(p.dex || []).length ? `<div class="d-card"><h2>The Pok&eacute;dex says</h2>${p.dex.slice(0, 3).map(d => `<p class="dex">&ldquo;${esc(d.text)}&rdquo;<small>Pok&eacute;mon ${esc(d.game)}</small></p>`).join('')}</div>` : ''}
       <div class="d-card"><h2>Base stats &middot; total ${p.stats.reduce((a, b) => a + b, 0)}</h2>${p.stats.map((v, i) =>
         `<div class="stat"><span>${names[i]}</span><b>${v}</b><i><em style="width:${Math.min(100, v / 1.8)}%;background:${c}"></em></i></div>`).join('')}</div>
@@ -68,7 +71,7 @@
         <div>Weight<b>${p.weight} kg (${Math.round(p.weight * 2.20462)} lb)</b></div>
         ${p.habitat ? `<div>Lives in<b>${esc(p.habitat)}</b></div>` : ''}<div>Color<b>${esc(cap(p.color || ''))}</b></div>
         <div style="grid-column:span 2">Abilities<b>${esc((p.abilities || []).join(', '))}</b></div></div></div>
-      ${browsing ? '' : `<div class="d-card who"><img src="${art(next.n)}" alt=""><div><h2>Tomorrow</h2><p class="big">Who&rsquo;s that Pok&eacute;mon?</p></div></div>`}`;
+`;
     document.querySelector('.d-theme').onclick = ev => { const b = ev.target.closest('button'); if (b) setTheme(b.dataset.t); };
     setTheme(theme);
   }

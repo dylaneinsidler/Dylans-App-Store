@@ -1,9 +1,10 @@
-// Game Informer on a phone: the same issue as the desktop app on the same day (desktop/games.js, shuffled exactly like
-// the desktop's informer.js, without the games in desktop/config.js `played`): the Switch metroidvania cover story, the
-// quirky indie of the day, a big PS5 game on the way with its countdown, and the next PS5 release dates.
+// Game Informer on a phone: the same issue as the desktop app on the same day (desktop/games.js, picked exactly like
+// the desktop's informer.js, without the games in desktop/config.js `played`): the Switch metroidvania cover story and
+// the quirky indie of the day (both out in the last three months), a big PS5 game (new, or on the way with its
+// countdown), and what's coming up on PS5 and Switch, big games and indies.
 (function () {
   'use strict';
-  const G = window.GAMES || { metroidvania: [], indie: [], ps5: [] }, cfg = window.GAME_CONFIG || {};
+  const G = window.GAMES || { metroidvania: [], indie: [], ps5: [], coming: [] }, cfg = window.GAME_CONFIG || {};
   const q = Phone.params, html = document.documentElement, DAY = 864e5;
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -31,17 +32,44 @@
     return a;
   }
   const played = new Set((cfg.played || []).map(n => n.toLowerCase()));
-  function ofTheDay(kind, salt, index) {
-    const list = G[kind].filter(g => !played.has(g.name.toLowerCase()));
-    if (!list.length) return null;
-    const n = list.length, round = Math.floor(index / n), k = ((index % n) + n) % n;
-    return shuffled(list, round * 7919 + salt)[k];
-  }
   const iso = g => /^\d{4}-\d\d-\d\d$/.test(g.date || '');
-  function ps5List(day) {
-    return G.ps5.filter(g => !iso(g) || (ymd(g.date) - day) / DAY >= -30)
-      .map((g, i) => ({ g, key: iso(g) ? ymd(g.date).getTime() : 4e12 + i }))
-      .sort((a, b) => a.key - b.key).map(x => x.g);
+  const daysTo = (s, d) => Math.round((ymd(s) - d) / DAY);   // from day d to the date s (below 0: already past)
+  const RECENT = 90, SOON = 183, FEW = 3;
+  const start = ymd(window.GAMES_START || '2026-10-10');
+  const dayAt = i => new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+
+  // The games a day can pick from. The cover and the indie: out in the 90 days up to that day (never ones still to
+  // come). The PS5 feature: out in those 90 days, or coming in the next six months. If fewer than three are left, the
+  // newest ones (for PS5, the next ones coming) fill in.
+  function pool(kind, d) {
+    const all = (G[kind] || []).filter(g => !played.has(g.name.toLowerCase()));
+    const out = all.filter(g => iso(g) && daysTo(g.date, d) <= 0);
+    const newest = out.slice().sort((a, b) => b.date.localeCompare(a.date));
+    let list;
+    if (kind === 'ps5') {
+      const next = all.filter(g => (iso(g) ? daysTo(g.date, d) : g.until ? daysTo(g.until, d) : 1e9) > 0)
+        .sort((a, b) => (a.sort || '').localeCompare(b.sort || ''));
+      list = all.filter(g => iso(g) ? daysTo(g.date, d) > -RECENT && daysTo(g.date, d) <= SOON
+        : !!g.until && daysTo(g.until, d) > 0 && daysTo(g.until, d) <= SOON);
+      for (const g of next.concat(newest)) if (list.length < FEW && !list.includes(g)) list.push(g);
+    } else {
+      list = out.filter(g => daysTo(g.date, d) > -RECENT);
+      if (list.length < FEW) list = newest.slice(0, FEW);
+      if (!list.length) list = all.slice(0, FEW);
+    }
+    return list;
+  }
+  const pickFrom = (list, salt, i) => {
+    const n = list.length, round = Math.floor(i / n), k = ((i % n) + n) % n;
+    return { list: shuffled(list, round * 7919 + salt), k };
+  };
+  function ofTheDay(kind, salt, index) {
+    const list = pool(kind, dayAt(index));
+    if (!list.length) return null;
+    const { list: order, k } = pickFrom(list, salt, index);
+    // A new round, or a game turning three months old, reshuffles the list: never the same game two days running.
+    const before = pool(kind, dayAt(index - 1)), y = before.length && pickFrom(before, salt, index - 1);
+    return y && order.length > 1 && y.list[y.k] === order[k] ? order[(k + 1) % order.length] : order[k];
   }
   function when(g, day) {
     if (!iso(g)) return { date: g.date, count: '' };
@@ -49,17 +77,24 @@
     return { date: d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
       count: n > 1 ? `in ${n} days` : n === 1 ? 'tomorrow' : n === 0 ? 'out today' : 'out now', out: n <= 0 };
   }
+  // What's coming to PS5 and Switch (big games and indies), soonest first.
+  const comingUp = (day, n) => (G.coming || []).filter(g => iso(g) ? daysTo(g.date, day) >= 0 : !g.until || daysTo(g.until, day) >= 0).slice(0, n);
+  const shortDate = (g, day) => !iso(g) ? g.date : daysTo(g.date, day) === 0 ? 'Today'
+    : ymd(g.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
   // The phone's pictures are smaller copies in photos/ (tools/phone-photos.py), named like the desktop's images/.
   const photo = g => g.img ? g.img.replace(/^images\//, 'photos/') : '';
-  const byline = g => [g.dev, g.year].filter(Boolean).map(esc).join(' &middot; ') + (g.meta ? ` &middot; <span class="meta">${g.meta}</span>` : '');
+  const outOn = g => iso(g) ? 'Out ' + ymd(g.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : g.year;
+  const byline = g => [g.dev, outOn(g), (g.platforms || []).join(', ')].filter(Boolean).map(esc).join(' &middot; ') + (g.meta ? ` &middot; <span class="meta">${g.meta}</span>` : '');
+  const tags = g => (g.platforms || []).map(p => `<i class="tag ${p === 'PS5' ? 'tag-ps' : 'tag-sw'}">${esc(p)}</i>`).join('') +
+    (g.kind === 'indie' ? '<i class="tag tag-indie">Indie</i>' : '');
   const pic = (g, extra = '') => `<div class="d-pic gpic${g.box ? ' boxed' : ''}">${g.img ? `<img src="${esc(photo(g))}" alt="" loading="lazy">` : `<div class="noimg">${esc(g.name)}</div>`}${extra}</div>`;
 
   function draw() {
-    const day = today(), index = Math.round((day - ymd(window.GAMES_START || '2026-10-10')) / DAY);
+    const day = today(), index = Math.round((day - start) / DAY);
     const mv = ofTheDay('metroidvania', 1, index), indie = ofTheDay('indie', 2, index), next = ofTheDay('metroidvania', 1, index + 1);
-    const up = ps5List(day), ps5 = up[((index % up.length) + up.length) % up.length], w = ps5 ? when(ps5, day) : null;
-    const cal = up.filter(g => iso(g) && (ymd(g.date) - day) / DAY >= 0).slice(0, 5);
+    const ps5 = ofTheDay('ps5', 3, index), w = ps5 ? when(ps5, day) : null;
+    const cal = comingUp(day, 12);
     document.getElementById('issue').innerHTML = `
       <div class="d-head"><div><div class="k">Dylan’s Game Informer</div>
         <div class="date">Issue ${index + 1} &middot; ${esc(day.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
@@ -75,13 +110,13 @@
         <div class="d-card"><p class="why">${esc(indie.why)}</p>${indie.pitch ? `<p class="pitch">${esc(indie.pitch)}</p>` : ''}</div>
       </section>` : ''}
       ${ps5 ? `<section class="ps5">
-        <div class="d-title"><span class="kick ps">${w.out ? 'Just out on PS5' : 'Coming to PS5'}</span><h2 class="mast">${esc(ps5.name)}</h2>
+        <div class="d-title"><span class="kick ps">${w.out ? 'New on PS5' : 'Coming to PS5'}</span><h2 class="mast">${esc(ps5.name)}</h2>
           <div class="by">${esc(w.date)}${ps5.dev ? ` &middot; ${esc(ps5.dev)}` : ''}</div></div>
         ${pic(ps5, w.count ? `<div class="count${w.out ? ' out' : ''}">${esc(w.count)}</div>` : '')}
-        ${ps5.about || ps5.pitch ? `<div class="d-card"><p class="pitch">${esc(ps5.about || ps5.pitch)}</p></div>` : ''}
+        ${ps5.why || ps5.about || ps5.pitch ? `<div class="d-card">${ps5.why ? `<p class="why">${esc(ps5.why)}</p>` : ''}${ps5.about || ps5.pitch ? `<p class="pitch">${esc(ps5.about || ps5.pitch)}</p>` : ''}</div>` : ''}
       </section>` : ''}
-      <div class="d-card cal"><h2>Coming up on PS5</h2>
-        <ol>${cal.map(g => `<li class="${g === ps5 ? 'on' : ''}"><b>${esc(ymd(g.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }))}</b><span>${esc(g.name)}</span></li>`).join('')}</ol></div>
+      <div class="d-card cal"><h2>Coming up on PS5 and Switch</h2><p class="sub">Big games and indies, soonest first</p>
+        <ol>${cal.map(g => `<li class="${ps5 && g.slug === ps5.slug ? 'on' : ''}"><b>${esc(shortDate(g, day))}</b><span class="n">${esc(g.name)}</span><span class="tags">${tags(g)}</span></li>`).join('')}</ol></div>
       ${next ? `<div class="d-next"><div>Tomorrow’s cover<b>${esc(next.name)}</b></div></div>` : ''}
       <p class="credit-line">Screenshots from Steam; cover art and descriptions from Wikipedia.</p>`;
     document.querySelector('.d-theme').onclick = ev => { const b = ev.target.closest('button'); if (b) setTheme(b.dataset.t); };

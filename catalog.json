@@ -36,7 +36,7 @@
         "apps/ukulele/shots/3.jpg",
         "apps/ukulele/shots/4.jpg"
       ],
-      "version": "1.1"
+      "version": "1.3"
     },
     {
       "id": "bassoon",
@@ -66,7 +66,7 @@
         "apps/bassoon/shots/3.jpg",
         "apps/bassoon/shots/4.jpg"
       ],
-      "version": "1.0"
+      "version": "1.2"
     },
     {
       "id": "poetry",
@@ -94,9 +94,10 @@
         "apps/poetry/shots/1.jpg",
         "apps/poetry/shots/2.jpg",
         "apps/poetry/shots/3.jpg",
-        "apps/poetry/shots/4.jpg"
+        "apps/poetry/shots/4.jpg",
+        "apps/poetry/shots/5.jpg"
       ],
-      "version": "1.1"
+      "version": "1.4"
     },
     {
       "id": "weather",
@@ -105,14 +106,15 @@
       "subtitle": "Live radar and the forecast, at a glance",
       "category": "Every Day",
       "description": [
-        "A live, animated weather radar in a soft Windy-style look, with the last hour of rain playing on a loop. Below it: the weather right now, any alerts, the chance of rain hour by hour for the next three days, and the 7-day forecast.",
+        "A live, animated weather radar in a soft Windy-style look, with the last hour of rain playing on a loop. Below it: the weather right now, any alerts, the chance of rain hour by hour for the next three days (colored like the radar, with when to expect rain each day), and the 7-day forecast.",
         "It starts on Fort Lauderdale. Tap the place's name to pick yours, or use where you are. Your place stays on your phone. US places only: the forecast and radar come from the National Weather Service."
       ],
       "features": [
         "The last hour of radar, animated, recolored from light rain to severe storms",
         "Right now: temperature, feels like, humidity and wind",
         "Weather alerts for your area",
-        "Chance of rain hour by hour, three days ahead",
+        "Chance of rain hour by hour, three days ahead, colored like the radar: purple and blue for a small chance up to red and magenta",
+        "When to expect rain each day, in words: \"Rain likely 2 – 5 PM\"",
         "The 7-day forecast",
         "No account, no ads: straight from the National Weather Service"
       ],
@@ -126,7 +128,7 @@
         "apps/weather/shots/2.jpg",
         "apps/weather/shots/3.jpg"
       ],
-      "version": "1.3"
+      "version": "1.5"
     },
     {
       "id": "torah",
@@ -135,16 +137,18 @@
       "subtitle": "This week's portion, a section a day",
       "category": "Learn",
       "description": [
-        "This week's Torah portion in English and Hebrew: what happens in it, its four main lessons, its haftarah, where it falls among all 54 portions, and the Hebrew year as a wheel with the moon and the holidays coming up.",
-        "Then today: the day's section of the portion, an insight to take into the day, the verse of the day in Hebrew and English, Rashi on it, and a passage of the Talmud that discusses it, each with its full text a tap away."
+        "This week's Torah portion in English and Hebrew: what happens in it, its four main lessons, and its haftarah.",
+        "Then today's section of it: an insight to take into the day, the verse of the day in Hebrew and English, and Rashi on it. Then the Talmud on today's verse: a Mishnah and a passage of the Gemara, each in the original, in English, and in plain English. Every text has a link to read it on Sefaria.",
+        "Last, where the portion falls among all 54, and the Hebrew year as a wheel with the moon and the holidays coming up."
       ],
       "features": [
-        "A section a day: the whole portion in a week",
+        "This week's portion first, then a section a day: the whole portion in a week",
         "Lessons and a daily insight in plain English, written for every portion",
-        "The verse of the day in Hebrew and English",
-        "Rashi and the Talmud on it, with the full text a tap away",
+        "The verse of the day in Hebrew and English, with Rashi on it",
+        "The Talmud on today's verse: a Mishnah and the Gemara, in the original, in English and in plain English",
+        "Read it on Sefaria: a link under every text",
         "The Hebrew date, the year as a wheel, and the next holidays",
-        "Light (old-paper sepia) or dark"
+        "Light or dark"
       ],
       "internet": "Needed the first time each day (for the texts)",
       "color": "#F3E8CF",
@@ -155,9 +159,10 @@
         "apps/torah/shots/1.jpg",
         "apps/torah/shots/2.jpg",
         "apps/torah/shots/3.jpg",
-        "apps/torah/shots/4.jpg"
+        "apps/torah/shots/4.jpg",
+        "apps/torah/shots/5.jpg"
       ],
-      "version": "1.9"
+      "version": "1.11"
     },
     {
       "id": "costar",
@@ -190,7 +195,7 @@
         "apps/costar/shots/3.jpg",
         "apps/costar/shots/4.jpg"
       ],
-      "version": "1.5"
+      "version": "1.7"
     },
     {
       "id": "element",
@@ -218,9 +223,10 @@
         "apps/element/shots/1.jpg",
         "apps/element/shots/2.jpg",
         "apps/element/shots/3.jpg",
-        "apps/element/shots/4.jpg"
+        "apps/element/shots/4.jpg",
+        "apps/element/shots/5.jpg"
       ],
-      "version": "1.2"
+      "version": "1.6"
     },
     {
       "id": "tarot",
@@ -229,10 +235,11 @@
       "subtitle": "Learn to read tarot, in plain English",
       "category": "Learn",
       "description": [
-        "A tarot teacher in your pocket, with the classic 1909 Rider-Waite-Smith deck. Draw a card of the day, lay out a reading and see it read the way a teacher would: each card in its spot, what stands out across the table, famous pairs, and the story put together.",
+        "A tarot teacher in your pocket, with seven decks to choose from: the classic 1909 Rider-Waite-Smith deck, old French and Italian decks, and the Sola Busca of 1491, the oldest complete tarot in the world. Draw a card of the day, lay out a reading and see it read the way a teacher would: each card in its spot, what stands out across the table, famous pairs, and the story put together.",
         "Twelve short lessons take you from the very basics to reading for someone else, and every one of the 78 cards is explained in plain English: what it means right side up and upside down, what's in the picture, and a trick for remembering it."
       ],
       "features": [
+        "Seven decks to choose from, from 1491 to 1909",
         "A card of the day",
         "Readings with six spreads, from one card to the Celtic Cross, read aloud like a teacher would",
         "Love, work, money or decision questions",
@@ -250,9 +257,11 @@
         "apps/tarot/shots/2.jpg",
         "apps/tarot/shots/3.jpg",
         "apps/tarot/shots/4.jpg",
-        "apps/tarot/shots/5.jpg"
+        "apps/tarot/shots/5.jpg",
+        "apps/tarot/shots/6.jpg",
+        "apps/tarot/shots/7.jpg"
       ],
-      "version": "1.1"
+      "version": "1.3"
     },
     {
       "id": "animal",
@@ -281,7 +290,7 @@
         "apps/animal/shots/2.jpg",
         "apps/animal/shots/3.jpg"
       ],
-      "version": "1.0"
+      "version": "1.2"
     },
     {
       "id": "corkboard",
@@ -290,12 +299,15 @@
       "subtitle": "South Florida events, and your own reminders",
       "category": "Every Day",
       "description": [
-        "A cork board with pages torn off notepads, one page per month. The first board is things to do around South Florida: Greater Fort Lauderdale's big yearly events (the boat show, Winterfest, Tortuga, the air show and more), the Las Olas art fairs, Art Basel, the Delray Affair, Halloween Horror Nights and IBJJF jiu-jitsu tournaments, with a map showing where each one is.",
+        "A cork board with pages torn off notepads, one page per month. The first board is things to do around South Florida: Greater Fort Lauderdale's big yearly events (the boat show, Winterfest, Tortuga, the air show and more), the Las Olas art fairs, Art Basel, the Delray Affair, nights out, Halloween Horror Nights and IBJJF jiu-jitsu tournaments, with a map showing where each one is and the farmers markets of the week.",
+        "Hold an event for a moment and let go to add it to your calendar.",
         "The second board is yours: add your appointments, reminders and birthdays, and they land on the right month's page. They stay on your phone."
       ],
       "features": [
         "South Florida's big events, a page per month",
-        "A map with a pin for each one, in its month's color",
+        "A map with a pin for each one, colored by its kind, with a key",
+        "Hold an event to add it to your calendar",
+        "The farmers markets of the next 7 days",
         "Countdowns for anything coming up this week",
         "Your own appointments, reminders and birthdays",
         "Your reminders stay on your phone",
@@ -309,9 +321,10 @@
       "shots": [
         "apps/corkboard/shots/1.jpg",
         "apps/corkboard/shots/2.jpg",
-        "apps/corkboard/shots/3.jpg"
+        "apps/corkboard/shots/3.jpg",
+        "apps/corkboard/shots/4.jpg"
       ],
-      "version": "1.12"
+      "version": "1.17"
     },
     {
       "id": "aesop",
@@ -321,11 +334,12 @@
       "category": "Learn",
       "description": [
         "One of Aesop's fables every day, the same one as on the wall: the whole story, with Milo Winter's color picture from The Aesop for Children (1919), and its moral.",
-        "105 fables, from the Tortoise and the Hare to the Boy Who Cried Wolf, in a shuffled order: all of them before any comes back."
+        "Below it, all 338 of Aesop's fables, numbered: every fable of The Aesop for Children and of George Fyler Townsend's translation, each one once. Search them by title, moral or any word, and tap one to read it."
       ],
       "features": [
         "A new fable every day",
-        "The whole story, and its moral",
+        "All 338 fables, numbered",
+        "Search titles, morals and words",
         "Milo Winter's 1919 pictures",
         "Old-book colors, light or dark"
       ],
@@ -337,9 +351,11 @@
       "shots": [
         "apps/aesop/shots/1.jpg",
         "apps/aesop/shots/2.jpg",
-        "apps/aesop/shots/3.jpg"
+        "apps/aesop/shots/3.jpg",
+        "apps/aesop/shots/4.jpg",
+        "apps/aesop/shots/5.jpg"
       ],
-      "version": "1.0"
+      "version": "1.3"
     },
     {
       "id": "artshow",
@@ -363,7 +379,7 @@
       "url": "https://dylaneinsidler.github.io/World-Art-Show/",
       "external": true,
       "shots": [],
-      "version": "2.6"
+      "version": "2.9"
     },
     {
       "id": "openmats",
@@ -373,7 +389,7 @@
       "category": "Every Day",
       "description": [
         "Every weekend jiu-jitsu open mat from Jupiter down to Miami and out west, on a cork board: a map with a numbered pin for each gym, and a Saturday paper and a Sunday paper listing every open mat by time.",
-        "Gi open mats are in blue, no-gi in red, both in purple, and the free ones get a green FREE stamp. On the day, what's over is crossed off and what's on now turns red. Tap any gym for its address, its times, directions and its Instagram."
+        "Gi open mats are in blue, no-gi in red, both in purple, and the free ones get a green FREE stamp. On the day, what's over is crossed off and what's on now turns red. Every academy is also in one list, north to south. Tap any gym and it's highlighted, with its address, its times, a big Call button, driving directions in Apple Maps and its Instagram."
       ],
       "features": [
         "Saturday and Sunday open mats, by time",
@@ -381,7 +397,9 @@
         "Gi in blue, no-gi in red, both in purple",
         "Free open mats stamped FREE",
         "On the day: what's over is crossed off, what's on now is in red",
-        "Tap a gym for directions and its Instagram",
+        "All the academies in one list, north to south",
+        "Tap a gym to call it or drive there (Apple Maps)",
+        "The gym you tapped stays highlighted on the map and the papers",
         "Works without internet"
       ],
       "internet": "Not needed",
@@ -393,9 +411,10 @@
         "apps/openmats/shots/1.jpg",
         "apps/openmats/shots/2.jpg",
         "apps/openmats/shots/3.jpg",
-        "apps/openmats/shots/4.jpg"
+        "apps/openmats/shots/4.jpg",
+        "apps/openmats/shots/5.jpg"
       ],
-      "version": "1.3"
+      "version": "1.8"
     },
     {
       "id": "pokemon",
@@ -404,11 +423,12 @@
       "subtitle": "A Pokémon a day, and the whole Pokédex",
       "category": "Learn",
       "description": [
-        "A new Pokémon every day, the same one as on the wall: its official art, what the Pokédex says about it in three games, its base stats, what it's weak to and resists, its evolution family, and tomorrow's as a silhouette: who's that Pokémon?",
+        "A new Pokémon every day, the same one as on the wall: its official art, a short life lesson it teaches with one small thing to try today, what the Pokédex says about it in three games, its base stats, what it's weak to and resists, and its evolution family.",
         "Below it, the whole Pokédex: all 1,025 Pokémon from Kanto to Paldea as the games' pixel sprites. Find one by name or number, or tap any of them to see its entry."
       ],
       "features": [
         "A new Pokémon every day",
+        "A lesson from it, and something to try today",
         "Its Pokédex entries, stats and matchups",
         "Its evolution family, to tap through",
         "The whole Pokédex: 1,025 Pokémon, nine regions",
@@ -423,9 +443,10 @@
         "apps/pokemon/shots/1.jpg",
         "apps/pokemon/shots/2.jpg",
         "apps/pokemon/shots/3.jpg",
-        "apps/pokemon/shots/4.jpg"
+        "apps/pokemon/shots/4.jpg",
+        "apps/pokemon/shots/5.jpg"
       ],
-      "version": "1.2"
+      "version": "1.5"
     },
     {
       "id": "flags",
@@ -435,13 +456,13 @@
       "category": "Learn",
       "description": [
         "All 195 flags of the world: the flag of the day, every flag by continent (tap one for its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
-        "Then the 50-flag game, Who Wants to Be a Millionaire style: pick the country, A, B, C or D, and climb the money ladder to $1,000,000, with 50:50, Ask the audience and Phone a friend."
+        "Then the 50-flag game: pick the country (A, B, C or D) and press Enter; right turns green, wrong turns red and shows the right one, and you play all fifty flags for your score out of 50."
       ],
       "features": [
         "The flag of the day",
         "Every flag by continent, with a map",
         "A quiz that remembers what you know",
-        "The 50-flag Millionaire game",
+        "The 50-flag game: pick, Enter, score out of 50",
         "Light or dark"
       ],
       "internet": "Not needed",
@@ -455,7 +476,7 @@
         "apps/flags/shots/3.jpg",
         "apps/flags/shots/4.jpg"
       ],
-      "version": "1.0"
+      "version": "1.2"
     },
     {
       "id": "games",
@@ -464,14 +485,14 @@
       "subtitle": "A game magazine every day",
       "category": "Every Day",
       "description": [
-        "A new issue every day, the same one as on the PC: the cover story is a Switch metroidvania (58 of them, from Hollow Knight to Nine Sols), with a big screenshot, why it's worth playing and the store's pitch.",
-        "Inside: a quirky indie game of the day, a big PS5 game on the way with a countdown to its release, and the next PS5 release dates."
+        "A new issue every day, the same one as on the PC: the cover story is a Switch metroidvania from the last three months, with a big screenshot, why it's worth playing and the store's pitch.",
+        "Inside: a quirky indie game of the day (also from the last three months), a big PS5 game that's new or on the way with a countdown, and what's coming up on PS5 and Switch, big games and indies."
       ],
       "features": [
-        "A Switch metroidvania every day",
+        "A new Switch metroidvania every day",
         "A quirky indie game every day",
-        "Big PS5 games on the way, with a countdown",
-        "The next PS5 release dates",
+        "Big PS5 games, new or on the way, with a countdown",
+        "Coming up on PS5 and Switch, big and indie",
         "Light or dark"
       ],
       "internet": "Not needed",
@@ -483,9 +504,10 @@
         "apps/games/shots/1.jpg",
         "apps/games/shots/2.jpg",
         "apps/games/shots/3.jpg",
-        "apps/games/shots/4.jpg"
+        "apps/games/shots/4.jpg",
+        "apps/games/shots/5.jpg"
       ],
-      "version": "1.0"
+      "version": "1.3"
     },
     {
       "id": "bjj",
@@ -516,8 +538,8 @@
         "apps/bjj/shots/3.jpg",
         "apps/bjj/shots/4.jpg"
       ],
-      "version": "1.1"
+      "version": "1.4"
     }
   ],
-  "updated": "2026-10-10"
+  "updated": "2026-10-11"
 }

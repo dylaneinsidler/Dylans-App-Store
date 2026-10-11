@@ -10,13 +10,13 @@
   "copy": ["flags.js", "common.js", "flags"],
   "description": [
     "All 195 flags of the world: the flag of the day, every flag by continent (tap one for its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
-    "Then the 50-flag game, Who Wants to Be a Millionaire style: pick the country, A, B, C or D, and climb the money ladder to $1,000,000, with 50:50, Ask the audience and Phone a friend."
+    "Then the 50-flag game: pick the country (A, B, C or D) and press Enter; right turns green, wrong turns red and shows the right one, and you play all fifty flags for your score out of 50."
   ],
   "features": [
     "The flag of the day",
     "Every flag by continent, with a map",
     "A quiz that remembers what you know",
-    "The 50-flag Millionaire game",
+    "The 50-flag game: pick, Enter, score out of 50",
     "Light or dark"
   ]
 }

@@ -7,14 +7,17 @@
   "background": "#6b4a2b",
   "internet": "Not needed",
   "source": ["Dylan's Corkboard", "Corkboard Wall"],
-  "copy": ["mapdata.js", "cork.svg", "paper.svg"],
+  "copy": ["mapdata.js", "markets.js", "cork.svg", "paper.svg"],
   "description": [
-    "A cork board with pages torn off notepads, one page per month. The first board is things to do around South Florida: Greater Fort Lauderdale's big yearly events (the boat show, Winterfest, Tortuga, the air show and more), the Las Olas art fairs, Art Basel, the Delray Affair, Halloween Horror Nights and IBJJF jiu-jitsu tournaments, with a map showing where each one is.",
+    "A cork board with pages torn off notepads, one page per month. The first board is things to do around South Florida: Greater Fort Lauderdale's big yearly events (the boat show, Winterfest, Tortuga, the air show and more), the Las Olas art fairs, Art Basel, the Delray Affair, nights out, Halloween Horror Nights and IBJJF jiu-jitsu tournaments, with a map showing where each one is and the farmers markets of the week.",
+    "Hold an event for a moment and let go to add it to your calendar.",
     "The second board is yours: add your appointments, reminders and birthdays, and they land on the right month's page. They stay on your phone."
   ],
   "features": [
     "South Florida's big events, a page per month",
-    "A map with a pin for each one, in its month's color",
+    "A map with a pin for each one, colored by its kind, with a key",
+    "Hold an event to add it to your calendar",
+    "The farmers markets of the next 7 days",
     "Countdowns for anything coming up this week",
     "Your own appointments, reminders and birthdays",
     "Your reminders stay on your phone",

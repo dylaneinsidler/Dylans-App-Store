@@ -1,5 +1,7 @@
 [
-  { "name": "Local events, with the map", "url": "?demo" },
-  { "name": "A month's events", "url": "?demo", "scroll": "#going", "offset": 10 },
+  { "name": "Local events, with the map and its key", "url": "?demo" },
+  { "name": "The week's farmers markets, and a page per month", "url": "?demo", "scroll": "#markets", "offset": 10 },
+  { "name": "Hold an event to add it to your calendar", "url": "?demo",
+    "do": "const all = [...document.querySelectorAll('#going .item[data-ev]:not(.past)')].filter(e => e.querySelector('.dot')); const el = all[Math.min(3, all.length - 1)]; scrollTo(0, el.getBoundingClientRect().top + scrollY - 330); el.classList.add('pressing', 'held'); Phone.toast('Adding to your calendar'); return 1" },
   { "name": "Your reminders and birthdays", "url": "?demo", "scroll": "#mine-screen", "offset": 0 }
 ]

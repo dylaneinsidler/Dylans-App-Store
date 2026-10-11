@@ -41,7 +41,24 @@
 <script src="desktop/lessons-deuteronomy.js"></script>
 <script src="desktop/wall.js"></script>
 
+<!-- On the phone: this week's portion first, then today's section of it, then the Talmud on today's
+     verse, and last where we are in the Torah and the year. -->
 <main class="screens">
+  <section class="screen" id="week-screen">
+    <div id="header"></div>
+    <div class="week-main">
+<section class="portion">
+    <div class="label" id="when"></div>
+    <div class="title-row"><h1 id="name"></h1><div class="he" id="he-name"></div></div>
+    <div class="meaning" id="meaning"></div>
+    <div class="holiday" id="holiday"></div>
+    <div class="sumrow"><p class="summary" id="summary"></p><figure class="pic" id="pic"></figure></div>
+    <div class="lessons-head"><div class="label">The main lessons</div></div>
+    <div class="lessons" id="lessons"></div>
+    <div class="foot" id="foot"></div>
+  </section>
+    </div>
+  </section>
   <section class="screen" id="today-screen">
     <div id="header"></div>
     <div class="today-main">
@@ -82,23 +99,44 @@
       <div><span class="more-btn" id="talmud-more" data-details hidden>Full passage</span></div>
     </div>
   </section>
+
+  <!-- The phone's own (app.js): a Mishnah and a passage of the Gemara on today's verse, each in the
+       original, in English and in plain English, with links to read them on Sefaria. -->
+  <section class="talmud-today" id="talmud-today">
+    <div class="tt-head">
+      <div class="label">The Talmud on today's verse <span class="he-sans">תלמוד</span></div>
+      <p class="tt-intro">The Talmud has two parts: the <b>Mishnah</b>, the first book of Jewish law, written down around 200 CE, and the <b>Gemara</b>, the rabbis' discussion of it, finished around 500 CE. Each is here in the original, in English, and in plain English.</p>
+    </div>
+
+    <article class="block source mishnah" id="mishnah">
+      <div class="who"><div class="label" id="mishnah-label">Mishnah</div><div class="ref he-sans" id="mishnah-he-ref"></div></div>
+      <div class="about-verse" id="mishnah-why"></div>
+      <div class="fill waiting" id="mishnah-body">
+        <div class="part"><div class="part-label">The original <span>in Hebrew</span></div><div class="part-text he" id="mishnah-he"></div></div>
+        <div class="part"><div class="part-label">In English</div><div class="part-text en" id="mishnah-en"></div></div>
+        <div class="part plain"><div class="part-label">In plain English <span>what it means</span></div><div class="part-text en" id="mishnah-plain"></div>
+          <div class="credit" id="mishnah-credit"></div></div>
+      </div>
+      <div class="links" id="mishnah-links"></div>
+    </article>
+
+    <article class="block source gemara" id="gemara">
+      <div class="who"><div class="label" id="gemara-label">Gemara</div><div class="ref he-sans" id="gemara-he-ref"></div></div>
+      <div class="about-verse" id="gemara-why"></div>
+      <div class="fill waiting" id="gemara-body">
+        <div class="part"><div class="part-label">The original <span>in Aramaic and Hebrew</span></div><div class="part-text he" id="gemara-he"></div></div>
+        <div class="part"><div class="part-label">In English <span>word for word</span></div><div class="part-text en" id="gemara-en"></div></div>
+        <div class="part plain"><div class="part-label">In plain English <span>what it means</span></div><div class="part-text en" id="gemara-plain"></div>
+          <div class="credit" id="gemara-credit"></div></div>
+      </div>
+      <div class="links" id="gemara-links"></div>
+    </article>
+  </section>
     </div>
   </section>
-  <section class="screen" id="week-screen">
-    <div id="header"></div>
+  <section class="screen" id="where-screen">
     <div class="week-main">
-<section class="portion">
-    <div class="label" id="when"></div>
-    <div class="title-row"><h1 id="name"></h1><div class="he" id="he-name"></div></div>
-    <div class="meaning" id="meaning"></div>
-    <div class="holiday" id="holiday"></div>
-    <div class="sumrow"><p class="summary" id="summary"></p><figure class="pic" id="pic"></figure></div>
-    <div class="lessons-head"><div class="label">The main lessons</div></div>
-    <div class="lessons" id="lessons"></div>
-    <div class="foot" id="foot"></div>
-  </section>
-
-  <aside>
+<aside>
     <section>
       <div class="label">Where we are in the Torah <span class="he-sans">חמישה חומשי תורה</span></div>
       <div class="progress"><div class="track"><div id="bar"></div></div><span id="progress-text"></span></div>
@@ -121,8 +159,9 @@
 </main>
 
 <script src="../../shared/phone.js" data-name="Dylan's Daily Torah"></script>
-<script src="app.js"></script>
-<script src="desktop/today.js"></script>
+<!-- The week's script first: each screen's script fills the first empty header it finds. -->
 <script src="desktop/week.js"></script>
+<script src="desktop/today.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
