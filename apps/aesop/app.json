@@ -4,7 +4,7 @@
   "subtitle": "A fable a day, with its moral",
   "category": "Learn",
   "order": 8,
-  "background": "#f3ead8",
+  "background": "#0d0d0d",
   "internet": "Not needed",
   "source": [
     "Dylan's Aesop's Fables"
@@ -22,6 +22,6 @@
     "All 338 fables, numbered",
     "Search titles, morals and words",
     "Milo Winter's 1919 pictures",
-    "Old-book colors, light or dark"
+    "Co-Star colors, light or dark"
   ]
 }

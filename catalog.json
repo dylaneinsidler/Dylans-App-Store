@@ -343,10 +343,10 @@
         "All 338 fables, numbered",
         "Search titles, morals and words",
         "Milo Winter's 1919 pictures",
-        "Old-book colors, light or dark"
+        "Co-Star colors, light or dark"
       ],
       "internet": "Not needed",
-      "color": "#f3ead8",
+      "color": "#0d0d0d",
       "icon": "apps/aesop/icons/icon-512.png",
       "url": "apps/aesop/",
       "external": false,
@@ -357,7 +357,7 @@
         "apps/aesop/shots/4.jpg",
         "apps/aesop/shots/5.jpg"
       ],
-      "version": "1.4"
+      "version": "1.5"
     },
     {
       "id": "artshow",

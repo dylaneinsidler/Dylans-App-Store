@@ -50,7 +50,7 @@
         <button class="to-all" type="button">All ${A.count} fables &darr;</button></div>
         <div class="d-theme"><button data-t="light">Light</button><button data-t="dark">Dark</button></div></div>
       ${browsing ? `<a class="back" href="#"><span>&larr; Back to today&rsquo;s fable</span><b>${esc(t.title)}</b></a>` : ''}
-      <div class="d-title">${f.n ? `<div class="num">No. ${f.n} of ${A.count}</div>` : ''}<h1 class="serif">${esc(f.title)}</h1>
+      <div class="d-title">${f.n ? `<div class="num">No. ${f.n} of ${A.count}</div>` : ''}<h1 class="serif${f.title.length > 40 ? ' longer' : f.title.length > 26 ? ' long' : ''}">${esc(f.title)}</h1>
         <div class="sub">Aesop, about 2,600 years ago</div></div>
       ${pic ? `<div class="d-pic plate"><img src="${file('photos', pic)}" alt=""></div>
         <div class="plate-credit">Picture by Milo Winter, from <i>The Aesop for Children</i> (1919)</div>` : ''}

@@ -1,12 +1,17 @@
-/* Aesop's Fables on a phone: old-book colors, the picture like a plate in the 1919 book, the story, the moral; then all
-   the fables, numbered, with a search. */
-:root[data-theme="light"] { --bg: #f3ead8; --card: #fbf6ea; --ink: #2b2118; --muted: #7d6b55; --line: rgba(60, 40, 10, .14); --accent: #9a5b1e; }
-:root[data-theme="dark"] { --bg: #16120d; --card: #1f1a13; --ink: #efe4cf; --muted: #a8977c; --line: rgba(255, 240, 210, .1); --accent: #d9a35a; }
+/* Aesop's Fables on a phone: Co-Star's colors (like the PC since 1.5: near-black or off-white, grey ink, thin grey lines),
+   the picture in a plain frame, the story, the moral in the same serif; then all the fables, numbered, with a search. */
+:root[data-theme="light"] { --bg: #f7f7f7; --card: #fbfbfb; --ink: #161616; --muted: #8b8b8b; --line: #cdcdcd; --accent: #161616; }
+:root[data-theme="dark"] { --bg: #0d0d0d; --card: #121212; --ink: #ececec; --muted: #8b8b8b; --line: #3a3a3a; --accent: #ececec; }
+/* The name fits neatly: regular weight, balanced lines, smaller for a long one (app.js marks them). */
+.d-title h1 { font-weight: 400; font-size: 36px; line-height: 1.12; letter-spacing: 0; text-wrap: balance; }
+.d-title h1.long { font-size: 30px; }
+.d-title h1.longer { font-size: 26px; }
+.d-title .sub { font-style: normal; }
 .plate { padding: 10px; background: var(--card); } .plate img { border-radius: 6px; }
 .plate-credit { margin: 6px 16px 0; font-size: 12px; color: var(--muted); text-align: center; }
 .story { margin: 18px 16px 0; font-size: 19px; line-height: 1.55; color: var(--ink); }
 .story p { margin: 0 0 14px; } .story p:first-child::first-letter { font-size: 3.1em; float: left; line-height: .9; padding: 4px 8px 0 0; color: var(--accent); }
-.moral .big { font-style: italic; }
+.moral .big { font-style: normal; font-size: 20px; line-height: 1.5; }   /* upright, in the story's serif */
 
 /* The fable's number, where it's from, the way back, and the fables either side */
 .d-title .num { margin-top: 10px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
@@ -33,7 +38,7 @@
 .row + .row { border-top: 1px solid var(--line); }
 .row .no { flex: none; width: 34px; text-align: right; font: 600 15px system-ui, sans-serif; color: var(--muted); font-variant-numeric: tabular-nums; }
 .row .what { flex: 1; min-width: 0; }
-.row b { font: 600 17px/1.25 "Iowan Old Style", "Palatino", Georgia, serif; }
+.row b { font: 500 17px/1.25 "Iowan Old Style", "Palatino", Georgia, serif; }
 .row em { margin-left: 8px; padding: 2px 8px; border-radius: 999px; font: 700 10px system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase;
   font-style: normal; vertical-align: 2px; background: var(--accent); color: var(--bg); }
 .row small { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 3px;
