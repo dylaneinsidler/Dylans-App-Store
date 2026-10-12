@@ -292,6 +292,36 @@ window.CORKBOARD_GOING = {
    "ics": "desktop/ics/2026-10-24-the-wharf.ics"
   },
   {
+   "id": "2026-10-22-sunset-social",
+   "date": "2026-10-22",
+   "what": "Sunset Social (expected)",
+   "time": "7-11 PM",
+   "note": "house music at sunset; not announced yet, check @sunsetsocial.ftl",
+   "where": "Sparrow rooftop, The Dalmar, 299 N Federal Hwy",
+   "kind": "party",
+   "at": [
+    26.1259,
+    -80.1433
+   ],
+   "short": "Sunset Social",
+   "ics": "desktop/ics/2026-10-22-sunset-social.ics"
+  },
+  {
+   "id": "2026-11-05-sunset-social",
+   "date": "2026-11-05",
+   "what": "Sunset Social (expected)",
+   "time": "7-11 PM",
+   "note": "house music at sunset; not announced yet, check @sunsetsocial.ftl",
+   "where": "Sparrow rooftop, The Dalmar, 299 N Federal Hwy",
+   "kind": "party",
+   "at": [
+    26.1259,
+    -80.1433
+   ],
+   "short": "Sunset Social",
+   "ics": "desktop/ics/2026-11-05-sunset-social.ics"
+  },
+  {
    "id": "2026-10-30-the-wharf",
    "date": "2026-10-30",
    "what": "Fright Night at the Wharf",

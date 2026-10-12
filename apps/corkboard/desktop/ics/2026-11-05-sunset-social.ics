@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dylan's App Store//Corkboard//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:2026-11-05-sunset-social@dylans-corkboard
+DTSTAMP:20261012T024147Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:Sunset Social (expected)
+LOCATION:Sparrow rooftop\, The Dalmar\, 299 N Federal Hwy
+GEO:26.1259;-80.1433
+DESCRIPTION:7-11 PM\nhouse music at sunset\; not announced yet\, check @sun
+ setsocial.ftl\nFrom Dylan's Corkboard
+END:VEVENT
+END:VCALENDAR
