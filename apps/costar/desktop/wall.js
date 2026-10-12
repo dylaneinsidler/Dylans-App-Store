@@ -1,3 +1,4 @@
+window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick() {}, close() {} };   // phone stand-in (tools/build.mjs)
 // Shared by both screens: fitting the 1920×1080 stage to the monitor, the perspective grid behind it,
 // click-to-close, the Light / Dark switch, the "How to read this" guide, daily reloads, planet symbols, date formats, and the grainy
 // black-and-white planet pictures, which are drawn here dot by dot rather than loaded from image files.

@@ -1,3 +1,4 @@
+window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick() {}, close() {} };   // phone stand-in (tools/build.mjs)
 // Dylan's Daily Torah: what both screens share. The calendar (this week's portion, today's section of it, the
 // Hebrew date, Shabbat times), texts from Sefaria and tidying them for the screen, shrinking text to
 // fit, the header, click-to-close, and reloading when the day changes.

@@ -101,7 +101,7 @@
   (async () => {
     try {
       await load('https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js');
-      for (const f of ['astro', 'reading', 'explain', 'wall', 'guide', 'today', 'sky']) await load(`desktop/${f}.js`);
+      for (const f of ['astro', 'reading', 'objects', 'explain', 'wall', 'guide', 'today', 'sky']) await load(`desktop/${f}.js`);
     } catch (e) {
       $('stage').innerHTML = '<p class="offline">Co-Star needs the internet the first time it opens. Try again when you’re online.</p>';
       return;
