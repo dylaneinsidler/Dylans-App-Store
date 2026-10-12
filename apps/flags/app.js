@@ -105,22 +105,33 @@
   }
 
   const fl = { cat: q.get('cat') || 'Countries', region: 'All', find: '', hide: false };
+  // The search box stays put while you type; only the flags under it change. Every word must start a word of the
+  // name (or a country's capital, or the kind), ignoring capitals and accents; names that start with it come first.
+  const flagList = () => {
+    const countries = fl.cat === 'Countries';
+    const list = F.inCat(fl.cat).filter(i => (!countries || fl.region === 'All' || i.country.region === fl.region) && F.matches(i, fl.find));
+    return fl.find.trim() ? list.map((it, k) => [F.rank(it, fl.find), k, it]).sort((a, b) => a[0] - b[0] || a[1] - b[1]).map(x => x[2]) : list;
+  };
   function drawFlags() {
-    const qq = fl.find.trim().toLowerCase(), countries = fl.cat === 'Countries';
-    const list = countries
-      ? all.filter(c => (fl.region === 'All' || c.region === fl.region) && (!qq || c.name.toLowerCase().includes(qq) || (c.capital || '').toLowerCase().includes(qq)))
-      : F.inCat(fl.cat).filter(i => !qq || i.name.toLowerCase().includes(qq));
+    const countries = fl.cat === 'Countries';
     $('main').innerHTML = `
-      <div class="chips cats">${(F.CATS || ['Countries']).map(c => `<button class="${c === fl.cat ? 'on' : ''}" data-fcat="${esc(c)}">${esc(c)}</button>`).join('')}</div>
-      <input class="find" id="find" placeholder="${countries ? 'Find a country or capital' : 'Find one'}" value="${esc(fl.find)}" spellcheck="false" autocomplete="off">
+      <div class="chips cats">${['All kinds', ...(F.CATS || ['Countries'])].map(c => `<button class="${c === fl.cat ? 'on' : ''}" data-fcat="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+      <input class="find" id="find" type="search" placeholder="${countries ? 'Find a country or capital' : fl.cat === 'All kinds' ? 'Find any flag' : 'Find one'}" value="${esc(fl.find)}" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
       <div class="chips">${countries ? ['All', ...F.REGIONS].map(r => `<button class="${r === fl.region ? 'on' : ''}" data-region="${r}">${r}</button>`).join('') : ''}
         <button class="${fl.hide ? 'on' : ''}" data-hide="1">Hide names</button></div>
-      <div class="fgrid${fl.hide ? ' hide' : ''}${countries ? '' : ' fit'}">${list.map(c => `<button data-code="${c.code}"><span class="fi">${img(c.code)}</span><span class="fn">${countries && known(c.code) ? '<i></i>' : ''}${esc(c.name)}</span></button>`).join('')
-        || '<p class="muted">Nothing by that name.</p>'}</div>`;
+      <div class="fcount muted" id="fcount"></div>
+      <div class="fgrid${fl.hide ? ' hide' : ''}" id="fgrid"></div>`;
     const on = document.querySelector('.chips.cats .on');   // keep the chosen kind in view
     if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
+    drawFlagGrid();
     const f = $('find');
-    f.oninput = () => { fl.find = f.value; clearTimeout(drawFlags.t); drawFlags.t = setTimeout(() => { drawFlags(); const g = $('find'); g.focus(); g.setSelectionRange(g.value.length, g.value.length); }, 250); };
+    f.oninput = () => { fl.find = f.value; clearTimeout(drawFlags.t); drawFlags.t = setTimeout(drawFlagGrid, 150); };
+  }
+  function drawFlagGrid() {
+    const list = flagList(), many = fl.cat === 'All kinds';
+    $('fcount').textContent = `${list.length} flag${list.length === 1 ? '' : 's'}${fl.find.trim() ? ` matching \u201c${fl.find.trim()}\u201d` : ''}`;
+    $('fgrid').innerHTML = list.map(c => `<button data-code="${c.code}" class="${c.country ? '' : 'fit'}"><span class="fi">${img(c.code)}</span><span class="fn">${c.country && known(c.code) ? '<i></i>' : ''}${esc(c.name)}</span>${many ? `<span class="fk">${esc(c.cat)}</span>` : ''}</button>`).join('')
+      || `<p class="muted">Nothing matches \u201c${esc(fl.find)}\u201d${many ? '' : ` in ${esc(fl.cat)}. Try All kinds`}.</p>`;
   }
 
   const qz = { code: null, choices: [], picked: null, last: null };
@@ -149,12 +160,12 @@
 
   // ---- The 50-flag game (the same rules as the desktop's: easy first, lookalikes later, safe at 10, 25 and 40) ----
   let g = null, gcat = 'Countries';
-  const gameCats = () => (F.CATS || ['Countries']).filter(c => c === 'Countries' || F.inCat(c).length >= 8);
+  const gameCats = () => [...(F.CATS || ['Countries']).filter(c => c === 'Countries' || F.inCat(c).length >= 8), 'All kinds'];
   function newGame() {
     if (gcat !== 'Countries') {
       const pool = F.shuffle(F.inCat(gcat), Math.random), n = Math.min(50, pool.length);
       const qs = pool.slice(0, n).map(c => ({ code: c.code,
-        options: F.shuffle([c, ...F.shuffle(pool.filter(o => o !== c), Math.random).slice(0, 3)], Math.random).map(o => o.code) }));
+        options: F.shuffle([c, ...F.shuffle(F.inCat(c.cat).filter(o => o !== c), Math.random).slice(0, 3)], Math.random).map(o => o.code) }));
       g = { qs, n, cat: gcat, i: 0, sel: null, phase: 'playing', marks: [] };
       return drawGame();
     }
@@ -219,7 +230,7 @@
   $('main').addEventListener('click', e => {
     const t = e.target.closest('button');
     if (!t) return;
-    if (t.dataset.fcat) { fl.cat = t.dataset.fcat; fl.find = ''; drawFlags(); }
+    if (t.dataset.fcat) { fl.cat = t.dataset.fcat; drawFlags(); }
     else if (t.dataset.gcat) { gcat = t.dataset.gcat; g = null; drawGame(); }
     else if (t.dataset.region) { fl.region = t.dataset.region; drawFlags(); }
     else if (t.dataset.hide) { fl.hide = !fl.hide; drawFlags(); }

@@ -79,8 +79,23 @@ window.Flags = (() => {
   const items = new Map(all.map(c => [c.code, { code: c.code, name: c.name, img: flag(c.code), cat: 'Countries', country: c }]));
   for (const m of INFO.more) items.set(m.id, { code: m.id, name: m.name, img: m.img, cat: m.cat, more: m });
   const item = code => items.get(code);
-  const inCat = cat => [...items.values()].filter(i => i.cat === cat);
+  const inCat = cat => [...items.values()].filter(i => cat === 'All kinds' || i.cat === cat);
+  // Search: every word typed must appear in the name (or a country's capital and official name, or the kind),
+  // ignoring capitals and accents, so "aland" finds Åland and "curacao" finds Curaçao.
+  const fold = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  function matches(it, q) {
+    const words = fold(q).split(' ').filter(Boolean);
+    if (!words.length) return true;
+    const c = it.country || {};
+    const hay = ' ' + fold([it.name, it.cat, c.capital, c.official, c.subregion, c.demonym].join(' ')) + ' ';
+    return words.every(w => hay.includes(' ' + w));
+  }
+  // Best matches first: names that start with what's typed, then names containing it, then the rest.
+  function rank(it, q) {
+    const n = ' ' + fold(it.name), f = fold(q);
+    return !f ? 0 : n.startsWith(' ' + f) ? 0 : n.includes(' ' + f) ? 1 : 2;
+  }
   const about = code => (INFO.countries || {})[code] || (items.get(code) || {}).more || {};
 
-  return { all, byCode, esc, flag, CATS, item, inCat, about, params, REGIONS, today, flagOfDay, random, shuffle, people, sqmi, list, money, LADDER, SAFE, setTheme, themeSwitch, get theme() { return theme; } };
+  return { all, byCode, esc, flag, CATS, item, inCat, about, matches, rank, fold, params, REGIONS, today, flagOfDay, random, shuffle, people, sqmi, list, money, LADDER, SAFE, setTheme, themeSwitch, get theme() { return theme; } };
 })();

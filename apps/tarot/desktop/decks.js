@@ -271,5 +271,19 @@ window.TAROT_DECKS = (() => {
       },
       court: c => `${{ 11: 'A page', 12: 'A knight on horseback', 13: 'A queen', 14: 'A king' }[c.rank]} from ancient history, named at the top of the card, with ${{ wands: 'a staff', cups: 'a cup', swords: 'a sword', pentacles: 'a coin' }[c.suit]}.`,
     },
+    (() => {
+      // Cyberpunk 2077: Judy's graffiti murals around Night City, the 22 big cards, and the four Kings from Phantom
+      // Liberty (decks\cyberpunk\, made by tools\build-cyberpunk.py). Every other card uses the classic picture.
+      const CP = window.TAROT_CYBERPUNK || {};
+      return {
+        id: 'cyberpunk', name: 'Cyberpunk 2077', made: 'Night City, 2077', sample: 'm00',
+        by: 'The tarot murals from the game Cyberpunk 2077 (CD Projekt Red, 2020), with the Kings from Phantom Liberty (2023).',
+        about: 'Judy\'s tarot graffiti, painted around Night City and the Badlands: the 22 big cards and the four Kings, each a punk take on the classic picture. The game has no other cards, so the rest of the deck shows the classic ones.',
+        has: Object.keys(CP),
+        pics: Object.fromEntries(Object.entries(CP).filter(([, c]) => c.pic).map(([id, c]) => [id, c.pic])),
+        pip: c => null,
+        night: CP,
+      };
+    })(),
   ];
 })();

@@ -10,7 +10,8 @@
   const ALL = D.CARDS.map(c => c.id);
   // The decks (desktop/decks.js), as on the PC's Deck button. The classic deck has its big pictures; the others come
   // as their 280 x 480 copies, to keep the app small. The choice is kept on the phone.
-  const DECKS = window.TAROT_DECKS || [{ id: 'classic', name: 'Classic', made: 'London, 1909', sample: 'm01' }];
+  // The Cyberpunk 2077 deck is the game's art: on Dylan's PC only, never in this public store.
+  const DECKS = (window.TAROT_DECKS || []).filter(d => d.id !== 'cyberpunk').concat(window.TAROT_DECKS ? [] : [{ id: 'classic', name: 'Classic', made: 'London, 1909', sample: 'm01' }]);
   let deck = DECKS.find(x => x.id === (Phone.params.get('deck') || Phone.store.get('tarot.deck', 'classic'))) || DECKS[0];
   const img = (id, small, dk = deck) => dk.id === 'classic' ? `desktop/decks/classic/${small ? 'small/' : ''}${id}.jpg`
     : `desktop/decks/${dk.id}/small/${id}.jpg`;

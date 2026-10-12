@@ -83,3 +83,7 @@ html.in-game, html.in-game body { background: #050829; }
 .chips.cats button { flex: none; }
 .fgrid.fit .fi img, .flagpic.fit img { object-fit: contain; }
 .chips.gcats { justify-content: center; flex-wrap: wrap; margin: 6px 0 14px; }
+
+.fcount { font-size: 13px; margin: 2px 2px 8px; }
+.fgrid .fk { display: block; font-size: 11px; opacity: .6; margin-top: 2px; }
+.fgrid button.fit .fi img { object-fit: contain; }
