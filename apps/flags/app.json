@@ -1,22 +1,31 @@
 {
   "name": "Dylan's Flags of the World",
   "short": "Flags",
-  "subtitle": "Learn every flag, and play the 50-flag game",
+  "subtitle": "Every flag, what it means, and the flag game",
   "category": "Learn",
   "order": 10,
   "background": "#0e0f12",
   "internet": "Not needed",
-  "source": ["Dylan's Flags of the World"],
-  "copy": ["flags.js", "common.js", "flags"],
+  "source": [
+    "Dylan's Flags of the World"
+  ],
+  "copy": [
+    "flags.js",
+    "flag-info.js",
+    "common.js",
+    "flags"
+  ],
   "description": [
-    "All 195 flags of the world: the flag of the day, every flag by continent (tap one for its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
-    "Then the 50-flag game: pick the country (A, B, C or D) and press Enter; right turns green, wrong turns red and shows the right one, and you play all fifty flags for your score out of 50."
+    "All 195 flags of the world: the flag of the day, every flag by continent (tap one for what its colors and symbols mean, its history, its earlier versions, its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
+    "More kinds of flags too: US states, Canadian provinces, Australian states, cities, organizations, ship signal flags, pirate flags and signal flags, each with what it means.",
+    "Then the flag game: pick the answer (A, B, C or D) and press Enter; right turns green, wrong turns red. Countries by default (all fifty, easy ones first), or pick another kind."
   ],
   "features": [
     "The flag of the day",
-    "Every flag by continent, with a map",
-    "A quiz that remembers what you know",
-    "The 50-flag game: pick, Enter, score out of 50",
+    "What every flag's colors and symbols mean, and its history",
+    "Each flag over the years",
+    "States, cities, ship signals, pirate flags and more",
+    "The flag game: countries or any kind",
     "Light or dark"
   ]
 }

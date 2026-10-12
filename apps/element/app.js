@@ -75,6 +75,7 @@
     const day = today(), todays = byN[numberFor(day)], e = byN[picked()] || todays, browsing = e !== todays;
     const prev = byN[numberFor(addDays(day, -1))], next = byN[numberFor(addDays(day, 1))];
     const fam = family(e);
+    const seen = ((window.ELEMENT_SEEN || {})[e.number] || []).slice(0, 3);   // everyday things it's in (desktop/seen.js)
     const photo = e.image && !/no image/i.test(e.imageTitle || '') ? `photos/${e.image.replace(/^images\//, '').replace(/\.\w+$/, '.jpg')}` : '';
     document.getElementById('element').innerHTML = `
       ${browsing ? '<a class="back-today" href="#">&larr; Back to today\'s element</a>' : ''}
@@ -97,6 +98,9 @@
       </div>
       ${photo ? `<div class="d-pic"><img src="${photo}" alt="" loading="lazy"><div class="credit">${esc(e.imageTitle || '')}${e.imageCredit ? ` &middot; ${esc(e.imageCredit)}` : ''}</div></div>` : ''}
       ${e.uses ? `<div class="d-card"><h2>Where you meet it</h2><p class="big">${esc(e.uses)}</p></div>` : ''}
+      ${seen.length ? `<div class="d-card"><h2>Where you see it</h2><div class="seen">${seen.map(s =>
+        `<figure><img src="desktop/${esc(s.img)}" alt="" loading="lazy"><figcaption>${esc(s.label)}</figcaption></figure>`).join('')}</div>
+        <div class="credit2">Pictures: Wikipedia</div></div>` : ''}
       <div class="d-card"><h2>What it is</h2><p>${esc(e.summary)}</p></div>
       <div class="d-card"><h2>The facts</h2><div class="d-facts">
         <div>Melts at<b>${F(e.melt)}</b></div><div>Boils at<b>${F(e.boil)}</b></div>

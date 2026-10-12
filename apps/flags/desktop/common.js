@@ -73,5 +73,14 @@ window.Flags = (() => {
     if (window.Link) Link.on('theme', d => setTheme(d.theme, false));
   }
 
-  return { all, byCode, esc, flag, params, REGIONS, today, flagOfDay, random, shuffle, people, sqmi, list, money, LADDER, SAFE, setTheme, themeSwitch, get theme() { return theme; } };
+  // ---- Every kind of flag: countries, and the others in flag-info.js (US states, cities, ship signals, pirates...) ----
+  const INFO = window.FLAG_INFO || { countries: {}, more: [] };
+  const CATS = ['Countries', ...[...new Set(INFO.more.map(m => m.cat))]];
+  const items = new Map(all.map(c => [c.code, { code: c.code, name: c.name, img: flag(c.code), cat: 'Countries', country: c }]));
+  for (const m of INFO.more) items.set(m.id, { code: m.id, name: m.name, img: m.img, cat: m.cat, more: m });
+  const item = code => items.get(code);
+  const inCat = cat => [...items.values()].filter(i => i.cat === cat);
+  const about = code => (INFO.countries || {})[code] || (items.get(code) || {}).more || {};
+
+  return { all, byCode, esc, flag, CATS, item, inCat, about, params, REGIONS, today, flagOfDay, random, shuffle, people, sqmi, list, money, LADDER, SAFE, setTheme, themeSwitch, get theme() { return theme; } };
 })();

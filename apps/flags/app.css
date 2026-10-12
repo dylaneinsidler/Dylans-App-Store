@@ -72,3 +72,14 @@ html.in-game, html.in-game body { background: #050829; }
 .marks { display: grid; grid-template-columns: repeat(25, 1fr); gap: 3px; margin: 14px 4px 0; }
 .marks i { height: 8px; border-radius: 2px; background: rgba(255, 255, 255, .15); }
 .marks i.ok { background: #41d97a; } .marks i.no { background: #ff6a6a; } .marks i.now { background: #ffb43a; }
+
+/* What a flag means, the flag over the years, and the other kinds of flags */
+.mean { margin: 6px 0 0; line-height: 1.5; }
+.src { margin: 8px 0 0; font-size: 12px; opacity: .6; }
+.past { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 10px; margin-top: 8px; }
+.past figure { margin: 0; } .past img { width: 100%; aspect-ratio: 3 / 2; object-fit: contain; background: rgba(127,127,127,.12); border-radius: 4px; display: block; }
+.past figcaption { font-size: 11px; text-align: center; opacity: .7; margin-top: 3px; } .past .now figcaption { opacity: 1; font-weight: 700; }
+.chips.cats { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; margin-bottom: 8px; }
+.chips.cats button { flex: none; }
+.fgrid.fit .fi img, .flagpic.fit img { object-fit: contain; }
+.chips.gcats { justify-content: center; flex-wrap: wrap; margin: 6px 0 14px; }

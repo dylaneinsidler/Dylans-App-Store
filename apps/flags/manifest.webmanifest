@@ -1,7 +1,7 @@
 {
   "name": "Dylan's Flags of the World",
   "short_name": "Flags",
-  "description": "Learn every flag, and play the 50-flag game",
+  "description": "Every flag, what it means, and the flag game",
   "id": "./",
   "start_url": "./",
   "scope": "./",

@@ -204,11 +204,12 @@
       "subtitle": "A chemical element a day, and the periodic table",
       "category": "Learn",
       "description": [
-        "One chemical element a day, in a shuffled order: all 118 before any comes back. Its photo, where you meet it in everyday life, what it is, and its facts: when it melts and boils, how heavy it is, when it was found, and its electrons.",
+        "One chemical element a day, in a shuffled order: all 118 before any comes back. Its photo, where you meet it in everyday life (with pictures of things it's in), what it is, and its facts: when it melts and boils, how heavy it is, when it was found, and its electrons.",
         "Below it, the whole periodic table with today's element lit up and the ones you've already seen this round shaded, every family in its own pastel color."
       ],
       "features": [
         "A new element every day, the same one as on the wall",
+        "Pictures of everyday things it's in",
         "Where you meet it, in one plain line",
         "A real photo of each element",
         "The periodic table, with today's lit up",
@@ -224,9 +225,10 @@
         "apps/element/shots/2.jpg",
         "apps/element/shots/3.jpg",
         "apps/element/shots/4.jpg",
-        "apps/element/shots/5.jpg"
+        "apps/element/shots/5.jpg",
+        "apps/element/shots/6.jpg"
       ],
-      "version": "1.7"
+      "version": "1.8"
     },
     {
       "id": "tarot",
@@ -452,17 +454,19 @@
       "id": "flags",
       "name": "Dylan's Flags of the World",
       "short": "Flags",
-      "subtitle": "Learn every flag, and play the 50-flag game",
+      "subtitle": "Every flag, what it means, and the flag game",
       "category": "Learn",
       "description": [
-        "All 195 flags of the world: the flag of the day, every flag by continent (tap one for its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
-        "Then the 50-flag game: pick the country (A, B, C or D) and press Enter; right turns green, wrong turns red and shows the right one, and you play all fifty flags for your score out of 50."
+        "All 195 flags of the world: the flag of the day, every flag by continent (tap one for what its colors and symbols mean, its history, its earlier versions, its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
+        "More kinds of flags too: US states, Canadian provinces, Australian states, cities, organizations, ship signal flags, pirate flags and signal flags, each with what it means.",
+        "Then the flag game: pick the answer (A, B, C or D) and press Enter; right turns green, wrong turns red. Countries by default (all fifty, easy ones first), or pick another kind."
       ],
       "features": [
         "The flag of the day",
-        "Every flag by continent, with a map",
-        "A quiz that remembers what you know",
-        "The 50-flag game: pick, Enter, score out of 50",
+        "What every flag's colors and symbols mean, and its history",
+        "Each flag over the years",
+        "States, cities, ship signals, pirate flags and more",
+        "The flag game: countries or any kind",
         "Light or dark"
       ],
       "internet": "Not needed",
@@ -474,9 +478,10 @@
         "apps/flags/shots/1.jpg",
         "apps/flags/shots/2.jpg",
         "apps/flags/shots/3.jpg",
-        "apps/flags/shots/4.jpg"
+        "apps/flags/shots/4.jpg",
+        "apps/flags/shots/5.jpg"
       ],
-      "version": "1.2"
+      "version": "1.4"
     },
     {
       "id": "games",

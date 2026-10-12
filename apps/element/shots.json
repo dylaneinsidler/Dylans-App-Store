@@ -12,6 +12,13 @@
   "offset": 120
  },
  {
+  "name": "Where you see it",
+  "url": "#n=26",
+  "settle": 4000,
+  "scroll": ".seen",
+  "offset": 120
+ },
+ {
   "name": "Its facts",
   "url": "",
   "settle": 3000,

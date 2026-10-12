@@ -27,3 +27,9 @@
 
 /* Bold, so the letters are easy to see (as on the PC, v1.7) */
 .ptable .c, .tile, .keys, .d-card { font-weight: 700; }
+
+/* Where you see it: three everyday pictures */
+.seen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+.seen figure { margin: 0; } .seen img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 8px; display: block; }
+.seen figcaption { font-size: 12px; font-weight: 700; margin-top: 4px; line-height: 1.25; }
+.credit2 { font-size: 11px; opacity: .55; margin-top: 8px; }

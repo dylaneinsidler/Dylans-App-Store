@@ -6,7 +6,25 @@
   const F = window.Flags, { all, byCode } = F, q = Phone.params, html = document.documentElement;
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const flag = code => `desktop/flags/${code}.svg`;
-  const img = code => `<img src="${flag(code)}" alt="">`;
+  // Any flag: a country's, or one of the other kinds (desktop/flag-info.js: states, cities, ship signals, pirates...).
+  const src = code => { const it = F.item && F.item(code); return it && it.cat !== 'Countries' ? 'desktop/' + it.img : flag(code); };
+  const img = code => `<img src="${src(code)}" alt="">`;
+  const nameOf = code => ((F.item && F.item(code)) || byCode.get(code) || {}).name || '';
+  // What it means and its history; the flag over the years.
+  function meaning(code) {
+    const a = F.about ? F.about(code) : {};
+    if (!a.meaning && !a.history) return a.describe ? `<div class="d-card"><p class="mean">${esc(a.describe)}</p></div>` : '';
+    return `<div class="d-card"><h2>What it means</h2>${a.meaning ? `<p class="mean">${esc(a.meaning)}</p>` : ''}
+      ${a.history ? `<h2 style="margin-top:14px">Its history</h2><p class="mean">${esc(a.history)}</p>` : ''}
+      ${a.wiki ? `<p class="src">From Wikipedia, &ldquo;${esc(a.wiki)}&rdquo;</p>` : ''}</div>`;
+  }
+  function past(code) {
+    const list = (F.about ? F.about(code) : {}).past || [];
+    if (!list.length) return '';
+    return `<div class="d-card"><h2>The flag over the years</h2><div class="past">${list.map(x =>
+      `<figure><img src="desktop/${esc(x.img)}" alt="" onerror="this.parentNode.remove()"><figcaption>${esc(x.years)}</figcaption></figure>`).join('')}
+      <figure class="now"><img src="${flag(code)}" alt=""><figcaption>Today</figcaption></figure></div></div>`;
+  }
   const M = window.FLAG_MAP;
   const $ = id => document.getElementById(id);
 
@@ -43,10 +61,19 @@
         <div>Language${c.languages.length > 1 ? 's' : ''}<b>${esc(F.list(c.languages.slice(0, 4)))}</b></div><div>Money<b>${esc(F.list(c.currencies.slice(0, 2)))}</b></div>
         <div style="grid-column:span 2">${c.borders.length ? 'Next door' : 'Neighbors'}<b>${c.borders.length ? esc(F.list(c.borders.slice(0, 8))) + (c.borders.length > 8 ? ` and ${c.borders.length - 8} more` : '')
           : c.landlocked ? 'none' : 'none by land: the sea all around'}</b></div></div></div>
+      ${meaning(c.code)}${past(c.code)}
       <div class="d-card"><h2>Where it is</h2><div class="d-map fmap">${map(c)}</div></div>`;
   }
   function sheet(code) {
     const c = byCode.get(code);
+    if (!c) {       // another kind of flag
+      const it = F.item(code);
+      $('sheet').innerHTML = `<div class="sheet-in"><button class="x" data-close="1">&times;</button>
+        <div class="d-pic flagpic fit">${img(code)}</div>
+        <div class="d-title"><div class="k">${esc(it.cat)}</div><h1 class="serif">${esc(it.name)}</h1></div>${meaning(code)}</div>`;
+      $('sheet').hidden = false; $('sheet').scrollTop = 0;
+      return;
+    }
     $('sheet').innerHTML = `<div class="sheet-in"><button class="x" data-close="1">&times;</button>
       <div class="d-pic flagpic">${img(c.code)}</div>
       <div class="d-title"><h1 class="serif">${esc(c.name)}</h1>${c.official !== c.name ? `<div class="sub">${esc(c.official)}</div>` : ''}</div>${facts(c)}</div>`;
@@ -77,16 +104,21 @@
         <div>Your best game<b>${best ? `${best.right} of 50` : 'not played yet'}</b></div></div></div>`;
   }
 
-  const fl = { region: 'All', find: '', hide: false };
+  const fl = { cat: q.get('cat') || 'Countries', region: 'All', find: '', hide: false };
   function drawFlags() {
-    const qq = fl.find.trim().toLowerCase();
-    const list = all.filter(c => (fl.region === 'All' || c.region === fl.region) && (!qq || c.name.toLowerCase().includes(qq) || (c.capital || '').toLowerCase().includes(qq)));
+    const qq = fl.find.trim().toLowerCase(), countries = fl.cat === 'Countries';
+    const list = countries
+      ? all.filter(c => (fl.region === 'All' || c.region === fl.region) && (!qq || c.name.toLowerCase().includes(qq) || (c.capital || '').toLowerCase().includes(qq)))
+      : F.inCat(fl.cat).filter(i => !qq || i.name.toLowerCase().includes(qq));
     $('main').innerHTML = `
-      <input class="find" id="find" placeholder="Find a country or capital" value="${esc(fl.find)}" spellcheck="false" autocomplete="off">
-      <div class="chips">${['All', ...F.REGIONS].map(r => `<button class="${r === fl.region ? 'on' : ''}" data-region="${r}">${r}</button>`).join('')}
+      <div class="chips cats">${(F.CATS || ['Countries']).map(c => `<button class="${c === fl.cat ? 'on' : ''}" data-fcat="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+      <input class="find" id="find" placeholder="${countries ? 'Find a country or capital' : 'Find one'}" value="${esc(fl.find)}" spellcheck="false" autocomplete="off">
+      <div class="chips">${countries ? ['All', ...F.REGIONS].map(r => `<button class="${r === fl.region ? 'on' : ''}" data-region="${r}">${r}</button>`).join('') : ''}
         <button class="${fl.hide ? 'on' : ''}" data-hide="1">Hide names</button></div>
-      <div class="fgrid${fl.hide ? ' hide' : ''}">${list.map(c => `<button data-code="${c.code}"><span class="fi">${img(c.code)}</span><span class="fn">${known(c.code) ? '<i></i>' : ''}${esc(c.name)}</span></button>`).join('')
-        || '<p class="muted">No country by that name.</p>'}</div>`;
+      <div class="fgrid${fl.hide ? ' hide' : ''}${countries ? '' : ' fit'}">${list.map(c => `<button data-code="${c.code}"><span class="fi">${img(c.code)}</span><span class="fn">${countries && known(c.code) ? '<i></i>' : ''}${esc(c.name)}</span></button>`).join('')
+        || '<p class="muted">Nothing by that name.</p>'}</div>`;
+    const on = document.querySelector('.chips.cats .on');   // keep the chosen kind in view
+    if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
     const f = $('find');
     f.oninput = () => { fl.find = f.value; clearTimeout(drawFlags.t); drawFlags.t = setTimeout(() => { drawFlags(); const g = $('find'); g.focus(); g.setSelectionRange(g.value.length, g.value.length); }, 250); };
   }
@@ -116,8 +148,16 @@
   }
 
   // ---- The 50-flag game (the same rules as the desktop's: easy first, lookalikes later, safe at 10, 25 and 40) ----
-  let g = null;
+  let g = null, gcat = 'Countries';
+  const gameCats = () => (F.CATS || ['Countries']).filter(c => c === 'Countries' || F.inCat(c).length >= 8);
   function newGame() {
+    if (gcat !== 'Countries') {
+      const pool = F.shuffle(F.inCat(gcat), Math.random), n = Math.min(50, pool.length);
+      const qs = pool.slice(0, n).map(c => ({ code: c.code,
+        options: F.shuffle([c, ...F.shuffle(pool.filter(o => o !== c), Math.random).slice(0, 3)], Math.random).map(o => o.code) }));
+      g = { qs, n, cat: gcat, i: 0, sel: null, phase: 'playing', marks: [] };
+      return drawGame();
+    }
     const sorted = all.slice().sort((a, b) => a.rank - b.rank), used = new Set(), qs = [];
     for (let i = 1; i <= 50; i++) {
       const start = Math.floor((i - 1) / 49 * (all.length - 45));
@@ -129,7 +169,7 @@
       if (wrong.length < 3) wrong = wrong.concat(F.shuffle(all.filter(o => o.code !== c.code && !wrong.includes(o)), Math.random));
       qs.push({ code: c.code, options: F.shuffle([c, ...wrong.slice(0, 3)], Math.random).map(o => o.code) });
     }
-    g = { qs, i: 0, sel: null, phase: 'playing', marks: [] };
+    g = { qs, n: 50, cat: 'Countries', i: 0, sel: null, phase: 'playing', marks: [] };
     drawGame();
   }
   // The rules (as on the desktop): pick A, B, C or D, then Enter. Right is green; wrong is red, with the right one in
@@ -139,46 +179,49 @@
     if (!g || g.phase === 'over') {
       const n = right();
       $('main').innerHTML = `<div class="mil intro">
-        ${g ? `<div class="k">${n === 50 ? 'Every flag right!' : n >= 40 ? 'Excellent' : n >= 25 ? 'Well played' : 'Game over'}</div>
-          <h1 class="serif">Your score</h1><div class="won">${n} of 50</div><p>${Math.round(n / 50 * 100)}% right.</p>`
-        : `<div class="k">The 50-flag game</div><h1 class="serif">Fifty flags</h1>
-          <p>Easy ones first. Pick the country (A, B, C or D), then press Enter. Right turns green, wrong turns red and shows the right
-            one. Either way you go on to the next flag, all fifty, and your score comes at the end.</p>`}
+        ${g ? `<div class="k">${n === g.n ? 'Every flag right!' : n / g.n >= .8 ? 'Excellent' : n / g.n >= .5 ? 'Well played' : 'Game over'}</div>
+          <h1 class="serif">Your score</h1><div class="won">${n} of ${g.n}</div><p>${esc(g.cat)} &middot; ${Math.round(n / g.n * 100)}% right.</p>`
+        : `<div class="k">The flag game</div><h1 class="serif">${gcat === 'Countries' ? 'Fifty flags' : esc(gcat)}</h1>
+          <p>${gcat === 'Countries' ? 'Easy ones first. Pick the country' : 'Every one, in a random order. Pick the answer'} (A, B, C or D), then press Enter. Right turns green,
+            wrong turns red and shows the right one. Either way you go on to the next flag, and your score comes at the end.</p>`}
+        <div class="chips gcats">${gameCats().map(c => `<button class="${c === gcat ? 'on' : ''}" data-gcat="${esc(c)}">${esc(c)}</button>`).join('')}</div>
         <button class="go" data-start="1">${g ? 'Play again' : 'Let’s play'}</button>
         <div class="best">${best ? `Your best: ${best.right} of 50` : 'No games played yet'}</div></div>`;
       return;
     }
-    const qn = g.qs[g.i], c = byCode.get(qn.code), checked = g.phase === 'checked';
+    const qn = g.qs[g.i], checked = g.phase === 'checked';
     $('main').innerHTML = `<div class="mil">
-      <div class="ladderline"><span>Flag <b>${g.i + 1}</b>/50</span><span><b>${right()}</b> right so far</span></div>
-      <div class="flagbox">${img(c.code)}</div>
+      <div class="ladderline"><span>Flag <b>${g.i + 1}</b>/${g.n}</span><span><b>${right()}</b> right so far</span></div>
+      <div class="flagbox">${img(qn.code)}</div>
       <div class="answers">${qn.options.map((code, k) => {
         const cls = [g.sel === code && !checked ? 'sel' : '', checked && code === qn.code ? 'right' : '',
           checked && code === g.sel && code !== qn.code ? 'wrong' : ''].filter(Boolean).join(' ');
-        return `<button class="hex ${cls}" data-ans="${code}" ${checked ? 'disabled' : ''}><span class="l">${'ABCD'[k]}:</span>${esc(byCode.get(code).name)}</button>`;
+        return `<button class="hex ${cls}" data-ans="${code}" ${checked ? 'disabled' : ''}><span class="l">${'ABCD'[k]}:</span>${esc(nameOf(code))}</button>`;
       }).join('')}</div>
       ${!checked ? `<div class="final"><button data-enter="1" ${g.sel ? '' : 'disabled'}>Enter</button></div>` : ''}
       <div class="marks">${g.qs.map((_, i) => `<i class="${g.marks[i] === true ? 'ok' : g.marks[i] === false ? 'no' : i === g.i ? 'now' : ''}"></i>`).join('')}</div></div>`;
   }
   function answer() {
     const qn = g.qs[g.i], ok = g.sel === qn.code;
-    g.phase = 'checked'; g.marks[g.i] = ok; mark(qn.code, ok);
+    g.phase = 'checked'; g.marks[g.i] = ok; if (g.cat === 'Countries') mark(qn.code, ok);
     drawGame();
     setTimeout(() => {
-      if (g.i === 49) return finish();
+      if (g.i === g.n - 1) return finish();
       g.i++; g.sel = null; g.phase = 'playing'; drawGame();
     }, ok ? 1300 : 2400);
   }
   function finish() {
     const n = right();
-    if (!best || best.right == null || n > best.right) { best = { right: n }; Phone.store.set('flags.best', best); }
+    if (g.cat === 'Countries' && (!best || best.right == null || n > best.right)) { best = { right: n }; Phone.store.set('flags.best', best); }
     g.phase = 'over'; drawGame();
   }
 
   $('main').addEventListener('click', e => {
     const t = e.target.closest('button');
     if (!t) return;
-    if (t.dataset.region) { fl.region = t.dataset.region; drawFlags(); }
+    if (t.dataset.fcat) { fl.cat = t.dataset.fcat; fl.find = ''; drawFlags(); }
+    else if (t.dataset.gcat) { gcat = t.dataset.gcat; g = null; drawGame(); }
+    else if (t.dataset.region) { fl.region = t.dataset.region; drawFlags(); }
     else if (t.dataset.hide) { fl.hide = !fl.hide; drawFlags(); }
     else if (t.dataset.code) sheet(t.dataset.code);
     else if (t.dataset.pick && !qz.picked) { qz.picked = t.dataset.pick; mark(qz.code, qz.picked === qz.code); qz.last = qz.code; drawQuiz(); }

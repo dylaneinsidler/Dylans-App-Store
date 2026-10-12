@@ -5,17 +5,24 @@
   "settle": 3000
  },
  {
+  "name": "What it means, and the flag over the years",
+  "url": "",
+  "settle": 3000,
+  "scroll": ".mean",
+  "offset": 80
+ },
+ {
   "name": "All flags",
   "url": "?tab=flags",
   "settle": 4000
  },
  {
-  "name": "The quiz",
-  "url": "?tab=quiz",
-  "settle": 3000
+  "name": "Pirate flags and more",
+  "url": "?tab=flags&cat=Pirate%20flags",
+  "settle": 4000
  },
  {
-  "name": "The 50-flag game",
+  "name": "The flag game",
   "url": "?tab=game",
   "settle": 3000
  }

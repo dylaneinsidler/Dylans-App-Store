@@ -10,14 +10,17 @@
     "Dylan's Element of the Day"
   ],
   "copy": [
-    "elements.js"
+    "elements.js",
+    "seen.js",
+    "images/seen"
   ],
   "description": [
-    "One chemical element a day, in a shuffled order: all 118 before any comes back. Its photo, where you meet it in everyday life, what it is, and its facts: when it melts and boils, how heavy it is, when it was found, and its electrons.",
+    "One chemical element a day, in a shuffled order: all 118 before any comes back. Its photo, where you meet it in everyday life (with pictures of things it's in), what it is, and its facts: when it melts and boils, how heavy it is, when it was found, and its electrons.",
     "Below it, the whole periodic table with today's element lit up and the ones you've already seen this round shaded, every family in its own pastel color."
   ],
   "features": [
     "A new element every day, the same one as on the wall",
+    "Pictures of everyday things it's in",
     "Where you meet it, in one plain line",
     "A real photo of each element",
     "The periodic table, with today's lit up",
