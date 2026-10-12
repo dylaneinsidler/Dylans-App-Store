@@ -324,7 +324,7 @@
         "apps/corkboard/shots/3.jpg",
         "apps/corkboard/shots/4.jpg"
       ],
-      "version": "1.17"
+      "version": "1.18"
     },
     {
       "id": "aesop",
@@ -541,5 +541,5 @@
       "version": "1.4"
     }
   ],
-  "updated": "2026-10-11"
+  "updated": "2026-10-12"
 }

@@ -132,7 +132,9 @@ footer.hint, .close-x, #grid { display: none !important; }
 :root[data-theme="light"] .setup input { color-scheme: light; }
 .setup small { display: block; margin-top: 6px; font-size: 12px; line-height: 1.35; }
 #f-results { list-style: none; padding: 0; margin: -8px 0 16px; }
-#f-results li { padding: 11px 4px; border-bottom: 1px solid var(--line); font-size: 16px; }
+#f-results li { border-bottom: 1px solid var(--line); font-size: 16px; }
+#f-results li button { display: block; width: 100%; padding: 11px 4px; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+#f-results li.none { padding: 11px 4px; }
 #f-results li small { display: inline; color: var(--muted); margin-left: 6px; }
 #f-results .none { color: var(--muted); }
 .setup .pill { margin: 6px 8px 0 0; padding: 12px 20px; font-size: 15px; border-radius: 999px; }

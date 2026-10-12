@@ -23,32 +23,46 @@
   }
   // Birthplaces anywhere in the world, from Open-Meteo's free place finder (it also gives the time zone,
   // which the chart needs to turn the birth time into the planets' positions).
-  let timer;
+  // Each place is a real button: on an iPhone a tap on a plain list line doesn't count as a click, so a place
+  // could never be picked there. If none is tapped, the form takes the top match for what's typed.
+  let timer, found = [];
+  const asPlace = x => ({ place: [x.name, x.admin1 || x.country].filter(Boolean).join(', '), lat: +x.latitude.toFixed(4), lon: +x.longitude.toFixed(4), timeZone: x.timezone });
+  async function search(q) {
+    // "Brooklyn, NY": the finder wants just the town; the rest helps pick between towns of that name.
+    const [town, ...rest] = q.split(',').map(s => s.trim());
+    const r = await (await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(town)}&count=10&language=en`)).json();
+    const hint = rest.join(' ').toLowerCase();
+    const list = r.results || [];
+    const fits = x => hint && [x.admin1, x.country, x.country_code].some(v => v && (v.toLowerCase().startsWith(hint) || hint.startsWith(v.toLowerCase())));
+    return list.filter(fits).concat(list.filter(x => !fits(x))).slice(0, 6);
+  }
   $('f-place').addEventListener('input', () => {
     picked = null;
     clearTimeout(timer);
     timer = setTimeout(async () => {
       const q = $('f-place').value.trim();
-      if (q.length < 2) { $('f-results').innerHTML = ''; return; }
+      if (q.length < 2) { $('f-results').innerHTML = ''; found = []; return; }
       try {
-        const r = await (await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=en`)).json();
-        const list = r.results || [];
-        $('f-results').innerHTML = list.map((x, i) => `<li data-i="${i}">${esc(x.name)}<small>${esc([x.admin1, x.country].filter(Boolean).join(', '))}</small></li>`).join('')
+        found = await search(q);
+        $('f-results').innerHTML = found.map((x, i) => `<li><button type="button" data-i="${i}">${esc(x.name)}<small>${esc([x.admin1, x.country].filter(Boolean).join(', '))}</small></button></li>`).join('')
           || '<li class="none">No place by that name</li>';
-        $('f-results').onclick = e => {
-          const li = e.target.closest('li[data-i]');
-          if (!li) return;
-          const x = list[+li.dataset.i];
-          picked = { place: [x.name, x.admin1 || x.country].filter(Boolean).join(', '), lat: +x.latitude.toFixed(4), lon: +x.longitude.toFixed(4), timeZone: x.timezone };
-          $('f-place').value = picked.place;
-          $('f-results').innerHTML = '';
-        };
       } catch (e) { $('f-results').innerHTML = '<li class="none">Can’t search right now</li>'; }
     }, 300);
   });
-  $('me-form').addEventListener('submit', e => {
+  $('f-results').addEventListener('click', e => {
+    const b = e.target.closest('button[data-i]');
+    if (!b) return;
+    picked = asPlace(found[+b.dataset.i]);
+    $('f-place').value = picked.place;
+    $('f-results').innerHTML = '';
+  });
+  $('me-form').addEventListener('submit', async e => {
     e.preventDefault();
-    if (!picked) { Phone.toast('Pick your birthplace from the list'); $('f-place').focus(); return; }
+    if (!picked) {
+      const q = $('f-place').value.trim();
+      try { const top = q.length >= 2 && (await search(q))[0]; if (top) picked = asPlace(top); } catch (err) { /* offline */ }
+    }
+    if (!picked) { Phone.toast('Type the town where you were born, then tap it in the list'); $('f-place').focus(); return; }
     const time = $('f-time').value;
     Phone.store.set(KEY, { name: $('f-name').value.trim(), date: $('f-date').value, time: time || '12:00', unknownTime: !time,
       place: picked.place, lat: picked.lat, lon: picked.lon, timeZone: picked.timeZone });
