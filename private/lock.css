@@ -6,3 +6,6 @@
 .lockpage h1 { margin: 18px 0 0; font-size: 26px; font-weight: 800; letter-spacing: -.01em; }
 .lockpage .unlock { text-align: left; }
 .lockpage .wait { color: var(--muted); margin-top: 24px; }
+
+/* No zooming: double taps don't zoom (with the pinch guard in the script). */
+html { touch-action: manipulation; }
