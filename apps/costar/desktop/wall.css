@@ -95,3 +95,30 @@ footer.hint { position: absolute; right: 64px; bottom: 34px; font-family: var(--
   border: 1px solid var(--line); border-radius: 50%; color: var(--ink); font-size: 18px; line-height: 1; cursor: pointer;
   background: color-mix(in srgb, var(--bg) 80%, transparent); font-family: 'Segoe UI', system-ui, sans-serif; }
 .close-x:hover { background: #d64838; border-color: #d64838; color: #fff; }
+
+/* The circle chart (wheel.js): your birth chart, with the sky right now around the outside. It's drawn 1000 across
+ and shown at about half that, so its lettering is drawn larger to stay readable. */
+#wheel { position: absolute; overflow: visible; }
+#earth { position: absolute; }
+#wheel text { font-family: var(--mono); }
+/* The sign names in bold. DM Mono stops at 500, so a thin outline in the same color makes them heavier. */
+#wheel .sign { font-size: 20px; font-weight: 500; letter-spacing: .14em; fill: var(--band-text); text-transform: uppercase;
+  stroke: var(--band-text); stroke-width: .75px; paint-order: stroke; }
+#wheel .house { font-size: 19px; fill: var(--muted); }
+#wheel .g { font-family: var(--glyph); font-weight: 300; fill: var(--ink); }
+#wheel .g.word { font-family: var(--mono); font-size: 19px; letter-spacing: .04em; }
+#wheel .tick { stroke: var(--ink); stroke-width: 1; }
+#wheel .leader { stroke: var(--faint); stroke-width: 1; }
+#wheel .cusp { stroke: var(--line); stroke-width: 1; }
+#wheel .axis { stroke: var(--muted); stroke-width: 1; }
+#wheel .asp { stroke: var(--muted); stroke-width: 1; opacity: .7; fill: none; }
+#wheel .asp.soft { stroke-dasharray: 5 5; }
+#wheel .ring { fill: none; stroke: var(--line); }
+#wheel .hl-shade { fill: var(--shade); }
+#wheel .hl-arc { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 3 7; animation: march 1.6s linear infinite; }
+#wheel .hl-spoke { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 2 4; }
+#wheel .hl-ring { fill: none; stroke: var(--ink); stroke-width: 1; }
+#wheel .hl-label { font-size: 21px; letter-spacing: .14em; fill: var(--ink); }
+#wheel .arrow { fill: var(--ink); }
+.highlight { transition: opacity .8s ease; }
+@keyframes march { to { stroke-dashoffset: -20; } }

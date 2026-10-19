@@ -283,3 +283,8 @@
 
   window.Store = { refresh: () => { renderHome(); route(); } };
 })();
+
+// No zooming in and out (Dylan, October 14, 2026). iPhone Safari ignores the page's user-scalable=no, so pinches are
+// stopped here too; touch-action in the CSS stops double-tap zoom.
+['gesturestart', 'gesturechange', 'gestureend'].forEach(ev => document.addEventListener(ev, e => e.preventDefault(), { passive: false }));
+document.addEventListener('touchmove', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });

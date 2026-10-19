@@ -128,7 +128,7 @@
         "apps/weather/shots/2.jpg",
         "apps/weather/shots/3.jpg"
       ],
-      "version": "1.5"
+      "version": "1.6"
     },
     {
       "id": "torah",
@@ -162,7 +162,7 @@
         "apps/torah/shots/4.jpg",
         "apps/torah/shots/5.jpg"
       ],
-      "version": "1.11"
+      "version": "1.12"
     },
     {
       "id": "costar",
@@ -195,7 +195,7 @@
         "apps/costar/shots/3.jpg",
         "apps/costar/shots/4.jpg"
       ],
-      "version": "1.7"
+      "version": "1.14"
     },
     {
       "id": "element",
@@ -228,7 +228,7 @@
         "apps/element/shots/5.jpg",
         "apps/element/shots/6.jpg"
       ],
-      "version": "1.8"
+      "version": "1.11"
     },
     {
       "id": "tarot",
@@ -292,7 +292,7 @@
         "apps/animal/shots/2.jpg",
         "apps/animal/shots/3.jpg"
       ],
-      "version": "1.2"
+      "version": "1.3"
     },
     {
       "id": "corkboard",
@@ -326,7 +326,7 @@
         "apps/corkboard/shots/3.jpg",
         "apps/corkboard/shots/4.jpg"
       ],
-      "version": "1.19"
+      "version": "1.28"
     },
     {
       "id": "aesop",
@@ -335,14 +335,14 @@
       "subtitle": "A fable a day, with its moral",
       "category": "Learn",
       "description": [
-        "One of Aesop's fables every day, the same one as on the wall: the whole story, with Milo Winter's color picture from The Aesop for Children (1919), and its moral.",
-        "Below it, all 338 of Aesop's fables, numbered: every fable of The Aesop for Children and of George Fyler Townsend's translation, each one once. Search them by title, moral or any word, and tap one to read it."
+        "One of Aesop's fables every day, the same one as on the wall: the whole story, with its picture and its moral.",
+        "Below it, all 338 of Aesop's fables, numbered: every fable of The Aesop for Children and of George Fyler Townsend's translation, each one once. Search them by title, moral or any word, and tap one to read it. Every fable has a picture: Milo Winter's from The Aesop for Children (1919), or one from an older edition (Bewick, Rackham, Tenniel, Caldecott, Crane, Dore)."
       ],
       "features": [
         "A new fable every day",
         "All 338 fables, numbered",
         "Search titles, morals and words",
-        "Milo Winter's 1919 pictures",
+        "A picture for every fable",
         "Co-Star colors, light or dark"
       ],
       "internet": "Not needed",
@@ -357,7 +357,7 @@
         "apps/aesop/shots/4.jpg",
         "apps/aesop/shots/5.jpg"
       ],
-      "version": "1.5"
+      "version": "1.6"
     },
     {
       "id": "artshow",
@@ -384,16 +384,20 @@
       "version": "2.9"
     },
     {
-      "id": "openmats",
-      "name": "Dylan's Open Mats",
-      "short": "Open Mats",
-      "subtitle": "Weekend jiu-jitsu open mats, Jupiter to Miami",
+      "id": "athletics",
+      "name": "Dylan's Athletics",
+      "short": "Athletics",
+      "subtitle": "Run clubs, archery, pickleball and jiu-jitsu open mats",
       "category": "Every Day",
       "description": [
+        "Run clubs, archery and pickleball around Fort Lauderdale: every weekly group run (today's first), Fort Lauderdale Archers, Gold Coast Archers, FAU's archery club and Markham Park's public range, and The Fort and the city's free pickleball courts. Tap any of them for driving directions.",
         "Every weekend jiu-jitsu open mat from Jupiter down to Miami and out west, on a cork board: a map with a numbered pin for each gym, and a Saturday paper and a Sunday paper listing every open mat by time.",
         "Gi open mats are in blue, no-gi in red, both in purple, and the free ones get a green FREE stamp. On the day, what's over is crossed off and what's on now turns red. Every academy is also in one list, north to south. Tap any gym and it's highlighted, with its address, its times, a big Call button, driving directions in Apple Maps and its Instagram."
       ],
       "features": [
+        "Every weekly run club, today first",
+        "Archery clubs and ranges",
+        "Pickleball: The Fort and the city's free courts",
         "Saturday and Sunday open mats, by time",
         "A map with a numbered pin for every gym",
         "Gi in blue, no-gi in red, both in purple",
@@ -406,17 +410,18 @@
       ],
       "internet": "Not needed",
       "color": "#6b4a2b",
-      "icon": "apps/openmats/icons/icon-512.png",
-      "url": "apps/openmats/",
+      "icon": "apps/athletics/icons/icon-512.png",
+      "url": "apps/athletics/",
       "external": false,
       "shots": [
-        "apps/openmats/shots/1.jpg",
-        "apps/openmats/shots/2.jpg",
-        "apps/openmats/shots/3.jpg",
-        "apps/openmats/shots/4.jpg",
-        "apps/openmats/shots/5.jpg"
+        "apps/athletics/shots/1.jpg",
+        "apps/athletics/shots/2.jpg",
+        "apps/athletics/shots/3.jpg",
+        "apps/athletics/shots/4.jpg",
+        "apps/athletics/shots/5.jpg",
+        "apps/athletics/shots/6.jpg"
       ],
-      "version": "1.8"
+      "version": "2.4"
     },
     {
       "id": "pokemon",
@@ -459,7 +464,8 @@
       "description": [
         "All 195 flags of the world: the flag of the day, every flag by continent (tap one for what its colors and symbols mean, its history, its earlier versions, its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
         "More kinds of flags too: US states, Canadian provinces, Australian states, cities, organizations, ship signal flags, pirate flags and signal flags, each with what it means.",
-        "Then the flag game: pick the answer (A, B, C or D) and press Enter; right turns green, wrong turns red. Countries by default (all fifty, easy ones first), or pick another kind."
+        "Then the flag game: pick the answer (A, B, C or D) and press Enter; right turns green, wrong turns red. Countries by default (all fifty, easy ones first), or pick another kind.",
+        "And Capitals: learn every country's and every US state's capital (four choices; misses come back until you know them all), or look any of them up."
       ],
       "features": [
         "The flag of the day",
@@ -467,6 +473,7 @@
         "Each flag over the years",
         "States, cities, ship signals, pirate flags and more",
         "The flag game: countries or any kind",
+        "Learn every country's and US state's capital",
         "Light or dark"
       ],
       "internet": "Not needed",
@@ -481,7 +488,7 @@
         "apps/flags/shots/4.jpg",
         "apps/flags/shots/5.jpg"
       ],
-      "version": "1.5"
+      "version": "1.6"
     },
     {
       "id": "games",
@@ -512,7 +519,7 @@
         "apps/games/shots/4.jpg",
         "apps/games/shots/5.jpg"
       ],
-      "version": "1.4"
+      "version": "1.5"
     },
     {
       "id": "bjj",
@@ -543,8 +550,8 @@
         "apps/bjj/shots/3.jpg",
         "apps/bjj/shots/4.jpg"
       ],
-      "version": "1.4"
+      "version": "1.5"
     }
   ],
-  "updated": "2026-10-12"
+  "updated": "2026-10-17"
 }

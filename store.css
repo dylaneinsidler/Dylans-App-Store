@@ -211,3 +211,6 @@ img { display: block; }
   .featured .shot.two { left: auto; right: 34%; width: 30%; top: 140px; }
   .shots img { width: 230px; }
 }
+
+/* No zooming: double taps don't zoom (with the pinch guard in the script). */
+html { touch-action: manipulation; }

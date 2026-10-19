@@ -1,18 +1,18 @@
 // Lifted from Corkboard Wall's events.js (Local Events only) and config.js by build.mjs; edit them there.
 window.CORKBOARD_GOING = {
  "monthColors": [
-  "#2f4f9a",
-  "#a3378f",
-  "#c4950f",
-  "#2a86c4",
-  "#2e8b4a",
-  "#8a5a2e",
-  "#cf4a7c",
-  "#75861c",
-  "#6c45ad",
+  "#138a8a",
+  "#c62828",
+  "#2e8b3d",
+  "#ef6b63",
+  "#e0579a",
+  "#2f6fd1",
+  "#7b3fb8",
+  "#9b3a1c",
+  "#b8900c",
   "#d4661a",
-  "#12858a",
-  "#b3283c"
+  "#7a4a24",
+  "#1f3c88"
  ],
  "countdownDays": 7,
  "goingTo": [

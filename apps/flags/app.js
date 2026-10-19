@@ -1,6 +1,7 @@
 // Flags of the World on a phone: the desktop app's flags, facts, map and money ladder (desktop/flags.js, desktop/common.js,
-// desktop/flags/), as one page with four tabs: Today (the flag of the day), All flags (by continent; tap one for its facts
-// and map), Quiz (pick the country; it remembers what you know), and the 50-flag Millionaire game.
+// desktop/flags/), as one page with five tabs: Today (the flag of the day), All flags (by continent; tap one for its facts
+// and map), Quiz (pick the country; it remembers what you know), the 50-flag Millionaire game, and Capitals (every
+// country's and US state's capital, to learn or look up; desktop/capitals.js has the states').
 (function () {
   'use strict';
   const F = window.Flags, { all, byCode } = F, q = Phone.params, html = document.documentElement;
@@ -82,13 +83,84 @@
   }
   $('sheet').addEventListener('click', e => { if (e.target === $('sheet') || e.target.closest('[data-close]')) $('sheet').hidden = true; });
 
+
+  // ---- Capitals: learn every country's and US state's capital, or look them up (as on the desktop's Capitals tab) ----
+  const SC = window.STATE_CAPITALS || {};
+  const SETS = ['Countries', 'US states', 'Both'];
+  const setItems = set => [
+    ...(set !== 'US states' ? all.filter(c => c.capital).map(c => ({ code: c.code, name: c.name, capital: c.capital, group: c.region, kind: c.region })) : []),
+    ...(set !== 'Countries' && F.inCat ? F.inCat('US states').filter(i => SC[i.code] && i.code !== 'us-washington-dc')
+      .map(i => ({ code: i.code, name: i.name, capital: SC[i.code], group: 'US states', kind: 'US state' })) : []),
+  ];
+  let learned = Phone.store.get('flags.capitals', {});
+  const cp = { mode: 'learn', set: 'Countries', find: '', queue: null, q: null, picked: null };
+  function newCapQueue() { cp.queue = F.shuffle(setItems(cp.set).filter(i => !learned[i.code]), Math.random); nextCap(); }
+  function nextCap() {
+    cp.picked = null;
+    const it = cp.queue[0];
+    if (!it) { cp.q = null; return drawCapitals(); }
+    const pool = setItems(cp.set).filter(o => o.code !== it.code && o.capital !== it.capital);
+    const near = F.shuffle(pool.filter(o => o.group === it.group), Math.random).slice(0, 2);
+    const far = F.shuffle(pool.filter(o => !near.includes(o)), Math.random).slice(0, 3 - near.length);
+    cp.q = { it, options: F.shuffle([it, ...near, ...far].map(o => o.capital), Math.random) };
+    drawCapitals();
+  }
+  function drawCapitals() {
+    const items = setItems(cp.set), done = items.filter(i => learned[i.code]).length;
+    const head = `<div class="chips"><button class="${cp.mode === 'learn' ? 'on' : ''}" data-cmode="learn">Learn them</button>
+        <button class="${cp.mode === 'book' ? 'on' : ''}" data-cmode="book">All capitals</button></div>
+      <div class="chips">${SETS.map(x => `<button class="${x === cp.set ? 'on' : ''}" data-cset="${x}">${x} ${setItems(x).length}</button>`).join('')}</div>`;
+    if (cp.mode === 'book') {
+      const fold = F.fold || (x => String(x).toLowerCase());
+      const qq = fold(cp.find.trim());
+      const list = items.filter(i => !qq || fold(i.name).includes(qq) || fold(i.capital).includes(qq)).sort((a, b) => a.name.localeCompare(b.name));
+      $('main').innerHTML = head + `<input class="cap-find" id="cfind" placeholder="Find a place or a capital" value="${esc(cp.find)}" spellcheck="false" autocomplete="off">
+        <div class="cap-list">${list.map(i => `<div class="cap-row"><span class="f">${img(i.code)}</span><span class="nm">${esc(i.name)}<small>${esc(i.kind)}</small></span>
+          <span class="cc">${esc(i.capital)}</span>${learned[i.code] ? '<i class="k"></i>' : ''}</div>`).join('') || '<p class="muted" style="padding:16px">Nothing matches.</p>'}</div>`;
+      const f = $('cfind');
+      f.oninput = () => { cp.find = f.value; clearTimeout(drawCapitals.t); drawCapitals.t = setTimeout(() => { drawCapitals(); const g2 = $('cfind'); g2.focus(); g2.setSelectionRange(g2.value.length, g2.value.length); }, 200); };
+      return;
+    }
+    if (!cp.queue) return newCapQueue();
+    if (!cp.q) {
+      $('main').innerHTML = head + `<div class="qcount">All ${items.length} learned!</div><button class="next" data-creset="1">Start over</button>`;
+      return;
+    }
+    const it = cp.q.it;
+    $('main').innerHTML = head + `<div class="qcount">Learned <b>${done}</b> of ${items.length} &middot; misses come back until you get them</div>
+      <div class="d-pic flagpic">${img(it.code)}</div>
+      <div class="qq serif">What's the capital of ${esc(it.name)}?</div>
+      <div class="choices">${cp.q.options.map((c, i) => `<button data-cans="${esc(c)}" ${cp.picked ? 'disabled' : ''} class="${cp.picked ? (c === it.capital ? 'right' : c === cp.picked ? 'wrong' : '') : ''}">
+        <span>${'ABCD'[i]}</span>${esc(c)}</button>`).join('')}</div>
+      ${cp.picked ? '<button class="next" data-cnext="1">Next</button>' : ''}
+      <button class="next ghost" data-creset="1">Start over</button>`;
+  }
+  $('main').addEventListener('click', e => {
+    if (tab !== 'capitals') return;
+    const t = e.target.closest('button');
+    if (!t) return;
+    if (t.dataset.cmode) { cp.mode = t.dataset.cmode; drawCapitals(); }
+    else if (t.dataset.cset) { cp.set = t.dataset.cset; cp.queue = null; drawCapitals(); }
+    else if (t.dataset.cnext) { nextCap(); scrollTo(0, 0); }
+    else if (t.dataset.creset) { setItems(cp.set).forEach(i => delete learned[i.code]); Phone.store.set('flags.capitals', learned); newCapQueue(); }
+    else if (t.dataset.cans && cp.q && !cp.picked) {
+      const it = cp.q.it, ok = t.dataset.cans === it.capital;
+      cp.picked = t.dataset.cans;
+      cp.queue.shift();
+      if (ok) learned[it.code] = 1;
+      else cp.queue.splice(Math.min(4, cp.queue.length), 0, it);
+      Phone.store.set('flags.capitals', learned);
+      drawCapitals();
+    }
+  });
+
   // ---- Tabs ----
   let tab = q.get('tab') || 'today';
   function show(t) {
     tab = t;
     document.querySelectorAll('.tabbar button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
     html.classList.toggle('in-game', t === 'game');
-    ({ today: drawToday, flags: drawFlags, quiz: drawQuiz, game: drawGame })[t]();
+    ({ today: drawToday, flags: drawFlags, quiz: drawQuiz, game: drawGame, capitals: drawCapitals })[t]();
     setTheme(theme);
     scrollTo(0, 0);
   }
@@ -246,5 +318,5 @@
       <div class="date">${esc(F.today().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
     <div class="d-theme"><button data-t="light">Light</button><button data-t="dark">Dark</button></div></div>`;
   document.querySelector('.d-theme').onclick = ev => { const b = ev.target.closest('button'); if (b) setTheme(b.dataset.t); };
-  show(['today', 'flags', 'quiz', 'game'].includes(tab) ? tab : 'today');
+  show(['today', 'flags', 'quiz', 'game', 'capitals'].includes(tab) ? tab : 'today');
 })();

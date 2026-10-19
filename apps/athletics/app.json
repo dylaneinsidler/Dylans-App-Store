@@ -1,0 +1,39 @@
+{
+  "name": "Dylan's Athletics",
+  "short": "Athletics",
+  "subtitle": "Run clubs, archery, pickleball and jiu-jitsu open mats",
+  "category": "Every Day",
+  "order": 9,
+  "background": "#6b4a2b",
+  "internet": "Not needed",
+  "source": [
+    "Dylan's Athletics",
+    "Dylan's Open Mats"
+  ],
+  "copy": [
+    "mats.js",
+    "athletics.js",
+    "mapdata.js",
+    "cork.svg",
+    "paper.svg"
+  ],
+  "description": [
+    "Run clubs, archery and pickleball around Fort Lauderdale: every weekly group run (today's first), Fort Lauderdale Archers, Gold Coast Archers, FAU's archery club and Markham Park's public range, and The Fort and the city's free pickleball courts. Tap any of them for driving directions.",
+    "Every weekend jiu-jitsu open mat from Jupiter down to Miami and out west, on a cork board: a map with a numbered pin for each gym, and a Saturday paper and a Sunday paper listing every open mat by time.",
+    "Gi open mats are in blue, no-gi in red, both in purple, and the free ones get a green FREE stamp. On the day, what's over is crossed off and what's on now turns red. Every academy is also in one list, north to south. Tap any gym and it's highlighted, with its address, its times, a big Call button, driving directions in Apple Maps and its Instagram."
+  ],
+  "features": [
+    "Every weekly run club, today first",
+    "Archery clubs and ranges",
+    "Pickleball: The Fort and the city's free courts",
+    "Saturday and Sunday open mats, by time",
+    "A map with a numbered pin for every gym",
+    "Gi in blue, no-gi in red, both in purple",
+    "Free open mats stamped FREE",
+    "On the day: what's over is crossed off, what's on now is in red",
+    "All the academies in one list, north to south",
+    "Tap a gym to call it or drive there (Apple Maps)",
+    "The gym you tapped stays highlighted on the map and the papers",
+    "Works without internet"
+  ]
+}

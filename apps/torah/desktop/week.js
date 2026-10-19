@@ -99,7 +99,7 @@
   drawWheel();
 
   // The year as a wheel, Rosh Hashanah at the top, going clockwise: a band for each month, a dot for
-  // each holiday, and a hand at today. In the middle, today's date and the moon (each Hebrew month
+  // each holiday, and a hand at today. In the middle, the moon and today's date, Hebrew and ordinary (each Hebrew month
   // starts at the new moon, so the day of the month tells you the moon's phase).
   function drawWheel() {
     const svg = document.getElementById('wheel');
@@ -144,12 +144,14 @@
     const [lx, ly] = pt(R0 - 22, at - 0.07), [rx, ry] = pt(R0 - 22, at + 0.07);
     body += `<path d="M${tx},${ty} L${lx},${ly} L${rx},${ry} Z" fill="var(--sepia)"/>`;
     body += `<line x1="${tx}" y1="${ty}" x2="${bx}" y2="${by}" stroke="var(--sepia)" stroke-width="2.5" stroke-linecap="round"/>`;
-    // The middle: the moon and the date.
+    // The middle: the moon, today's Hebrew date (in Hebrew, then in English) and today's ordinary date.
     const f = ((hd.getDate() - 1) % 29.53) / 29.53;
-    body += moon(C, C - 54, 18, f);
-    body += `<text x="${C}" y="${C + 4}" text-anchor="middle" font-size="40" fill="var(--ink)" style="font-family:var(--hebrew)" font-weight="500">${TW.stripVowels(gematriya(hd.getDate()))}</text>`;
-    body += `<text x="${C}" y="${C + 34}" text-anchor="middle" font-size="22" fill="var(--ink)" style="font-family:var(--serif)">${hd.getDate()} ${hd.getMonthName()}</text>`;
-    body += `<text x="${C}" y="${C + 58}" text-anchor="middle" font-size="13.5" fill="var(--ink)">Day ${dayOfYear + 1} of ${daysInYear}</text>`;
+    body += moon(C, C - 66, 15, f);
+    body += `<text x="${C}" y="${C - 22}" text-anchor="middle" font-size="27" fill="var(--ink)" style="font-family:var(--hebrew)" font-weight="500" direction="rtl">${TW.stripVowels(hd.renderGematriya())}</text>`;
+    body += `<text x="${C}" y="${C + 6}" text-anchor="middle" font-size="18" fill="var(--ink)" style="font-family:var(--serif)">${TW.showHebrewDate(hd)}</text>`;
+    body += `<line x1="${C - 46}" y1="${C + 19}" x2="${C + 46}" y2="${C + 19}" stroke="var(--sepia-3)" stroke-width="1"/>`;
+    body += `<text x="${C}" y="${C + 40}" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="600">${today.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</text>`;
+    body += `<text x="${C}" y="${C + 59}" text-anchor="middle" font-size="13" fill="var(--ink)">${today.getFullYear()} &middot; day ${dayOfYear + 1} of ${daysInYear}</text>`;
     svg.innerHTML = s + body;
   }
 

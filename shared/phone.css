@@ -73,3 +73,6 @@ a { color: inherit; }
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
 }
 .phone-toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+/* No zooming: double taps don't zoom (with the pinch guard in the script). */
+html { touch-action: manipulation; }

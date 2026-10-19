@@ -2145,25 +2145,630 @@ x Pull the sleeves free | Step the blocked leg away | Drop the weight and stack
 v lasso-sweep, worm-guard-sweep
 n The spider guard needs the gi: you grip the sleeves. In no-gi the same idea uses wrist grips and is far weaker.
 
-@ worm-guard-sweep | Worm guard sweep
-f spider-lasso
+@family keenan-lapel | Keenan's lapel guards | Keenan Cornelius's lapel system, from his Lapel Encyclopedia: tie their leg or arm to their own jacket, then sweep, take the back or submit. Worm, ringworm, reverse de la worm, squid and gubber guard.
+
+@ worm-guard | Worm guard (the setup)
+f keenan-lapel
+k transition
+p lapel
+s modern
+g gi
+l purple
+a Worm | Keenan's worm guard | Lapel guard
+= From De La Riva, pull out their lapel and pass it under your inside leg to your other hand, so their own jacket ties their leg to you; then sit up on your side and keep it tight.
+1 dlr | Start in De La Riva with your foot on their same-side hip. Pull their lapel loose and take a long tail.
+2 dlr | Pass the lapel under your inside leg (the De La Riva leg) to your other hand. If it goes over the leg instead, you're in sit-up guard, not worm guard.
+3 dlr | Kick the De La Riva leg up so you can sit up off your back; flat on your back, you'll be passed.
+4 dlr | Pull the lapel down to keep it tight and sit on your side. Their leg is now tied to their own jacket and can't step away.
++ Foot on their same-side hip the whole time | The lapel goes under your inside leg | Sit up on your side, never flat | Keep tension on the lapel: slack lets them strip it
+- Feeding the lapel over the leg instead of under | Lying flat on your back | Taking a short tail that won't reach your other hand
+x Strip the lapel before it's passed | Knee cut before the grip is set | Tuck the lapel into the belt, or tie the belt over it | Back-step out of the loop
+v worm-guard-sweep, worm-sit-up-sweep, worm-back-take, ringworm-guard, reverse-de-la-worm, squid-guard
+n Keenan Cornelius built it around 2013-2014 at Atos; someone said fighting it was "like fighting a worm". Lapel guards worked so well that some gyms tie belts over the lapel. There's no lapel-guard drawing; De La Riva is the closest.
+
+@ worm-guard-sweep | Worm sweep to the side
+f keenan-lapel
 k sweep
 p lapel
 s modern
 g gi
 l purple
-a Worm guard | Lapel guard sweep | Keenan's worm guard | Lapel-lasso sweep
-= Pull out their own lapel, feed it behind their lead leg and grab it, so their leg is tied to their own jacket; then pull them forward onto the trapped leg and sweep them over it.
-1 dlr | From De La Riva or reverse De La Riva, reach up and pull their lapel loose from the belt. Pull out a long tail.
-2 dlr | Feed the lapel behind their lead leg from the outside, around the back of the knee, and catch it with the hand on that side. Their leg is now tied to their own jacket.
-3 dlr | Get your foot on their far hip, your other leg hooked on the lead leg. Grab their far sleeve with your free hand.
-4 dlr | Pull the lapel and the sleeve together to bring their weight forward onto the trapped leg, and kick the hip away. The lead leg can't step to catch them.
-5 j-landed | They fall forward and to the side. Come up on top as they land, or take the back if they turn away.
-+ Feed a long piece of lapel: a short one won't reach | The lapel ties the leg, so they can't step out to rebalance | Pull them forward first, then kick | Grip the lapel close to their leg to keep it tight
-- Pulling out too little lapel | Letting the lapel go slack as you kick | Sweeping before their weight is on the trapped leg
-x Strip the lapel grip before it's fed | Back-step the trapped leg out of the loop | Tuck the lapel back into the belt before they can grab it | Knee cut through before the grip is set
-v lasso-sweep, spider-sweep, dlr-backward-sweep, berimbolo
-n Keenan Cornelius built the worm guard around 2014. Lapel guards were so effective that some gyms tie belts over the lapel. There's no lapel-guard drawing; the De La Riva picture is the closest.
+a Worm guard sweep | Lapel guard sweep | DLR worm sweep
+= From worm guard, cross-grab their sleeve and pull it toward you while you stretch the De La Riva hook: with the leg tied by the lapel, they fall to the side and you sit up on top.
+1 dlr | Set up worm guard: lapel under your inside leg to your other hand, foot on their hip.
+2 dlr | Reach across and grab their far sleeve.
+3 dlr | Pull the sleeve toward you and stretch your De La Riva hook out, kicking their hip away.
+4 j-landed | Their tied leg can't step to catch them: they fall to the side. Sit up and come on top.
++ Pull the sleeve and stretch the hook at the same moment | Keep the lapel tight as you kick | Sit up as they fall, before they recover guard
+- Letting the lapel go slack | Sweeping before their weight comes over the tied leg | Staying flat after the sweep
+x Strip the sleeve grip | Back-step the tied leg out of the loop | Drop the hips low before you can kick
+v worm-guard, worm-dlr-berimbolo, worm-butterfly-sweep, lasso-sweep, spider-sweep, dlr-backward-sweep
+n From Keenan Cornelius's worm guard system.
+
+@ worm-dlr-berimbolo | Worm sweep backward, to the berimbolo
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+a DLR worm sweep | Worm guard berimbolo
+= Pass the lapel back to your inside hand, grab their ankle and stretch your leg between theirs to hook the far hip, then sweep them backward like a classic De La Riva sweep, and berimbolo to the back if you like.
+1 dlr | From worm guard, pass the lapel back to your inside hand.
+2 dlr | Grab their near ankle with your other hand and stretch your free leg between their legs to hook their far hip.
+3 dlr | Pull the ankle and push the far hip: they fall backward, like the classic De La Riva sweep.
+4 back | Come up on top, or keep turning under them, berimbolo-style, to take the back.
++ Lapel and ankle together stop them stepping back | Hook deep on the far hip
+- Losing the ankle grip | Pushing before the hook is deep
+x Sit back into the sweep and stay heavy | Free the ankle | Turn to face you
+v worm-guard-sweep, dlr-backward-sweep, berimbolo
+n From Keenan Cornelius's worm guard system.
+
+@ worm-sit-up-sweep | Worm sit-up sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l purple
+a Sit-up worm sweep
+= With the lapel behind their leg, switch it to your inside hand palm-down, sit up, hook your leg around their ankle, and pull the lapel while you drive forward, so they fall onto their back.
+1 dlr | From worm guard, pass the lapel to your inside hand with a palm-down grip.
+2 open-guard | Sit up toward them and hook your leg around their ankle.
+3 open-guard | Pull the lapel and drive forward into them: the tied ankle can't step back.
+4 j-landed | They fall onto their back. Follow them up into top position.
++ Palm-down grip on the lapel | Sit all the way up | Drive forward, don't just pull
+- Sitting up halfway | Letting the ankle go before they fall
+x Sprawl the hips back | Step the free leg back to base | Push your head away
+v worm-back-take, worm-guard
+n From Keenan Cornelius's worm guard system. If they defend it, take the back (worm back take).
+
+@ worm-back-take | Worm back take
+f keenan-lapel
+k backtake
+p lapel
+s modern
+g gi
+l brown
+a Worm guard back take
+= When they defend the sit-up sweep, slide your hooking leg in front of theirs, shin on shin, take a same-side sleeve and pull them forward, then turn to their back and put in your other hook.
+1 open-guard | They defend the sit-up sweep by stepping back and posting.
+2 open-guard | Move your hooking leg in front of their leg, shin against shin.
+3 open-guard | Grab the same-side sleeve and pull them forward over your shin.
+4 back | Rotate behind them and lock in your second hook.
++ Shin to shin keeps their leg trapped | Pull the sleeve across to turn them | Keep the lapel the whole time
+- Releasing the lapel too early | Turning before their weight comes forward
+x Keep their elbow tight so the sleeve can't be pulled | Sit down before the second hook
+v worm-sit-up-sweep, worm-front-roll-sweep
+n From Keenan Cornelius's worm guard system.
+
+@ worm-front-roll-sweep | Worm front roll sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+a Worm roll
+= If they block the sleeve grip, keep the lapel, go shin on shin, post your free hand behind you, lift your hips and roll forward under them to sweep.
+1 open-guard | They block your sleeve grip. Take your hook out and go shin on shin.
+2 open-guard | Keep the lapel, and post your free hand on the mat behind you.
+3 open-guard | Lift your hips off that hand.
+4 j-landed | Roll forward under their tied leg: they go over. Come up on top.
++ Keep lapel control through the roll | Lift the hips before rolling
+- Rolling without lifting the hips | Letting go of the lapel
+x Sprawl heavy on the shin | Kick the shin off and back-step
+v worm-back-take, worm-guard
+n From Keenan Cornelius's worm guard system.
+
+@ worm-butterfly-sweep | Worm butterfly sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l purple
+a Butterfly worm sweep
+= From worm guard, pass the lapel to your inside hand, swap your foot from their hip to a butterfly hook, push back the arm holding your lapel by its sleeve, and kick them over.
+1 dlr | From worm guard, pass the lapel to your inside hand.
+2 butterfly | Take your foot off their hip and slide a butterfly hook under them.
+3 butterfly | Grab the sleeve of the arm they're using to hold your lapel, and push that arm back.
+4 butterfly-sweep | Lift with the butterfly hook and throw them over.
++ The lapel keeps them from stepping out | Push their gripping arm away so they can't post
+- Lifting before their weight is on the hook
+x Base the free arm wide | Flatten the hook with their hips
+v worm-guard-sweep, butterfly-sweep
+n From Keenan Cornelius's worm guard system.
+
+@ deep-half-worm | Deep half worm to the back
+f keenan-lapel
+k backtake
+p half-guard
+s modern
+g gi
+l brown
+a Deep de la worm | Deep de la worm back take | Deep half worm
+= Dive under into deep half, hook their leg, feed their lapel under your raised outside leg to your other hand, then stretch out and come up behind them.
+1 half-guard | Dive under into deep half with an underhook on their leg.
+2 half-guard | Pull their lapel out and pass it to your outside hand.
+3 half-guard | Hide your inside hand under their knee and switch your legs so you hook under their leg.
+4 half-guard | Pass the lapel under your raised outside leg to your other hand (pass it again if you need to).
+5 back | Stretch out your hooking leg, go under them, and sit up behind them.
++ Stay tight under their hips | Keep passing the lapel until it's tight
+- Coming out from under them too early
+x Whizzer hard and flatten you | Back-step to free the leg
+v worm-guard, deep-half-tip-sweep
+n Keenan's Lapel Encyclopedia calls a version of this the deep de la worm back take.
+
+@ worm-scissor-sweep | Worm scissor sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l purple
+a Worm guard scissor sweep
+= From worm guard, when they kneel or square up, switch to a scissor: shin across their body, other leg chopping low, with the lapel still tying them to you.
+1 dlr | Keep worm guard: lapel tight under your leg.
+2 open-guard | As they come down to their knees, slide your shin across their belly and put your other leg low against their knee.
+3 scissor-sweep | Pull them toward you with the lapel and scissor your legs: chop low, push high.
+4 mount | Come up on top as they fall.
++ The lapel takes away their post on that side | Pull first, then scissor
+- Scissoring with no pull
+x Post the free hand wide | Back away and stand
+v scissor-sweep, worm-guard
+n From Keenan Cornelius's Lapel Encyclopedia (worm guard chapter). His course has the exact grips; this is the outline.
+
+@ lapel-lasso | Lapel lasso
+f keenan-lapel
+k transition
+p spider
+s modern
+g gi
+l purple
+a Lapel lasso guard
+= Wrap their own lapel around their arm (or leg) like a lasso, so it holds the limb even when your grip opens: the easy way to keep a guard while you set up the worm.
+1 spider | From open or spider guard, pull out their lapel.
+2 spider | Wrap it around their arm, outside to inside, the way your leg would for a lasso.
+3 spider | Grip the end. Your leg can now come off without losing control.
++ Wrap it tight to the elbow | It holds even when you're tired of gripping
+- Wrapping it loose
+x Pull the arm straight back out | Pass to the other side
+v lasso-sweep, worm-guard, lapel-lasso-omoplata, lapel-lasso-triangle
+n From Keenan Cornelius's Lapel Encyclopedia (grip basics chapter).
+
+@ ringworm-guard | Ringworm guard
+f keenan-lapel
+k transition
+p lapel
+s modern
+g gi
+l brown
+a Ringworm | Reverse worm
+= Worm guard's shape, but you hold the lapel with the opposite hand and face the same way they do. Best against someone kneeling.
+1 open-guard | Against a kneeling opponent, pull out their lapel.
+2 dlr | Feed it around their leg as for worm guard, but take it with your opposite hand.
+3 dlr | Turn so you face the same direction they do, your leg wrapped and the lapel tight.
++ Use it when they're on their knees | Keep the lapel tight to the leg
+- Using it against a standing opponent
+x Stand up | Strip the lapel
+v worm-guard, ringworm-knee-step-sweep, ringworm-elevation-sweep, ringworm-single-leg, polish-worm-rider
+n From Keenan Cornelius's Lapel Encyclopedia (ringworm chapter).
+
+@ ringworm-knee-step-sweep | Ringworm knee step sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+= From ringworm guard, step your knee across in front of their tied knee and pull them over it.
+1 dlr | From ringworm guard, keep the lapel tight.
+2 open-guard | Step your knee across in front of their knee.
+3 j-landed | Pull the lapel: they fall over your knee. Come up on top.
+x Post a hand wide | Free the tied leg
+v ringworm-guard
+n From Keenan Cornelius's Lapel Encyclopedia (ringworm chapter). His course has the exact details; this is the outline.
+
+@ ringworm-elevation-sweep | Ringworm elevation sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+= From ringworm guard, get a hook under their leg and lift (elevate) them while the lapel keeps the leg trapped, then come up on top.
+1 dlr | From ringworm guard, slide a hook under their thigh.
+2 butterfly | Lift them off their base with the hook.
+3 j-landed | With the leg tied, they can't post on it: they go over. Follow them up.
+v ringworm-guard, worm-butterfly-sweep
+n From Keenan Cornelius's Lapel Encyclopedia (ringworm chapter). His course has the exact details; this is the outline.
+
+@ ringworm-single-leg | Ringworm stand-up to single leg
+f keenan-lapel
+k takedown
+p lapel
+s modern
+g gi
+l brown
+= From ringworm guard, use the lapel and their tied leg to stand up, keep the leg, and finish a single-leg takedown.
+1 dlr | From ringworm guard, keep the lapel tight to their leg.
+2 single-leg | Come up to your feet holding the leg.
+3 single-leg | Finish the single leg: run the pipe or trip the other leg.
+v ringworm-guard, deep-de-la-x-sweep
+n From Keenan Cornelius's Lapel Encyclopedia (ringworm chapter). His course has the exact details; this is the outline.
+
+@ deep-de-la-x-sweep | Deep de la X sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+= From ringworm or reverse de la worm, get under them into a deep De La Riva and X-guard hybrid, then come up under their base.
+1 dlr | From ringworm or reverse de la worm, slide under their hips.
+2 x-guard | Get your legs into an X under their leg, lapel still tight.
+3 j-landed | Extend the legs and come up as they fall.
+v ringworm-guard, reverse-de-la-worm
+n From Keenan Cornelius's Lapel Encyclopedia. His course has the exact details; this is the outline.
+
+@ polish-worm-rider | Polish worm rider sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+= A ringworm variation that rides their tied leg from the side and sweeps when they post.
+1 dlr | From ringworm guard, come to the side of their tied leg.
+2 dlr | Ride the leg with the lapel tight.
+3 j-landed | When they post to stand, take them over.
+v ringworm-guard
+n From Keenan Cornelius's Lapel Encyclopedia (ringworm chapter). His course has the exact details; this is the outline.
+
+@ lapel-two-on-one-triangle | Lapel 2-on-1 triangle
+f keenan-lapel
+k submission / choke
+p lapel
+s modern
+g gi
+l brown
+= Tie one of their arms with their lapel so both your hands control it, then shoot the triangle.
+1 open-guard | Feed their lapel around one arm and take it in both hands, 2-on-1.
+2 triangle | Pull the arm across and throw your legs into a triangle.
+3 triangle | Lock it and squeeze.
+v triangle-closed-guard, ringworm-guard
+n From Keenan Cornelius's Lapel Encyclopedia (ringworm chapter). His course has the exact details; this is the outline.
+
+@ double-under-lapel-wrench | Double-under lapel wrench and judo choke
+f keenan-lapel
+k escape
+p lapel
+s modern
+g gi
+l brown
+= When they pass with double unders (both arms under your legs), wrench them off with the lapel you already hold, and choke them with it judo-style.
+1 open-guard | They get double unders under your legs to stack you.
+2 open-guard | Pull the lapel you hold across their neck to wrench their posture.
+3 open-guard | Feed it into a lapel choke, judo-style, as they try to stack.
+v ringworm-guard
+n From Keenan Cornelius's Lapel Encyclopedia. His course has the exact details; this is the outline.
+
+@ reverse-de-la-worm | Reverse de la worm
+f keenan-lapel
+k transition
+p lapel
+s modern
+g gi
+l brown
+a Reverse de la worm guard | RDLW
+= Go from worm guard into reverse De La Riva, keeping the lapel, with your knee above their knee. Keenan calls it his most effective lapel guard.
+1 dlr | Start in worm guard.
+2 dlr | Switch your grip and swing into reverse De La Riva, keeping the lapel tight.
+3 dlr | Put your knee above their knee: the crucial adjustment.
++ Knee above their knee | Change the grip, don't let go
+- Leaving your knee below theirs
+x Back-step out | Smash the legs together
+v worm-guard, reverse-de-la-worm-back-take, reverse-de-la-worm-armbar, wormnado-sweep
+n From Keenan Cornelius's Lapel Encyclopedia (reverse de la worm chapter).
+
+@ reverse-de-la-worm-back-take | Reverse de la worm back take
+f keenan-lapel
+k backtake
+p lapel
+s modern
+g gi
+l brown
+= From reverse de la worm, swing your free leg like a pendulum, grab their pants or belt, pull them on top of you and sit them into your hooks.
+1 dlr | From reverse de la worm (knee above their knee), they don't post an arm on you.
+2 dlr | Swing your free leg as a pendulum and grab their pants or belt with your free hand.
+3 back-flat | Lift your hips in and pull them on top of you, knees to your chest.
+4 back | Push them down into your hooks and go for the choke.
++ Only when they don't post on your chest | The pendulum leg gives the momentum
+x Post a hand on your chest or neck (then go for the armbar)
+v reverse-de-la-worm, reverse-de-la-worm-armbar, rnc-from-back
+n From Keenan Cornelius's Lapel Encyclopedia.
+
+@ reverse-de-la-worm-armbar | Reverse de la worm armbar
+f keenan-lapel
+k submission / elbow
+p lapel
+s modern
+g gi
+l brown
+= When they post an arm on your chest or neck to stop the back take, throw the armbar without letting go of the lapel.
+1 dlr | From reverse de la worm, they post an arm on your chest or neck.
+2 armbar !~ | Swing your leg over the posted arm and finish the armbar, lapel still in hand.
+v reverse-de-la-worm-back-take
+n From Keenan Cornelius's Lapel Encyclopedia.
+
+@ wormnado-sweep | Wormnado sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+= A spinning sweep from reverse de la worm: invert under them with the lapel tight, and their tied leg takes them over with you.
+1 dlr | From reverse de la worm.
+2 x-guard | Invert under them, keeping the lapel tight.
+3 j-landed | Spin through as they topple, and come up on top.
+v reverse-de-la-worm
+n From Keenan Cornelius's Lapel Encyclopedia (reverse de la worm chapter). His course has the exact details; this is the outline.
+
+@ squid-guard | Squid guard
+f keenan-lapel
+k transition
+p lapel
+s modern
+g gi
+l brown
+a Squid | Lapeloplata guard
+= Keenan's answer to the worm guard defense: when they step their far leg back, trap the near leg instead, feeding the lapel over their knee to your underhook hand.
+1 open-guard | On your back, foot on their hip, cross-grab their lapel and pull it out.
+2 open-guard | They step the far leg back: go for the near leg. Underhook it with your free hand.
+3 open-guard | Pass the lapel over their knee to the underhook hand. It crosses above the knee and runs over your foot.
+4 open-guard | Keep your knee inside their knee; outside, they can turn into you.
++ Near leg when they take the far one away | Knee inside their knee
+- Knee outside theirs
+x Turn into you | Strip the lapel
+v worm-guard, squid-pull-sweep, squid-push-sweep, squid-omoplata, squid-triangle, squid-kneebar, squid-ankle-pick
+n From Keenan Cornelius's Lapel Encyclopedia (squid guard chapter).
+
+@ squid-pull-sweep | Squid pull sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+= From squid guard, invert into them, hug their knee to your chest and roll them forward in one motion.
+1 open-guard | From squid guard.
+2 open-guard | Invert into them and hug their knee tight to your chest.
+3 j-landed | Roll them forward in one motion and come up on top.
+v squid-guard, squid-kneebar
+n From Keenan Cornelius's squid guard.
+
+@ squid-push-sweep | Squid push sweep
+f keenan-lapel
+k sweep
+p lapel
+s modern
+g gi
+l brown
+= When they lean back and straighten the leg against the pull sweep, invert and drive your weight into them to knock them backward.
+1 open-guard | They lean back and straighten the trapped leg.
+2 open-guard | Invert and drive your weight into them.
+3 j-landed | They fall backward. Follow up on top.
+v squid-pull-sweep
+n From Keenan Cornelius's squid guard. If they lean back, you can also just grab the pants and pull them backward.
+
+@ squid-omoplata | Squid omoplata (lapeloplata)
+f keenan-lapel
+k submission / shoulder
+p lapel
+s modern
+g gi
+l brown
+a Lapeloplata
+= From squid guard, on the side of the leg you control, cross-grab their sleeve and swing into the omoplata.
+1 open-guard | From squid guard, on the side of the trapped leg.
+2 open-guard | Cross-grab their sleeve.
+3 omoplata | Swing your leg over into the omoplata and finish.
+v squid-guard, omoplata-closed-guard
+n From Keenan Cornelius's squid guard; the lapeloplata is the inverted version.
+
+@ squid-triangle | Squid triangle
+f keenan-lapel
+k submission / choke
+p lapel
+s modern
+g gi
+l brown
+= From squid guard, take a same-side collar grip, put your free foot on their outside bicep, pull their posture down and lock the triangle.
+1 open-guard | From squid guard, grab the collar on the same side.
+2 spider | Put your free foot on the bicep of their outside arm.
+3 triangle | Pull them down to break the posture and lock the triangle.
+v squid-guard, triangle-closed-guard
+n From Keenan Cornelius's squid guard.
+
+@ squid-kneebar | Squid kneebar
+f keenan-lapel
+k submission / leg
+p lapel
+s modern
+g gi
+l brown
+r kneebar
+= The same rolling motion as the squid pull sweep, but keep the leg and finish a kneebar.
+1 open-guard | From squid guard, start the pull sweep roll.
+2 kneebar | Keep the leg as they go over and straighten it against your hips.
+v squid-pull-sweep
+n From Keenan Cornelius's squid guard. Kneebars aren't allowed below brown belt under IBJJF rules.
+
+@ squid-ankle-pick | Squid double ankle pick
+f keenan-lapel
+k takedown
+p lapel
+s modern
+g gi
+l brown
+= From squid guard, come up on your knees and pick both ankles while the lapel holds the near leg, for a takedown (a double leg works the same way).
+1 open-guard | From squid guard, sit up toward them.
+2 ankle-pick | Grab both ankles (or both legs for a double leg) and drive forward.
+3 j-landed | They fall back. Come on top.
+v squid-guard
+n From Keenan Cornelius's Lapel Encyclopedia (squid guard chapter).
+
+@ gubber-guard | Gubber guard
+f keenan-lapel
+k transition
+p closed-guard
+s modern
+g gi
+l brown
+a Gi rubber guard
+= Rubber guard with the gi: from closed guard, use their lapel to hold your leg high across their back, so you don't need your arms to keep it there.
+1 closed-guard | From closed guard, break their posture and pull out their lapel.
+2 rubber-guard | Bring one leg high across their back, as for rubber guard.
+3 rubber-guard | Feed the lapel to hold that leg in place, freeing your hands to attack.
++ Break the posture first | The lapel does the job your arms do in rubber guard
+x Posture up before the leg climbs | Strip the lapel
+v wormoplata, gubber-triangle, gubber-monoplata, flavio-canto-choke, gubber-cross-choke, flower-sweep
+n From Keenan Cornelius's Lapel Encyclopedia (gubber guard chapter). Not part of the worm guard family, but it uses the lapel.
+
+@ wormoplata | Wormoplata
+f keenan-lapel
+k submission / shoulder
+p closed-guard
+s modern
+g gi
+l brown
+= An omoplata from gubber guard: the lapel already traps their arm, so swing into the omoplata and finish.
+1 rubber-guard | From gubber guard, with their arm trapped by your leg and the lapel.
+2 omoplata | Swing your hips out and bring your other leg over into the omoplata.
+3 omoplata | Sit up and finish the shoulder lock.
+v gubber-guard, omoplata-closed-guard, gubber-monoplata
+n From Keenan Cornelius's Lapel Encyclopedia (gubber guard chapter). His course has the exact details; this is the outline.
+
+@ gubber-monoplata | Monoplata from gubber guard
+f keenan-lapel
+k submission / shoulder
+p closed-guard
+s modern
+g gi
+l brown
+= A one-legged omoplata variation from gubber guard: keep the arm trapped with one leg and the lapel, and finish the shoulder without the full omoplata turn.
+1 rubber-guard | From gubber guard.
+2 omoplata | Keep the arm under one leg and the lapel, and turn to lock the shoulder.
+v wormoplata, monoplata
+n From Keenan Cornelius's Lapel Encyclopedia (gubber guard chapter). His course has the exact details; this is the outline.
+
+@ gubber-triangle | Gubber guard triangle
+f keenan-lapel
+k submission / choke
+p closed-guard
+s modern
+g gi
+l brown
+= From gubber guard, their head is already down and one arm is out of the way: lock the triangle.
+1 rubber-guard | From gubber guard, keep their posture broken.
+2 triangle | Bring your other leg over and lock the triangle.
+v gubber-guard, triangle-closed-guard
+n From Keenan Cornelius's Lapel Encyclopedia (gubber guard chapter).
+
+@ flavio-canto-choke | Flavio Canto choke
+f keenan-lapel
+k submission / choke
+p closed-guard
+s modern
+g gi
+l brown
+= A lapel choke named after judoka Flavio Canto: from gubber guard, feed their lapel around their neck and finish it with your arm and leg.
+1 rubber-guard | From gubber guard.
+2 rubber-guard | Feed their lapel around the neck.
+3 triangle | Pull it tight and use your leg to close the choke.
+v gubber-guard
+n From Keenan Cornelius's Lapel Encyclopedia (gubber guard chapter). Named for Flavio Canto, the Brazilian judo bronze medalist (Athens 2004). His course has the exact details; this is the outline.
+
+@ gubber-cross-choke | Gubber guard cross choke
+f keenan-lapel
+k submission / choke
+p closed-guard
+s modern
+g gi
+l brown
+= From gubber guard, with their posture held down by your leg and the lapel, your hands are free for a cross collar choke.
+1 rubber-guard | From gubber guard.
+2 closed-guard | Get deep cross grips on both collars.
+3 closed-guard | Pull your elbows apart and down to finish.
+v gubber-guard, cross-collar-closed-guard
+n From Keenan Cornelius's Lapel Encyclopedia (gubber guard chapter).
+
+@ wormhat-choke | Wormhat choke
+f keenan-lapel
+k submission / choke
+p lapel
+s modern
+g gi
+l brown
+= A lapel choke from Keenan's lapel guards: the lapel you've been using to tie them goes around their neck.
+1 dlr | From a lapel guard, as they lean in.
+2 triangle | Bring the lapel around their neck and pull it tight.
+n From Keenan Cornelius's Lapel Encyclopedia (lapel finishes chapter). His course has the exact details; this is the outline.
+
+@ lapel-lasso-omoplata | Lapel lasso overhook omoplata
+f keenan-lapel
+k submission / shoulder
+p spider
+s modern
+g gi
+l brown
+= From the lapel lasso, overhook the lassoed arm and swing into the omoplata.
+1 spider | From the lapel lasso, overhook the arm.
+2 omoplata | Swing your leg over into the omoplata and finish.
+v lapel-lasso, lapel-lasso-triangle, lapel-lasso-armbar, baratoplata
+n From Keenan Cornelius's Lapel Encyclopedia (lapel finishes chapter).
+
+@ lapel-lasso-triangle | Lapel lasso overhook triangle
+f keenan-lapel
+k submission / choke
+p spider
+s modern
+g gi
+l brown
+= From the lapel lasso, overhook the lassoed arm and lock a triangle around the head and the other arm.
+1 spider | From the lapel lasso, overhook the arm.
+2 triangle | Bring your legs up and lock the triangle.
+v lapel-lasso, lapel-lasso-omoplata
+n From Keenan Cornelius's Lapel Encyclopedia (lapel finishes chapter).
+
+@ baratoplata | Baratoplata from the lapel lasso
+f keenan-lapel
+k submission / shoulder
+p spider
+s modern
+g gi
+l brown
+= A shoulder lock (named after Ricardo Barata) from the lapel lasso overhook: their arm is bent behind them like an omoplata, but you finish it with your leg over the arm and your hands.
+1 spider | From the lapel lasso, overhook the arm.
+2 omoplata | Bring your leg over the arm, as if for an omoplata.
+3 omoplata | Bend the arm behind them and finish the shoulder.
+v lapel-lasso-omoplata
+n From Keenan Cornelius's Lapel Encyclopedia (lapel finishes chapter). His course has the exact details; this is the outline.
+
+@ lapel-lasso-armbar | Lapel lasso armbar
+f keenan-lapel
+k submission / elbow
+p spider
+s modern
+g gi
+l purple
+= From the lapel lasso, swing into the armbar on the lassoed arm, keeping the lapel.
+1 spider | From the lapel lasso, keep their arm extended.
+2 armbar !~ | Swing your leg over and finish the armbar.
+v lapel-lasso
+n From Keenan Cornelius's Lapel Encyclopedia (lapel finishes chapter).
 
 @ fifty-fifty-sweep | 50/50 sweep
 f x-guard-game

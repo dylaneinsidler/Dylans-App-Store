@@ -238,7 +238,7 @@ window.StarReading = (() => {
     'Handwritten lists', 'Early nights', 'Old playlists', 'Cold water', 'Group dinners', 'Unsubscribing', 'Second drafts', 'Thrift stores',
     'A clean desk', 'Reading the room', 'Calling your mom', 'Hot sauce', 'Sunscreen', 'Wild guesses', 'Stretching', 'Library books',
     'Slow mornings', 'Saying no', 'Houseplants', 'Taking the stairs', 'Honest answers', 'Small talk', 'Overtipping', 'Bad movies',
-    'Night swims', 'Postcards', 'Real plates', 'Naps', 'Bold lipstick', 'Patience', 'Splurging a little', 'Crosswords', 'Sunsets',
+    'Night swims', 'Postcards', 'Real plates', 'Naps', 'A sharp shirt', 'Patience', 'Splurging a little', 'Crosswords', 'Sunsets',
     'Silence', 'Compliments', 'The long way home', 'Iced coffee', 'Museums', 'Deep breaths', 'Leaving early', 'Big sweaters', 'Polaroids',
     'Fresh flowers', 'Texting first', 'Open windows', 'Good posture', 'Bad puns', 'Dancing alone', 'Phone on silent', 'Asking for help',
     'Taking credit', 'Thank-you notes', 'Something new', 'Morning light', 'Mismatched socks', 'Eye contact', 'Cooking for two',
@@ -249,7 +249,7 @@ window.StarReading = (() => {
     'The snooze button', 'Scorekeeping', 'Martyrdom', 'Shortcuts', 'Impulse haircuts', 'Arguing online', 'Ghosting', 'Vague plans',
     'Fake laughs', 'Last minute anything', 'Self-diagnosis', 'Energy drinks', 'Apologizing for nothing', 'Skipping meals', 'Forty open tabs',
     'Grudges', 'Big promises', 'Second-guessing', 'Mind reading', 'Overcommitting', 'Passive aggression', 'Rereading old texts', 'Shoulds',
-    'Envy', 'Cutting your own bangs', 'Bad lighting', 'People pleasing', 'Sarcasm', 'Reality TV', 'Running late', 'Assumptions', 'Drama',
+    'Envy', 'Skipping leg day', 'Bad lighting', 'People pleasing', 'Sarcasm', 'Reality TV', 'Running late', 'Assumptions', 'Drama',
     'Spite', 'Lists of lists', 'Revenge bedtime', 'Checking their story', 'Fine print', 'Sulking', 'Borrowed opinions', 'Overdressing',
     'Drafts you never send', 'Waiting to be asked', 'Seconds', 'Comment sections', 'Your inner critic', 'Overplanning',
     'Being the bigger person', 'Retail therapy', 'Monologues', 'Stale bread', 'Fake deadlines', 'Brutal honesty'];

@@ -1,7 +1,7 @@
 {
   "name": "Dylan's PC Remote",
   "short_name": "PC Remote",
-  "description": "Put your PC to sleep from bed; your Screens and the App Tester on the iPad",
+  "description": "Put your PC to sleep from bed",
   "id": "./",
   "start_url": "./",
   "scope": "./",

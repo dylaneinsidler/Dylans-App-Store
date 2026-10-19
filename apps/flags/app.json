@@ -13,12 +13,14 @@
     "flags.js",
     "flag-info.js",
     "common.js",
+    "capitals.js",
     "flags"
   ],
   "description": [
     "All 195 flags of the world: the flag of the day, every flag by continent (tap one for what its colors and symbols mean, its history, its earlier versions, its capital, people, size, languages, money, neighbors and a map), and a quiz that remembers which flags you know.",
     "More kinds of flags too: US states, Canadian provinces, Australian states, cities, organizations, ship signal flags, pirate flags and signal flags, each with what it means.",
-    "Then the flag game: pick the answer (A, B, C or D) and press Enter; right turns green, wrong turns red. Countries by default (all fifty, easy ones first), or pick another kind."
+    "Then the flag game: pick the answer (A, B, C or D) and press Enter; right turns green, wrong turns red. Countries by default (all fifty, easy ones first), or pick another kind.",
+    "And Capitals: learn every country's and every US state's capital (four choices; misses come back until you know them all), or look any of them up."
   ],
   "features": [
     "The flag of the day",
@@ -26,6 +28,7 @@
     "Each flag over the years",
     "States, cities, ship signals, pirate flags and more",
     "The flag game: countries or any kind",
+    "Learn every country's and US state's capital",
     "Light or dark"
   ]
 }

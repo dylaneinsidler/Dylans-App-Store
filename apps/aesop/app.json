@@ -14,14 +14,14 @@
     "all-fables.js"
   ],
   "description": [
-    "One of Aesop's fables every day, the same one as on the wall: the whole story, with Milo Winter's color picture from The Aesop for Children (1919), and its moral.",
-    "Below it, all 338 of Aesop's fables, numbered: every fable of The Aesop for Children and of George Fyler Townsend's translation, each one once. Search them by title, moral or any word, and tap one to read it."
+    "One of Aesop's fables every day, the same one as on the wall: the whole story, with its picture and its moral.",
+    "Below it, all 338 of Aesop's fables, numbered: every fable of The Aesop for Children and of George Fyler Townsend's translation, each one once. Search them by title, moral or any word, and tap one to read it. Every fable has a picture: Milo Winter's from The Aesop for Children (1919), or one from an older edition (Bewick, Rackham, Tenniel, Caldecott, Crane, Dore)."
   ],
   "features": [
     "A new fable every day",
     "All 338 fables, numbered",
     "Search titles, morals and words",
-    "Milo Winter's 1919 pictures",
+    "A picture for every fable",
     "Co-Star colors, light or dark"
   ]
 }

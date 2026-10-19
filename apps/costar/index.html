@@ -2,7 +2,7 @@
 <html lang="en" class="flow">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -56,19 +56,38 @@
     <div class="label transits-label">Your transits</div>
     <div class="cards" id="cards"></div>
   </section>
+
+  <section class="chart-side rise" hidden>
+    <div class="now-showing" id="nowShowing"></div>
+  </section>
+  <svg id="wheel" class="rise" viewBox="-500 -500 1000 1000" hidden></svg>
+  <canvas id="earth" class="rise" hidden></canvas>
   </section>
   <section class="screen" id="sky-screen">
     <div class="screen-name">Your chart</div>
 <svg id="wheel" class="rise" viewBox="-500 -500 1000 1000"></svg>
   <canvas id="earth" class="rise"></canvas>
 
-  <aside class="rise">
+  <aside class="rise top">
     <div class="row"><span class="label">Transits</span><span class="aside-note" id="count"></span></div>
     <div class="transits" id="transits"></div>
+  </aside>
 
-    <div class="planets" id="planets"></div>
-    <p class="compare" id="compare"></p>
+  <section class="details rise" id="details" hidden>
+    <div class="week mono" id="week"></div>
+    <div class="label through" id="through"></div>
+    <p class="para" id="para"></p>
+    <div class="dodont">
+      <div><h3>Do</h3><ul id="dos"></ul></div>
+      <div><h3>Don’t</h3><ul id="donts"></ul></div>
+    </div>
+  </section>
 
+  <aside class="rise low">
+    <div class="left">
+      <div class="planets" id="planets"></div>
+      <p class="compare" id="compare"></p>
+    </div>
     <div class="moon">
       <canvas id="moon"></canvas>
       <div>

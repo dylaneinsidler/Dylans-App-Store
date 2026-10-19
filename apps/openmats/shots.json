@@ -1,7 +1,0 @@
-[
-  {"name": "The map, with a pin for every gym", "url": "?demo"},
-  {"name": "Saturday's open mats, by time", "url": "?demo", "scroll": "#sat", "offset": 10},
-  {"name": "Sunday's open mats", "url": "?demo", "scroll": "#sun", "offset": 10},
-  {"name": "Every academy, north to south", "url": "?demo", "scroll": "#all", "offset": 10},
-  {"name": "A gym, tapped: Call, Directions and Instagram", "url": "?demo", "do": "document.querySelector('.row[data-gym=\"26\"]').click()", "scroll": ".map-card", "offset": 10, "wait": 800}
-]

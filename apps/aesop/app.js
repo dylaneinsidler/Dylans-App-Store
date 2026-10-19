@@ -1,5 +1,6 @@
 // Aesop's Fables on a phone: the same fable as the desktop app on the same day (desktop/fables.js: one a day from start,
-// in its order), with Milo Winter's picture from The Aesop for Children (1919), the story, and its moral. Below it, all
+// in its order), with Milo Winter's picture from The Aesop for Children (1919) (or, for the rest, one from another
+// old edition), the story, and its moral. Below it, all
 // the fables (desktop/all-fables.js: every fable of the 1919 book and of Townsend's translation, once each, numbered),
 // to search and tap: #n=42 opens No. 42, with a way back to today's. thumbs/ are the list's small pictures
 // (python tools/phone-photos.py "<desktop app>/images" site/apps/aesop/thumbs 160).
@@ -38,6 +39,16 @@
     }
     return { id, ...D.fables[id], n: (byId.get(id) || {}).n, from: 'children' };
   }
+  // Who drew the picture. The 1919 book's are Milo Winter's; every other fable's comes from another old edition
+  // (f.picture, from the desktop app's tools\more-pictures.json), which may show this fable, its characters in another
+  // fable, or (for a few) a woodcut vignette.
+  const credit = f => {
+    if (!f.picture) return 'Picture by Milo Winter, from <i>The Aesop for Children</i> (1919)';
+    const by = esc(f.picture.by).replace(/from (.+?) \((\d{4})\)$/, 'from <i>$1</i> ($2)');
+    const who = /^from /.test(f.picture.by) ? `Picture ${by}` : `Picture by ${by}`;
+    return f.picture.kind === 'characters' ? `${who}: its characters, drawn for another fable`
+      : f.picture.kind === 'vignette' ? `${who}: a woodcut vignette` : who;
+  };
   const asked = () => byN.get(Number((location.hash.match(/n=(\d+)/) || [])[1]));
 
   // ---- The fable: today's, or the one tapped in the list ----
@@ -53,7 +64,7 @@
       <div class="d-title">${f.n ? `<div class="num">No. ${f.n} of ${A.count}</div>` : ''}<h1 class="serif${f.title.length > 40 ? ' longer' : f.title.length > 26 ? ' long' : ''}">${esc(f.title)}</h1>
         <div class="sub">Aesop, about 2,600 years ago</div></div>
       ${pic ? `<div class="d-pic plate"><img src="${file('photos', pic)}" alt=""></div>
-        <div class="plate-credit">Picture by Milo Winter, from <i>The Aesop for Children</i> (1919)</div>` : ''}
+        <div class="plate-credit">${credit(f)}</div>` : ''}
       <div class="story serif">${(f.story || []).map(p => `<p>${esc(p)}</p>`).join('')}</div>
       ${f.moral ? `<div class="d-card moral"><h2>The moral</h2><p class="big">${esc(f.moral)}</p></div>` : ''}
       <div class="book">${BOOK[f.from] || BOOK.children}</div>

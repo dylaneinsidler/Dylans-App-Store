@@ -97,6 +97,29 @@ const { cfg, esc, glyph, fmtTime, fmtWeekday, fmtDay } = StarWall;
       <p>${esc(c.text)}</p>
     </div>`).join('');
 
+  // ---- Or the circle chart instead (config.js: leftScreenRight) ----
+  // It takes each of today's transits in turn, as on the right screen, and names the one it's showing underneath.
+  if (cfg.leftScreenRight !== 'details') {
+    document.querySelector('.detail').style.display = 'none';
+    for (const el of [document.querySelector('.chart-side'), $('wheel'), $('earth')]) el.removeAttribute('hidden');
+    const chartWheel = StarWheel($('wheel'), $('earth'), chart);
+    const SIZE = 680;   // right of the reading, nudged a little left of center (Dylan, October 16), above the transit's name
+    chartWheel.place(1110, 160, SIZE);
+    const featured = reading.all.slice(0, 6);
+    let shown = 0;
+    const show = i => {
+      shown = i;
+      const c = featured[i];
+      chartWheel.highlight(c?.transit);
+      $('nowShowing').innerHTML = c
+        ? `<div class="dates mono">${esc(c.dates)}${featured.length > 1 ? ` · ${i + 1} of ${featured.length}` : ''}</div><h2>${esc(c.title)}</h2><div class="plain">${esc(c.plain)}</div>`
+        : '<h2>A quiet sky</h2>';
+    };
+    show(0);
+    if (featured.length > 1) setInterval(() => show((shown + 1) % featured.length), Math.min(15e3, 55e3 / featured.length));
+    setInterval(() => { chartWheel.update(new Date()); chartWheel.highlight(featured[shown]?.transit); }, 60e3);
+  }
+
   // ---- How to read this ----
 
   StarWall.help(`
