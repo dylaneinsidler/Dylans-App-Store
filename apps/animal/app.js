@@ -48,7 +48,7 @@
 
   function draw() {
     const day = today(), asked = Number((location.hash.match(/n=(\d+)/) || [])[1]);
-    const a = byN.get(asked) || pick(day), next = pick(new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1));
+    const a = byN.get(asked) || pick(day);
     const c = GROUP_COLOR[a.group] || '#8a8f99';
     const facts = [['Weight', weight(a.mass)], ['Length', length(a.length)], ['Lives', a.life != null ? `${Math.round(a.life)} years` : null],
       ['In the wild', STATUS[a.status] || 'Not assessed']].filter(x => x[1]);
@@ -64,9 +64,8 @@
       <div class="d-card"><h2>What it eats</h2><p>${esc(a.diet)}</p></div>
       <div class="d-card"><h2>About</h2><p>${esc(a.about)}</p></div>
       <div class="d-card"><h2>Fun facts</h2><ol>${(a.facts || []).map(f => `<li>${esc(f)}</li>`).join('')}</ol></div>
-      ${facts.length ? `<div class="d-card"><h2>The numbers</h2><div class="d-facts">${facts.map(([k, v]) => `<div>${k}<b>${esc(v)}</b></div>`).join('')}</div></div>` : ''}
-      <div class="d-next"><div>Tomorrow<b>${esc(next.group === a.group ? `another ${next.group.toLowerCase()}` : `a ${next.group.toLowerCase()}`)}</b></div>
-        <div style="text-align:right">from<b>${esc(next.where)}</b></div></div>`;
+      ${facts.length ? `<div class="d-card"><h2>The numbers</h2><div class="d-facts">${facts.map(([k, v]) => `<div>${k}<b>${esc(v)}</b></div>`).join('')}</div></div>` : ''}`;
+    // (no "Tomorrow" preview: Dylan took it off, October 19, 2026)
     document.querySelector('.d-theme').onclick = ev => { const b = ev.target.closest('button'); if (b) setTheme(b.dataset.t); };
     setTheme(theme);
   }

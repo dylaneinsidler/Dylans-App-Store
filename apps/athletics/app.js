@@ -203,11 +203,14 @@
     const mins = t => { const [, h, m, ap] = t.match(/(\d+):(\d+) (AM|PM)/); return (+h % 12 + (ap === 'PM' ? 12 : 0)) * 60 + +m; };
     const byId = Object.fromEntries(A.places.map(p => [p.id, p]));
     const drive = p => `https://maps.apple.com/?daddr=${p.at[0]},${p.at[1]}&dirflg=d`;
+    // Today's runs, as on the desktop: on now (its first hour) has its time in red, then it's crossed off.
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    const state = r => k(r) !== 0 ? '' : nowMins >= mins(r.time) + 60 ? ' past' : nowMins >= mins(r.time) ? ' now' : '';
     const runs = [...A.runs].sort((a, b) => k(a) - k(b) || mins(a.time) - mins(b.time)).map(r => {
       const p = byId[r.place], day = k(r) === 0 ? 'Today' : k(r) === 1 ? 'Tmrw' : r.day;
       const inner = `<span class="ad${k(r) === 0 ? ' today' : ''}">${day}</span><span class="at">${esc(r.time.replace(':00', '').replace(' AM', 'a').replace(' PM', 'p'))}</span>
         <span class="g">${esc(r.club)}${r.what ? ` <i>${esc(r.what)}</i>` : ''}<small>${esc(p ? p.name : r.where || '')}</small></span>`;
-      return p ? `<a class="arow" href="${drive(p)}">${inner}<span class="chev">&rsaquo;</span></a>` : `<div class="arow">${inner}<span></span></div>`;
+      return p ? `<a class="arow${state(r)}" href="${drive(p)}">${inner}<span class="chev">&rsaquo;</span></a>` : `<div class="arow${state(r)}">${inner}<span></span></div>`;
     }).join('');
     const placeList = kind => A.places.filter(p => p.kind === kind).map(p => `<a class="prow" href="${drive(p)}">
         <span class="g">${esc(p.name)}${p.cost === 'free' ? ' <span class="stamp">Free</span>' : ''}

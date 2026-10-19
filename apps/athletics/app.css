@@ -153,6 +153,8 @@ html.shot #map .mring { animation: none; }
 .arow:active, .prow:active { background: #0000001a; }
 .arow .ad { font: 700 11px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: #2f8a55; }
 .arow .ad.today { color: #b8242b; }
+.arow.now .at { color: #b8242b; font-weight: 700; }
+.arow.past { opacity: .45; } .arow.past .at, .arow.past .g { text-decoration: line-through; }
 .arow .at { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
 .arow .g, .prow .g { font-weight: 600; font-size: 15px; line-height: 1.2; min-width: 0; }
 .arow .g i { font-style: normal; font-weight: 400; font-size: 12px; color: var(--ink-3); }
