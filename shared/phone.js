@@ -21,6 +21,10 @@
   html.classList.toggle('ios', ios);
   html.classList.toggle('touch', touch);
   html.classList.toggle('shot', shot);
+  // Shown inside another page (Morning and Night Screens cycle through the apps in a frame): no install card, no footer.
+  let framed = false;
+  try { framed = window.self !== window.top; } catch (e) { framed = true; }
+  html.classList.toggle('framed', framed);
 
   const store = {
     get(key, fallback) {
@@ -77,7 +81,7 @@
 
   // In Safari (not from the Home Screen), a card at the top explains how to add the app there.
   function installCard() {
-    if (standalone || shot || !touch) return;
+    if (standalone || shot || framed || !touch) return;
     const key = 'store.hint.' + location.pathname;
     if (store.get(key, false)) return;
     const card = document.createElement('aside');
@@ -94,7 +98,7 @@
 
   // The footer: more apps, and sharing this one.
   function footer() {
-    if (script.dataset.footer === 'off') return;
+    if (script.dataset.footer === 'off' || framed) return;
     const f = document.createElement('footer');
     f.className = 'phone-footer';
     f.innerHTML = `
