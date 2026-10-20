@@ -72,7 +72,8 @@ window.OPEN_MATS = {
     { name: 'Killer Bees South Florida', city: 'Lauderhill', street: '5272 N University Dr', phone: '(954) 282-1030', at: [26.189591, -80.251377], ig: 'killerbeessouthflorida',
       sat: [{ from: '10:00', to: '12:00' }] },
     // From Dylan (October 9, 2026). Carbon Submission Grappling, no-gi only: its own schedule (gymdesk), Saturday 10:30 to 1:30.
-    { name: 'Carbon SG (Carbon Grappling)', city: 'Fort Lauderdale', street: '331 E Commercial Blvd', phone: '(954) 998-3524', at: [26.188997, -80.125145], ig: 'carbongrappling',
+    // Free for him (October 19, 2026).
+    { name: 'Carbon SG (Carbon Grappling)', city: 'Fort Lauderdale', street: '331 E Commercial Blvd', phone: '(954) 998-3524', at: [26.188997, -80.125145], ig: 'carbongrappling', price: 'free',
       sat: [{ from: '10:30', to: '13:30', gi: 'nogi' }] },
     { name: 'Couchon BJJ', city: 'Oakland Park', street: '3873 Powerline Rd', phone: '(718) 619-1863', at: [26.173298, -80.154831], ig: 'couchonbjj',
       sat: [{ from: '13:00', to: '14:00' }] },
