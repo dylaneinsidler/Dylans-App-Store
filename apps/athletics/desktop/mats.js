@@ -46,9 +46,10 @@ window.OPEN_MATS = {
       note: 'no-gi; weekend open mat time not listed yet' },
     { name: 'Renzo Gracie Boca Raton', city: 'Boca Raton', street: '9045 La Fontana Blvd, #116', phone: '(561) 400-7675', at: [26.380505, -80.187818], ig: 'renzogracieboca',
       sat: [{ from: '11:30', to: '12:30', gi: 'nogi' }] },
-    // From Dylan (October 9, 2026): 11 AM. The end time isn't known.
+    // From Dylan (October 9, 2026): 11 AM. The end time isn't known. October 19, 2026: Saturday is a gi class, not an open
+    // mat, but keep it on the list; it's free for him.
     { name: 'BTT Boca (Brazilian Top Team)', city: 'Boca Raton', street: '450 NE 20th St, Ste 109', phone: '(561) 368-4123', at: [26.367294, -80.079403],
-      sat: [{ from: '11:00', to: '12:30' }], note: 'end time not listed' },
+      price: 'free', sat: [{ from: '11:00', to: '12:30', gi: 'gi' }], note: 'a gi class, not an open mat; end time not listed' },
     { name: 'Denys Darzi BJJ', city: 'Boca Raton', street: '9144 Glades Rd', phone: '(561) 503-8440', at: [26.3664607, -80.1881822], ig: 'denysdarzibjj',
       sat: [{ from: '09:00', to: '10:30' }] },
     { name: 'Kimura BJJ', city: 'Boca Raton', street: '23269 FL-7, #117', phone: '(561) 409-6660', at: [26.32666, -80.203436], ig: 'kimurabjjusaofficial',
@@ -80,7 +81,7 @@ window.OPEN_MATS = {
     // From Dylan (October 10, 2026); times read from the gym's 2026 schedule (its Instagram "Schedule" highlight):
     // Saturday open mat, gi or no-gi; Sunday no-gi open mat "open to all gyms", after an invitation-only competition class.
     { name: 'Renzo Gracie Fort Lauderdale', city: 'Fort Lauderdale', street: '535 NE 13th St', phone: '(954) 530-5637', at: [26.142413, -80.1385],
-      ig: 'renzogracieftlauderdale',
+      ig: 'renzogracieftlauderdale', price: 'free',   // free for Dylan (October 19, 2026)
       sat: [{ from: '10:30', to: '11:30', gi: 'both' }],
       sun: [{ from: '11:00', to: '12:30', gi: 'nogi' }], note: 'Sunday open to all gyms' },
     { name: 'Mattix Gracie Academy', city: 'Davie', street: '4301 S Flamingo Rd, Ste 103', phone: '(954) 864-9174', at: [26.066742, -80.313807], ig: 'mattixacademy',
@@ -89,8 +90,8 @@ window.OPEN_MATS = {
       sat: [{ from: '10:00', to: '11:30', gi: 'nogi' }], note: 'Q&A and rolling' },
     { name: 'Outer Heaven Jiu Jitsu', city: 'Fort Lauderdale', street: '2990 Griffin Rd, Ste 2', phone: '(754) 239-3852', at: [26.062226, -80.181694], ig: 'outerheavenjjclub',
       sun: [{ from: '10:00', to: '12:00' }], note: 'free for blue belts and up' },
-    // From Dylan (October 9, 2026): no-gi, Saturdays at 2. The end time isn't known.
-    { name: 'Vagner Rocha Martial Arts', city: 'Hollywood', street: '6592 Taft St', phone: '(954) 432-8788', at: [26.024518, -80.220063],
+    // From Dylan (October 9, 2026): no-gi, Saturdays at 2. The end time isn't known. Free for him (October 19, 2026).
+    { name: 'Vagner Rocha Martial Arts', city: 'Hollywood', street: '6592 Taft St', phone: '(954) 432-8788', at: [26.024518, -80.220063], price: 'free',
       sat: [{ from: '14:00', to: '15:30', gi: 'nogi' }], note: 'end time not listed' },
     // 10th Planet is no-gi only. Its own schedule (10thplanetmiami.com, October 9, 2026): Sunday open mat 11 to 1.
     { name: '10th Planet Miami', city: 'Miramar', street: '6315 Miramar Pkwy', phone: '(786) 891-2900', at: [25.9846692, -80.213036],

@@ -326,7 +326,7 @@
         "apps/corkboard/shots/3.jpg",
         "apps/corkboard/shots/4.jpg"
       ],
-      "version": "1.29"
+      "version": "1.30"
     },
     {
       "id": "aesop",
@@ -421,7 +421,7 @@
         "apps/athletics/shots/5.jpg",
         "apps/athletics/shots/6.jpg"
       ],
-      "version": "2.5"
+      "version": "2.6"
     },
     {
       "id": "pokemon",
@@ -553,5 +553,5 @@
       "version": "1.5"
     }
   ],
-  "updated": "2026-10-19"
+  "updated": "2026-10-20"
 }
