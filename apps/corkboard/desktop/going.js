@@ -63,6 +63,7 @@ window.CORKBOARD_GOING = {
    "id": "2026-11-20-eric-andre",
    "date": "2026-11-20",
    "to": "2026-11-22",
+   "tickets": "https://www.miamiimprov.com/shows/376975",
    "what": "Eric Andre",
    "where": "Miami Improv, Doral",
    "note": "Fri 7:30 and 10 PM, Sat 7 and 9:30 PM, Sun 7 PM; tickets",
@@ -131,6 +132,7 @@ window.CORKBOARD_GOING = {
    "id": "2027-02-10-miami-boat-show",
    "date": "2027-02-10",
    "to": "2027-02-14",
+   "tickets": "https://www.miamiboatshow.com",
    "what": "Miami International Boat Show",
    "where": "Miami Beach",
    "kind": "boat",
@@ -159,6 +161,7 @@ window.CORKBOARD_GOING = {
    "id": "2027-02-13-coconut-grove-arts-festival",
    "date": "2027-02-13",
    "to": "2027-02-15",
+   "tickets": "https://www.cgaf.com",
    "what": "Coconut Grove Arts Festival",
    "time": "10 AM - 6 PM",
    "where": "Coconut Grove waterfront",
@@ -242,6 +245,7 @@ window.CORKBOARD_GOING = {
    "id": "2026-08-28-halloween-horror-nights",
    "date": "2026-08-28",
    "to": "2026-11-01",
+   "tickets": "https://www.halloweenhorrornights.com/orlando/",
    "what": "Halloween Horror Nights",
    "where": "Universal Orlando",
    "note": "select nights",
@@ -586,6 +590,7 @@ window.CORKBOARD_GOING = {
    "id": "2026-10-28-boat-show",
    "date": "2026-10-28",
    "to": "2026-11-01",
+   "tickets": "https://www.flibs.com",
    "what": "Fort Lauderdale Boat Show",
    "where": "Bahia Mar and 6 other marinas",
    "kind": "boat",
@@ -628,6 +633,7 @@ window.CORKBOARD_GOING = {
    "id": "2026-12-04-art-basel",
    "date": "2026-12-04",
    "to": "2026-12-06",
+   "tickets": "https://www.artbasel.com/miami-beach",
    "what": "Art Basel Miami Beach",
    "where": "Miami Beach Convention Center",
    "kind": "art",
@@ -722,6 +728,7 @@ window.CORKBOARD_GOING = {
    "id": "2027-01-27-art-palm-beach",
    "date": "2027-01-27",
    "to": "2027-01-31",
+   "tickets": "https://www.artpalmbeach.com",
    "what": "Art Palm Beach",
    "where": "Palm Beach County Convention Center",
    "note": "opening night Wed, then 11 AM - 6 PM",
@@ -767,6 +774,7 @@ window.CORKBOARD_GOING = {
    "id": "2027-02-06-renaissance-festival",
    "date": "2027-02-06",
    "to": "2027-03-28",
+   "tickets": "https://www.ren-fest.com",
    "what": "Florida Renaissance Festival",
    "where": "Quiet Waters Park",
    "note": "weekends only",
@@ -796,6 +804,7 @@ window.CORKBOARD_GOING = {
    "id": "2027-02-11-the-palm-beach-show",
    "date": "2027-02-11",
    "to": "2027-02-16",
+   "tickets": "https://www.palmbeachshow.com",
    "what": "The Palm Beach Show",
    "where": "Palm Beach County Convention Center",
    "note": "art, jewelry and antiques",
@@ -815,6 +824,7 @@ window.CORKBOARD_GOING = {
    "id": "2027-02-19-fort-lauderdale-film-festival",
    "date": "2027-02-19",
    "to": "2027-02-27",
+   "tickets": "https://fliff.com",
    "what": "Fort Lauderdale Film Festival",
    "kind": "movie",
    "ics": "desktop/ics/2027-02-19-fort-lauderdale-film-festival.ics"
@@ -888,6 +898,7 @@ window.CORKBOARD_GOING = {
    "id": "2027-04-02-tortuga",
    "date": "2027-04-02",
    "to": "2027-04-04",
+   "tickets": "https://www.tortugamusicfestival.com",
    "what": "Tortuga Music Festival",
    "where": "Fort Lauderdale Beach",
    "kind": "concert",
@@ -971,6 +982,114 @@ window.CORKBOARD_GOING = {
    ],
    "short": "4th of July fireworks",
    "ics": "desktop/ics/2027-07-04-4th-of-july-fireworks.ics"
+  },
+  {
+   "id": "2026-11-08-disco-domingo",
+   "date": "2026-11-08",
+   "tickets": "https://shotgun.live/en/events/disco-domingo-vol-6",
+   "what": "Disco Domingo Vol. 6",
+   "time": "2-8 PM",
+   "note": "daytime disco, Toribio; 21+, tickets $25 (happy hour 2-5)",
+   "where": "River House Wine & Bar, 437 SW 2nd St, Miami",
+   "kind": "party",
+   "at": [
+    25.7718,
+    -80.1997
+   ],
+   "short": "Disco Domingo",
+   "ics": "desktop/ics/2026-11-08-disco-domingo.ics"
+  },
+  {
+   "id": "2026-10-23-gta-halloween",
+   "date": "2026-10-23",
+   "tickets": "https://www.eventbrite.com/e/gta-halloween-daer-nightclub-tickets-1998759767269",
+   "what": "GTA Halloween: Most Wanted",
+   "time": "10 PM - 4 AM",
+   "note": "GTA-themed costume party; tickets on Eventbrite",
+   "where": "DAER Nightclub, Seminole Hard Rock, Hollywood",
+   "kind": "party",
+   "at": [
+    26.051,
+    -80.2105
+   ],
+   "short": "GTA Halloween",
+   "ics": "desktop/ics/2026-10-23-gta-halloween.ics"
+  },
+  {
+   "id": "2026-10-22-beach-yoga",
+   "date": "2026-10-22",
+   "what": "Glow-in-the-Dark Beach Yoga",
+   "time": "5:45 PM",
+   "note": "Halloween beach yoga under the stars; a friend invited you on Facebook",
+   "where": "Embassy Suites, Deerfield Beach",
+   "kind": "yoga",
+   "at": [
+    26.2965,
+    -80.0806
+   ],
+   "short": "Beach Yoga",
+   "ics": "desktop/ics/2026-10-22-beach-yoga.ics"
+  },
+  {
+   "id": "2026-11-07-art-on-the-square",
+   "date": "2026-11-07",
+   "to": "2026-11-08",
+   "what": "Art on the Square Fine Art Show",
+   "where": "51 N Swinton Ave, Delray Beach",
+   "kind": "art",
+   "at": [
+    26.462,
+    -80.073
+   ],
+   "short": "Art on the Square",
+   "ics": "desktop/ics/2026-11-07-art-on-the-square.ics"
+  },
+  {
+   "id": "2026-11-12-pie-and-say-hi",
+   "date": "2026-11-12",
+   "what": "Bring a Pie & Say Hi picnic",
+   "time": "6 PM",
+   "note": "young professionals and entrepreneurs; a friend invited you on Facebook",
+   "where": "Sandoway Discovery Center, Delray Beach",
+   "kind": "party",
+   "at": [
+    26.4573,
+    -80.0597
+   ],
+   "short": "Pie & Say Hi",
+   "ics": "desktop/ics/2026-11-12-pie-and-say-hi.ics"
+  },
+  {
+   "id": "2026-11-18-john-cusack",
+   "date": "2026-11-18",
+   "tickets": "https://www.parkerplayhouse.com/events/detail/john-cusack-2026",
+   "what": "An Evening with John Cusack",
+   "time": "7:30 PM",
+   "note": "with a screening of High Fidelity; tickets",
+   "where": "The Parker, Fort Lauderdale",
+   "kind": "movie",
+   "at": [
+    26.1305,
+    -80.134
+   ],
+   "short": "John Cusack",
+   "ics": "desktop/ics/2026-11-18-john-cusack.ics"
+  },
+  {
+   "id": "2027-05-01-phil-hanley",
+   "date": "2027-05-01",
+   "tickets": "https://www.ticketmaster.com/phil-hanley-ft-lauderdale-05-01-2027/event/0D006532B43CB9D7",
+   "what": "Phil Hanley",
+   "time": "8 PM",
+   "note": "stand-up; tickets",
+   "where": "The Parker, Fort Lauderdale",
+   "kind": "comedy",
+   "at": [
+    26.1305,
+    -80.134
+   ],
+   "short": "Phil Hanley",
+   "ics": "desktop/ics/2027-05-01-phil-hanley.ics"
   }
  ]
 };

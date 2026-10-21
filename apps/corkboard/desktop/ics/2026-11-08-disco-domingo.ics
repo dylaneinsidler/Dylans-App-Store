@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Dylan's App Store//Corkboard//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:2026-11-08-disco-domingo@dylans-corkboard
+DTSTAMP:20261021T223229Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Disco Domingo Vol. 6
+LOCATION:River House Wine & Bar\, 437 SW 2nd St\, Miami
+GEO:25.7718;-80.1997
+DESCRIPTION:2-8 PM\ndaytime disco\, Toribio\; 21+\, tickets $25 (happy hour
+  2-5)\nFrom Dylan's Corkboard
+END:VEVENT
+END:VCALENDAR

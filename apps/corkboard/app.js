@@ -69,7 +69,10 @@
     return `<div class="item${ended ? ' past' : ''}"${hold}>
       <div class="d">${day}<small>${dow}</small></div>
       <div>${deletable ? `<button class="del" data-del="${esc(it.id)}" aria-label="Remove">✕</button>` : ''}
-        <div class="w">${it.at ? '<i class="dot"></i>' : ''}${esc(it.what)}${countdown(it.start, it.end)}</div>
+        <div class="w">${it.at ? '<i class="dot"></i>' : ''}${it.tickets
+          // Something you need a ticket for: tap its name to buy one (tickets: in the desktop's events.js).
+          ? `<a class="tix" href="${esc(it.tickets)}" target="_blank" rel="noopener">${esc(it.what)}</a>`
+          : esc(it.what)}${countdown(it.start, it.end)}</div>
         ${extra ? `<div class="x">${extra}</div>` : ''}</div>
     </div>`;
   }
