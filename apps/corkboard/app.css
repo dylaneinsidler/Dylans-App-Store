@@ -78,7 +78,7 @@ body { background: #8a6038 url("desktop/cork.svg") repeat; background-size: 360p
 /* A Local Event's date is written in its kind's ink, like the desktop's (the key is under the map). */
 .item[data-ev] .d { color: var(--kc); }
 /* An event you need a ticket for: tap its name to buy one. */
-.item .w a.tix { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; text-decoration-color: color-mix(in srgb, currentColor, transparent 55%); }
+.item .w a.tix { color: inherit; text-decoration: none; }
 .item .w a.tix::after { content: ' \1F39F\FE0E'; font-size: 0.85em; opacity: 0.7; }
 .item.past .w, .item.past .x { text-decoration: line-through; color: var(--ink-3); }
 .item.past .d, .item.past .d small { color: #a8a194; }
