@@ -686,6 +686,38 @@ window.CORKBOARD_GOING = {
    "ics": "desktop/ics/2026-12-19-newbreed-miami.ics"
   },
   {
+   "id": "2026-12-24-matzoball-boca",
+   "date": "2026-12-24",
+   "tickets": "https://matzoball.ticketspice.com/mb-boca-raton-2026",
+   "what": "MatzoBall Boca Raton",
+   "time": "9 PM - 3 AM",
+   "where": "Boca Luna Luxe Lounge, 111 SE Mizner Blvd",
+   "note": "Christmas Eve Jewish singles party, ages 21-49, ID required",
+   "kind": "party",
+   "at": [
+    26.3478,
+    -80.0857
+   ],
+   "short": "MatzoBall Boca",
+   "ics": "desktop/ics/2026-12-24-matzoball-boca.ics"
+  },
+  {
+   "id": "2026-12-24-matzoball-miami",
+   "date": "2026-12-24",
+   "tickets": "https://matzoball.ticketspice.com/mb-miami-2026",
+   "what": "MatzoBall Miami",
+   "time": "10 PM - 4 AM",
+   "where": "LIV Nightclub, Fontainebleau, 4441 Collins Ave",
+   "note": "Christmas Eve Jewish singles party, ages 21-49, ID required",
+   "kind": "party",
+   "at": [
+    25.818,
+    -80.1227
+   ],
+   "short": "MatzoBall Miami",
+   "ics": "desktop/ics/2026-12-24-matzoball-miami.ics"
+  },
+  {
    "id": "2027-01-09-las-olas-art-fair",
    "date": "2027-01-09",
    "to": "2027-01-10",
