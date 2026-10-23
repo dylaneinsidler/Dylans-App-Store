@@ -26,7 +26,8 @@
     return byN.get(order[((i % order.length) + order.length) % order.length]);
   }
   const GROUP_COLOR = { Mammal: '#c98a4b', Bird: '#4f8fd6', Reptile: '#5f9e4a', Amphibian: '#3fae8c', Fish: '#2f86b5',
-    Insect: '#d0a12b', Crustacean: '#d0603f', Mollusc: '#a46ad0', Cnidarian: '#d06ab4', 'Micro-animal': '#8a8f99' };
+    Insect: '#d0a12b', Crustacean: '#d0603f', Mollusc: '#a46ad0', Cnidarian: '#d06ab4', 'Micro-animal': '#8a8f99',
+    Arachnid: '#6c74d6', Echinoderm: '#cf4a5a', Worm: '#9aae3a', Arthropod: '#7d8fa8' };
   const STATUS = { LC: 'Least concern', NT: 'Near threatened', VU: 'Vulnerable', EN: 'Endangered', CR: 'Critically endangered', EW: 'Extinct in the wild', EX: 'Extinct' };
   const weight = kg => kg == null ? null : kg >= 1000 ? `${(kg / 1000).toFixed(1)} t (${Math.round(kg * 2.20462).toLocaleString()} lb)`
     : kg >= 1 ? `${kg < 10 ? kg.toFixed(1) : Math.round(kg)} kg (${Math.round(kg * 2.20462).toLocaleString()} lb)` : `${Math.round(kg * 1000)} g (${(kg * 35.274).toFixed(1)} oz)`;
