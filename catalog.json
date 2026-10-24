@@ -162,7 +162,7 @@
         "apps/torah/shots/4.jpg",
         "apps/torah/shots/5.jpg"
       ],
-      "version": "1.12"
+      "version": "1.13"
     },
     {
       "id": "costar",
@@ -326,7 +326,7 @@
         "apps/corkboard/shots/3.jpg",
         "apps/corkboard/shots/4.jpg"
       ],
-      "version": "1.35"
+      "version": "1.36"
     },
     {
       "id": "aesop",
@@ -381,7 +381,7 @@
       "url": "https://dylaneinsidler.github.io/World-Art-Show/",
       "external": true,
       "shots": [],
-      "version": "2.9"
+      "version": "2.10"
     },
     {
       "id": "athletics",
@@ -553,5 +553,5 @@
       "version": "1.5"
     }
   ],
-  "updated": "2026-10-23"
+  "updated": "2026-10-24"
 }
