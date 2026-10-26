@@ -1,14 +1,19 @@
 window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick() {}, close() {} };   // phone stand-in (tools/build.mjs)
 // Dylan's Daily Torah: what both screens share. The calendar (this week's portion, today's section of it, the
-// Hebrew date, Shabbat times), texts from Sefaria and tidying them for the screen, shrinking text to
-// fit, the header, click-to-close, and reloading when the day changes.
+// Hebrew date, Shabbat times), which day is shown (today, or one picked with ‹ ›), texts from Sefaria and
+// tidying them for the screen, shrinking text to fit, the header, click-to-close, and reloading when the day changes.
 (function () {
   const cfg = window.TORAH_WALL;
   const TORAH = window.TORAH;
   const { HDate, Location, Zmanim, getSedra, months, gematriya } = hebcal;
 
-  // For trying out other days: week.html?date=2026-12-05 (and &time=21:00) shows that day.
+  // For trying out other days: week.html?date=2026-12-05 (and &time=21:00) pretends that's today.
+  // &day=2026-12-01 then opens on another day, as if picked with the ‹ › buttons (the screenshots use it).
   const params = new URLSearchParams(location.search);
+  const inFrame = window.parent !== window;   // inside Dylan's Morning or Night Screens (or the screenshots)
+  // Opened by launch.ps1 (the Desktop shortcut), which passes the theme and the day between the two screens.
+  const launched = !!window.DYLAN_OPENED && !inFrame;
+  const loadedAt = Date.now();
 
   // Light (the usual sepia) or dark: ?theme= on the address (Dylan's Morning and Night Screens use it), else
   // the last choice made with the switch in the header (theme.js, saved by launch.ps1), else config.js.
@@ -16,10 +21,13 @@ window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick()
   let theme = (askedTheme || window.TORAH_THEME || cfg.theme) === 'dark' ? 'dark' : 'light';
   const baseTitle = document.title;
   // The window title carries the choice, e.g. "Today (dark)": launch.ps1 reads it and tells the other screen.
+  // A day picked on this screen goes on the end, e.g. "Today (dark) [day 2026-10-22 1761400000000]".
+  let dayStamp = '';
+  const setTitle = () => { document.title = `${baseTitle} (${theme})${dayStamp}`; };
   function setTheme(t) {
     theme = t;
     document.documentElement.dataset.theme = t;
-    document.title = `${baseTitle} (${t})`;
+    setTitle();
     document.querySelectorAll('.theme-switch span').forEach(s => s.classList.toggle('on', s.dataset.pick === t));
   }
   setTheme(theme);
@@ -40,7 +48,8 @@ window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick()
     }, 1000);
   }
 
-  function now() {
+  // The real moment now (or the one ?date= and &time= pretend it is).
+  function realNow() {
     const d = new Date();
     if (!params.get('date')) return d;
     const [y, m, day] = params.get('date').split('-').map(Number);
@@ -49,7 +58,83 @@ window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick()
   }
   const dayStart = d => new Date(d.getFullYear(), d.getMonth(), d.getDate());
   const addDays = (d, n) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+  const daysBetween = (a, b) => Math.round((dayStart(b) - dayStart(a)) / 864e5);   // whole days from a to b
+  const isoDate = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const fromIso = s => { const m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(s || ''); return m ? new Date(+m[1], m[2] - 1, +m[3]) : null; };
   const place = new Location(cfg.lat, cfg.lon, cfg.israel, cfg.timeZone, cfg.place);
+
+  // ---- Which day both screens show: today, or one picked with the ‹ › buttons, the arrow keys, or a day in
+  //      the week's list (Dylan, October 25, 2026: to catch up on days he missed and see what's ahead) ----
+  // null means today. Another day is shown as it is at noon (so no "from sunset" on a day that isn't today).
+  let shown = fromIso(params.get('day'));
+  if (shown && daysBetween(realNow(), shown) === 0) shown = null;
+  function now() {
+    return shown ? new Date(shown.getFullYear(), shown.getMonth(), shown.getDate(), 12, 0) : realNow();
+  }
+  const isToday = () => !shown;
+  const daysAway = () => (shown ? daysBetween(realNow(), shown) : 0);   // -3: three days ago
+  const agoText = (n = daysAway()) =>
+    n === 0 ? 'Today' : n === -1 ? 'Yesterday' : n === 1 ? 'Tomorrow' : n < 0 ? `${-n} days ago` : `In ${n} days`;
+  // "Today's", or the day's own name: "Thursday's", "Shabbat's".
+  const dayWord = () => (shown ? `${DAYS[now().getDay()]}'s` : "Today's");
+  // How far the shown day's week is from this week, counted in Shabbats: 0 this week, -1 last week.
+  const satOf = d => addDays(dayStart(d), 6 - d.getDay());
+  const weeksAway = () => Math.round(daysBetween(satOf(realNow()), satOf(now())) / 7);
+
+  const listeners = [];
+  const onDay = fn => listeners.push(fn);   // each screen redraws itself with this when the day changes
+  let lastChange = Date.now();
+  let told = 0;   // when the last pick was passed between the screens
+  // Show another day (a Date, or null for today) on this screen. Picked here (tell: true), it's passed to the
+  // other screen too: through this window's title, which launch.ps1 copies into day.js for both to read.
+  function goTo(d, { tell = true } = {}) {
+    let next = d ? dayStart(d) : null;
+    if (next && daysBetween(realNow(), next) === 0) next = null;
+    lastChange = Date.now();
+    if (tell && launched) {
+      told = Date.now();
+      dayStamp = ` [day ${isoDate(next || realNow())} ${told}]`;
+      setTitle();
+    }
+    if ((next && shown && next.getTime() === shown.getTime()) || (!next && !shown)) return;
+    shown = next;
+    closeDetails();
+    fillHeaders();
+    listeners.forEach(fn => { try { fn(now()); } catch (e) { console.warn(e); } });
+  }
+  const step = n => goTo(addDays(now(), n));
+
+  // The other screen's pick, from day.js (written by launch.ps1), checked four times a second. Only picks
+  // made since this page opened count (day.js may be left from another time).
+  if (launched) {
+    setInterval(() => {
+      const s = document.createElement('script');
+      s.src = `day.js?${Date.now()}`;
+      s.onload = () => {
+        s.remove();
+        const p = window.TORAH_DAY;
+        if (p && p.at > told && p.at > loadedAt - 5e3) { told = p.at; goTo(fromIso(p.date), { tell: false }); }
+      };
+      s.onerror = () => s.remove();
+      document.head.append(s);
+    }, 250);
+  }
+
+  // Back to today by itself after a few minutes of nobody touching the mouse or keys (or the phone). That way
+  // every opening, and every turn in the Morning and Night Screens (which come round 8 minutes or more apart),
+  // starts on today. TW.idleMinutes changes it (the phone waits longer).
+  let lastActive = Date.now();
+  ['pointermove', 'pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'].forEach(ev =>
+    addEventListener(ev, () => { lastActive = Date.now(); }, { passive: true, capture: true }));
+  // (Checked every 5 seconds, and the moment the page is back in view: a phone picked up again, say, before the
+  // first touch counts as being busy with it.)
+  const backToToday = () => {
+    const idle = (window.TW?.idleMinutes || 3) * 60e3;
+    if (shown && Date.now() - Math.max(lastActive, lastChange) > idle) goTo(null);
+  };
+  setInterval(backToToday, 5e3);
+  addEventListener('pageshow', backToToday);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) backToToday(); });
 
   // ---- References like "Genesis 2:4-2:19" ----
 
@@ -279,16 +364,40 @@ window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick()
     <rect x="5" y="9" width="7" height="22" rx="3.5"/><rect x="28" y="9" width="7" height="22" rx="3.5"/>
     <path d="M8.5 4.5v4.5M8.5 31v4.5M31.5 4.5v4.5M31.5 31v4.5M12 12h16M12 28h16"/>
     <path d="M16 17h8M16 21h8M16 25h5" stroke-width="1.7"/></svg>`;
+  // The header: the name on the left; on the right the Hebrew date, the day shown with ‹ › and Today to
+  // change it, the Light / Dark switch and the X. (The day's part sits on the right, clear of the Morning
+  // and Night Screens' buttons at the top middle. All of it counts as a control, data-click, so a click that
+  // just misses a button never closes the app.)
+  const ARROW = d => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
   function header(screenName) {
-    const d = now(), h = hebrewDate(d);
-    const tonight = h.tonight ? `<span class="sep">·</span><span>From sunset: ${showHebrewDate(h.tonight, false)}</span>` : '';
     return `<header class="bar">
       <div class="wordmark">${SCROLL}<span class="name">${cfg.appName}</span><span class="screen">${screenName}</span></div>
-      <div class="date"><span>${d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</span>
-        <span class="sep">·</span><span>${h.en}</span>${tonight}<span class="he">${h.he}</span>
+      <div class="date"><span class="hdate">${hdateHtml()}</span>
+        <span class="day-nav${shown ? ' away' : ''}" data-click>
+          <span class="nav-btn" data-step="-1" title="The day before (←)">${ARROW('M14.5 5.5L8 12l6.5 6.5')}</span>
+          <span class="nav-day">${navDayHtml()}</span>
+          <span class="nav-btn" data-step="1" title="The day after (→)">${ARROW('M9.5 5.5L16 12l-6.5 6.5')}</span>
+          <span class="nav-today" title="Back to today">Today</span>
+        </span>
         <span class="theme-switch"><span data-pick="light"${theme === 'light' ? ' class="on"' : ''}>Light</span><span data-pick="dark"${theme === 'dark' ? ' class="on"' : ''}>Dark</span></span>
         <span class="close-x" title="Close">✕</span></div>
     </header>`;
+  }
+  // "12 Cheshvan 5787 · From sunset: 13 Cheshvan · י״ב חשון תשפ״ז"
+  function hdateHtml() {
+    const h = hebrewDate(now());
+    const tonight = h.tonight ? `<span class="sep">·</span><span>From sunset: ${showHebrewDate(h.tonight, false)}</span>` : '';
+    return `<span>${h.en}</span>${tonight}<span class="he">${h.he}</span>`;
+  }
+  // "Thursday, Oct 22, 2026" over "3 days ago"
+  const navDayHtml = () => `<span class="nav-date">${now().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}</span>`
+    + `<span class="nav-ago">${agoText()}</span>`;
+  function fillHeaders() {
+    document.querySelectorAll('header.bar').forEach(bar => {
+      const hd = bar.querySelector('.hdate'), nav = bar.querySelector('.day-nav');
+      if (hd) hd.innerHTML = hdateHtml();
+      if (nav) { nav.classList.toggle('away', !!shown); nav.querySelector('.nav-day').innerHTML = navDayHtml(); }
+    });
   }
 
   // ---- Details: the full text of a section, in a window over the screen ----
@@ -307,20 +416,33 @@ window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick()
   }
 
   // Click anywhere (or Esc) closes this window; the launcher then closes the other screen too. Except: the
-  // Light / Dark switch, a "Full text" button, and an open details window, which do their own thing.
+  // Light / Dark switch, the day's ‹ › and Today, a day in the week's list, a "Full text" button, and an open
+  // details window, which do their own thing.
   document.addEventListener('click', e => {
     const pick = e.target.closest('.theme-switch span');
     if (pick) { setTheme(pick.dataset.pick); return; }
+    if (detailsBox()) { closeDetails(); return; }
+    // ‹ and ›, Today, and a day in the week's list (data-goto="2026-10-22").
+    const stepper = e.target.closest('[data-step]');
+    if (stepper) { step(+stepper.dataset.step); return; }
+    if (e.target.closest('.nav-today')) { goTo(null); return; }
+    const day = e.target.closest('[data-goto]');
+    if (day) { goTo(fromIso(day.dataset.goto)); return; }
     const more = e.target.closest('[data-details]');
     if (more) { more.dispatchEvent(new CustomEvent('details', { bubbles: true })); return; }
-    if (detailsBox()) { closeDetails(); return; }
     if (!DylanClose.isControl(e.target)) window.close();   // controls (links, buttons) do their own job
   });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') { if (detailsBox()) closeDetails(); else window.close(); }
+    // ← and → go a day back and forward. (Inside the Morning and Night Screens they change the app instead,
+    // as in every app there; the ‹ › buttons change the day.)
+    else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !inFrame && !e.altKey && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      step(e.key === 'ArrowLeft' ? -1 : 1);
+    }
   });
 
-  // Reload when the day changes, and at sunset, when the Hebrew date does.
+  // Reload when the day changes, and at sunset, when the Hebrew date does (a reload starts on today).
   if (!params.get('date')) {
     const key = () => { const d = new Date(); return d.toDateString() + (hebrewDate(d).tonight ? '+' : ''); };
     const at = key();
@@ -329,8 +451,11 @@ window.DylanClose = window.DylanClose || { isControl: () => true, onEmptyClick()
   pruneCache();
 
   window.TW = {
-    cfg, TORAH, now, addDays, dayStart, parseRef, showRef, showRefHe, versesIn, verseIndex, verseCount, totalVerses,
+    cfg, TORAH, now, realNow, addDays, dayStart, daysBetween, isoDate, fromIso, parseRef, showRef, showRefHe, versesIn, verseIndex, verseCount, totalVerses,
     week, plan, lessons, hebrewDate, showHebrewDate, shortDate,
     sefaria, text, torahText, calendar, cleanHe, cleanEn, fit, keepFitted, fontsReady, header, stripVowels, DAYS, details,
+    // the day shown: isToday(), daysAway() (-3: three days ago), agoText(), dayWord() ("Thursday's"), weeksAway(),
+    // goTo(date or null for today), step(+1 or -1), onDay(fn): fn(day) runs when it changes
+    isToday, daysAway, agoText, dayWord, weeksAway, goTo, step, onDay, idleMinutes: 3,
   };
 })();

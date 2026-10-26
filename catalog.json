@@ -162,7 +162,7 @@
         "apps/torah/shots/4.jpg",
         "apps/torah/shots/5.jpg"
       ],
-      "version": "1.13"
+      "version": "1.14"
     },
     {
       "id": "costar",
@@ -326,7 +326,7 @@
         "apps/corkboard/shots/3.jpg",
         "apps/corkboard/shots/4.jpg"
       ],
-      "version": "1.36"
+      "version": "1.39"
     },
     {
       "id": "aesop",
@@ -553,5 +553,5 @@
       "version": "1.5"
     }
   ],
-  "updated": "2026-10-24"
+  "updated": "2026-10-26"
 }

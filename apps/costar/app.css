@@ -84,19 +84,19 @@ footer.hint, .close-x, #grid { display: none !important; }
 #highlight { transition: opacity .8s ease; }
 @keyframes march { to { stroke-dashoffset: -20; } }
 
-#sky-screen aside { position: static; display: block; margin-top: 20px; }
+/* The desktop sizes and places these to fill its screen (sky.html's fitAside); on the phone they just flow. */
+#sky-screen aside { position: static; display: block; margin-top: 20px; width: auto !important; column-gap: 0 !important; }
 .row { display: flex; justify-content: space-between; align-items: baseline; }
 .row .aside-note { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; }
-.feature { margin-top: 10px; min-height: 230px; padding: 18px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-.feature .body { transition: opacity .8s ease; display: flex; flex-direction: column; align-items: center; flex: 1; }
-.feature .body.out { opacity: 0; }
-.feature .dates { font-size: 11px; color: var(--ink); }
-.feature h2 { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; color: var(--ink); margin: 10px 0 6px; }
-.feature .plain { font-family: var(--mono); font-size: 11px; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
-.feature p { font-size: 16px; line-height: 1.45; margin: 0; color: var(--text); }
-.dots { display: flex; gap: 8px; margin-top: 14px; }
-.dots i { width: 6px; height: 6px; border-radius: 50%; border: 1px solid var(--ink); }
-.dots i.on { background: var(--ink); }
+/* Today's transits, one at a time: the one the chart is pointing out (sky.js marks it .on and takes each in turn).
+   They share one spot, as tall as the longest, so nothing below jumps when the next one comes. */
+#transits { display: grid; margin-top: 10px; }
+#transits .card { grid-area: 1 / 1; padding: 18px 18px 20px; text-align: center; transition: opacity .8s ease, visibility .8s; }
+#transits:has(.card.on) .card:not(.on) { opacity: 0; visibility: hidden; }
+#transits .dates { font-size: 11px; color: var(--ink); }
+#transits h2 { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; color: var(--ink); margin: 10px 0 6px; }
+#transits .plain { font-family: var(--mono); font-size: 11px; line-height: 1.5; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+#transits p { font-size: 16px; line-height: 1.45; margin: 0; color: var(--text); }
 .planets { margin-top: 22px; }
 .planets .p { display: grid; grid-template-columns: 30px 82px 1fr 1fr; align-items: center; min-height: 32px; border-bottom: 1px solid var(--line); }
 .planets .head { height: auto; padding-bottom: 8px; text-align: center; }

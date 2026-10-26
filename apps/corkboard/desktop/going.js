@@ -1122,6 +1122,84 @@ window.CORKBOARD_GOING = {
    ],
    "short": "Phil Hanley",
    "ics": "desktop/ics/2027-05-01-phil-hanley.ics"
+  },
+  {
+   "id": "2026-10-29-the-seed",
+   "date": "2026-10-29",
+   "tickets": "https://www.eventbrite.com/e/seed-cinema-halloweentown-tickets-2003617686436",
+   "what": "Seed Cinema: Halloweentown",
+   "time": "7 PM - 9:30 PM",
+   "note": "free movie night on the patio; BYOB, bring a chair or blanket; free popcorn and candy; RSVP on Eventbrite",
+   "where": "The Seed coffee shop, 2301 NE 26th St",
+   "kind": "movie",
+   "at": [
+    26.1602,
+    -80.1176
+   ],
+   "short": "The Seed",
+   "ics": "desktop/ics/2026-10-29-the-seed.ics"
+  },
+  {
+   "id": "2026-11-21-the-seed",
+   "date": "2026-11-21",
+   "what": "Plant Your Seed Market",
+   "time": "10 AM - 2 PM",
+   "note": "local makers and small-batch goods",
+   "where": "The Seed coffee shop, 2301 NE 26th St",
+   "kind": "art",
+   "at": [
+    26.1602,
+    -80.1176
+   ],
+   "short": "The Seed",
+   "ics": "desktop/ics/2026-11-21-the-seed.ics"
+  },
+  {
+   "id": "2026-12-19-the-seed",
+   "date": "2026-12-19",
+   "what": "Plant Your Seed Market",
+   "time": "10 AM - 2 PM",
+   "note": "local makers and small-batch goods",
+   "where": "The Seed coffee shop, 2301 NE 26th St",
+   "kind": "art",
+   "at": [
+    26.1602,
+    -80.1176
+   ],
+   "short": "The Seed",
+   "ics": "desktop/ics/2026-12-19-the-seed.ics"
+  },
+  {
+   "id": "2026-10-28-alma-matcha",
+   "date": "2026-10-28",
+   "tickets": "https://www.eventbrite.com/e/alma-matcha-writing-club-tickets-2003921298548",
+   "what": "Alma Matcha Writing Club",
+   "time": "6 PM - 7 PM",
+   "note": "free; guided writing and reflection with Anita of Querido Club; bring a journal and pen",
+   "where": "Alma Matcha, 701 NW 5th Ave",
+   "kind": "art",
+   "at": [
+    26.1315,
+    -80.149
+   ],
+   "short": "Alma Matcha",
+   "ics": "desktop/ics/2026-10-28-alma-matcha.ics"
+  },
+  {
+   "id": "2026-11-01-alma-matcha",
+   "date": "2026-11-01",
+   "tickets": "https://www.eventbrite.com/e/alma-turns-two-alma-matchas-2nd-birthday-party-tickets-2003928071807",
+   "what": "Alma Turns Two: Alma Matcha’s 2nd Birthday Party",
+   "time": "11 AM - 4 PM",
+   "note": "free and all ages; DJ Bibi, a white bounce house and a one-day-only Birthday Cake Matcha",
+   "where": "Alma Matcha, 701 NW 5th Ave",
+   "kind": "food",
+   "at": [
+    26.1315,
+    -80.149
+   ],
+   "short": "Alma Matcha",
+   "ics": "desktop/ics/2026-11-01-alma-matcha.ics"
   }
  ]
 };

@@ -78,8 +78,24 @@ header.bar {
   text-transform: uppercase; letter-spacing: 0.12em;
 }
 .bar .date { display: flex; align-items: baseline; gap: 22px; font-family: var(--sans); font-size: 19px; color: var(--ink); }
+.bar .hdate { display: flex; align-items: baseline; gap: 22px; }
 .bar .date .he { font-size: 25px; color: var(--ink); }
 .bar .date .sep { color: var(--ink); }
+
+/* The day shown, with ‹ › to go a day back or forward and Today to come back (wall.js). On another day the
+   "3 days ago" under the date and the Today button turn black, so it's plain it isn't today. The date has a
+   fixed width, so the buttons stay put while you click through the days. */
+/* (Its padding widens what counts as the buttons, so a click that only just misses one never closes the app.) */
+.day-nav { display: inline-flex; align-items: center; gap: 10px; align-self: center; margin: -14px -12px -14px -10px; padding: 14px 12px 14px 14px; }
+.nav-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--rule); border-radius: 50%; cursor: pointer; }
+.nav-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.nav-btn:hover, .nav-today:hover { background: var(--tint); }
+.nav-day { width: 214px; display: flex; flex-direction: column; align-items: center; line-height: 1.1; white-space: nowrap; }
+.nav-date { font-size: 17px; font-weight: 500; }
+.nav-ago { margin-top: 4px; padding: 1px 7px; border-radius: 3px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-today { padding: 5px 11px; border: 1px solid var(--rule); border-radius: 6px; cursor: pointer; color: var(--sepia-2);
+  font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.day-nav.away .nav-ago, .day-nav.away .nav-today { background: var(--ink); color: var(--page); border-color: var(--ink); }
 
 /* ---- Small labels over each section ---- */
 .label {

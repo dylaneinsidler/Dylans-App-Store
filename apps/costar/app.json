@@ -16,6 +16,7 @@
     "objects.js",
     "explain.js",
     "wall.js",
+    "wheel.js",
     "guide.js",
     "wall.css"
   ],

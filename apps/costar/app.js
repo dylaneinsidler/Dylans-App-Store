@@ -82,10 +82,16 @@
     weather: Phone.store.get('weather.place', null),
     houseSystem: 'placidus',
     wordmark: '',
+    // The phone shows each thing once: the day's details under Your day, and the circle chart under Your chart.
+    leftScreenRight: 'details',
     theme: 'dark',
   };
   window.STAR_WALL_THEME = Phone.store.get('costar.theme', null);
   $('stage').hidden = false;
+  // The desktop's left screen can show the circle chart too, and its right screen the day's details (Co-Star 1.12):
+  // their spare copies go, so the chart is drawn in Your chart and the details are filled in once, under Your day.
+  document.querySelectorAll('#today-screen .chart-side, #today-screen #wheel, #today-screen #earth, #sky-screen #details')
+    .forEach(el => el.remove());
 
   // The chart and the Earth in its middle share one square box, so the Earth stays centered at any size.
   const box = document.createElement('div');
@@ -98,10 +104,25 @@
     s.src = src; s.onload = resolve; s.onerror = () => reject(new Error(src));
     document.body.appendChild(s);
   });
+  // The object of the day under Your day (StarWall.thing in wall.js) is worked out dot by dot. On an iPhone's sharp
+  // screen that's over half a million dots, and with both screens on one page it was drawn three times (once, then
+  // again by each screen's Light / Dark switch) before anything showed: about 25 seconds of black in a test iPhone.
+  // So it's drawn once, after the page has faded in, and at most twice as fine as the screen's points (the same grain).
+  function drawThingLater() {
+    const thing = StarWall.thing;
+    StarWall.thing = (canvas, obj, size) => document.fonts.ready.then(() => requestAnimationFrame(() => setTimeout(() => {
+      thing(canvas, obj, size * Math.min(1, 2 / (devicePixelRatio || 1)));
+      canvas.style.width = canvas.style.height = size + 'px';
+    }, 1300)));
+  }
   (async () => {
     try {
       await load('https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js');
-      for (const f of ['astro', 'reading', 'objects', 'explain', 'wall', 'guide', 'today', 'sky']) await load(`desktop/${f}.js`);
+      // wheel.js draws the circle chart (both screens use it since Co-Star 1.12).
+      for (const f of ['astro', 'reading', 'objects', 'explain', 'wall', 'wheel', 'guide', 'today', 'sky']) {
+        await load(`desktop/${f}.js`);
+        if (f === 'wall') drawThingLater();
+      }
     } catch (e) {
       $('stage').innerHTML = '<p class="offline">Co-Star needs the internet the first time it opens. Try again when you’re online.</p>';
       return;
