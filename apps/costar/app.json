@@ -12,6 +12,8 @@
   ],
   "copy": [
     "astro.js",
+    "messages.js",
+    "schedule.js",
     "reading.js",
     "objects.js",
     "explain.js",

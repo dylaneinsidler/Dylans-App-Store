@@ -1,0 +1,7 @@
+[
+  { "name": "The whole panel, on an iPad", "url": "?picture", "device": "ipad", "settle": 2500 },
+  { "name": "Zoomed in on the drone voices and the effector", "url": "?picture", "device": "ipad", "settle": 2500,
+    "do": "document.body.classList.add('zoomed'); document.getElementById('stage').scrollTo(0, 0); return 1" },
+  { "name": "Zoomed in on the keyboard", "url": "?picture", "device": "ipad", "settle": 2500,
+    "do": "document.body.classList.add('zoomed'); const s = document.getElementById('stage'); s.scrollTo(s.scrollWidth * 0.18, s.scrollHeight); return 1" }
+]

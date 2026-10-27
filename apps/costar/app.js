@@ -108,18 +108,24 @@
   // screen that's over half a million dots, and with both screens on one page it was drawn three times (once, then
   // again by each screen's Light / Dark switch) before anything showed: about 25 seconds of black in a test iPhone.
   // So it's drawn once, after the page has faded in, and at most twice as fine as the screen's points (the same grain).
+  // Meanwhile its square keeps its place (an empty 1x1 canvas at full size), so nothing below moves when it comes.
   function drawThingLater() {
     const thing = StarWall.thing;
-    StarWall.thing = (canvas, obj, size) => document.fonts.ready.then(() => requestAnimationFrame(() => setTimeout(() => {
-      thing(canvas, obj, size * Math.min(1, 2 / (devicePixelRatio || 1)));
+    StarWall.thing = (canvas, obj, size) => {
+      canvas.width = canvas.height = 1;
       canvas.style.width = canvas.style.height = size + 'px';
-    }, 1300)));
+      return document.fonts.ready.then(() => requestAnimationFrame(() => setTimeout(() => {
+        thing(canvas, obj, size * Math.min(1, 2 / (devicePixelRatio || 1)));
+        canvas.style.width = canvas.style.height = size + 'px';
+      }, 1300)));
+    };
   }
   (async () => {
     try {
       await load('https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js');
-      // wheel.js draws the circle chart (both screens use it since Co-Star 1.12).
-      for (const f of ['astro', 'reading', 'objects', 'explain', 'wall', 'wheel', 'guide', 'today', 'sky']) {
+      // wheel.js draws the circle chart (both screens use it since Co-Star 1.12); messages.js and schedule.js are the
+      // day's messages and which one each day gets (Co-Star 1.15).
+      for (const f of ['astro', 'messages', 'schedule', 'reading', 'objects', 'explain', 'wall', 'wheel', 'guide', 'today', 'sky']) {
         await load(`desktop/${f}.js`);
         if (f === 'wall') drawThingLater();
       }

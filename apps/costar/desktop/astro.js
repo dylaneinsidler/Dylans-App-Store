@@ -167,17 +167,18 @@ window.StarAstro = (() => {
     return { start, end };
   }
 
-  // Every transit to your birth chart that's in effect at `date`.
-  function transits(chart, date) {
+  // Every transit to your birth chart that's in effect at `date`. quick: skip working out when each one starts and
+  // ends (much faster; used to look back over past days for the daily message).
+  function transits(chart, date, quick = false) {
     const out = [];
     for (const body of PLANETS) {
-      const lon = longitude(body, date), later = longitude(body, new Date(+date + HOUR));
+      const lon = longitude(body, date), later = quick ? lon : longitude(body, new Date(+date + HOUR));
       for (const targetId of TARGETS) {
         const target = chart.byId[targetId];
         for (const a of ASPECTS) {
           const orb = aspectOrb(lon, target.lon, a.angle), limit = maxOrb(body, a.name);
           if (orb > limit) continue;
-          const range = activeRange(body, target.lon, a.angle, limit, date);
+          const range = quick ? { start: date, end: date } : activeRange(body, target.lon, a.angle, limit, date);
           out.push({
             body, target: targetId, aspect: a.name, angle: a.angle, orb, limit,
             applying: aspectOrb(later, target.lon, a.angle) < orb,

@@ -1,0 +1,65 @@
+<!doctype html>
+<!-- The iPad / iPhone version of Dylan's Solar 42F: the desktop app's own files (desktop/, copied in by tools/build.mjs). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Solar 42F">
+<meta name="theme-color" content="#26241f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Solar 42F</title>
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="desktop/style.css">
+</head>
+<body>
+<div id="stage"></div>
+
+<!-- The power switch: browsers only let sound start after a click or a tap. -->
+<div id="power">
+  <button id="powerBtn" aria-label="Power on">
+    <span class="sun"></span>
+    <span class="big">POWER</span>
+    <span class="small">tap to switch on the SOLAR 42F</span>
+  </button>
+  <p class="turn">Turn the iPad sideways for the whole panel.</p>
+</div>
+
+<div id="tools">
+  <button id="zoomBtn" title="Zoom in on the panel (drag an empty part of it to move around)">⊕</button>
+  <button id="helpBtn" title="How to play it">?</button>
+</div>
+
+<div id="help" hidden>
+  <div class="card">
+    <h2>Dylan's Solar 42F</h2>
+    <p>An unofficial tribute to Elta Music's SOLAR 42F drone ambient machine: the same panel, with every knob, button,
+      switch and jack working, and the sound worked out live as you play.</p>
+    <ul>
+      <li><b>Knobs:</b> drag up and down (Shift for fine moves), or scroll. Double-click (double-tap) to put one back.</li>
+      <li><b>Drone voices:</b> hold a pad bottom right (or keys 1 to 6), or press HOLD on the voice to keep it on.
+        MUTE the five oscillators to make chords; MOD lets them follow the light on the round sensor (hover or press it).</li>
+      <li><b>Touch keyboard:</b> the twelve plates play VCO A and B (keys A W S E D F T G Y H U J; Z and X for octaves).
+        Higher up a plate means more pressure.</li>
+      <li><b>Patch cables:</b> drag from one jack to another. Drag a plug off to move it, tap a cable to remove it.
+        With nothing plugged in, jacks use the instrument's own connections (hover a jack to see which).</li>
+      <li><b>Effector:</b> tap the cartridge slot to change cartridge; the switches beside it pick each channel's program.
+        What X, Y and Z do is written along the bottom.</li>
+      <li><b>Joystick:</b> the figure bottom left. It stays where you leave it; double-tap to center it.</li>
+      <li><b>Contact mic:</b> tap the microphone in PREAMP to play your own sounds through it.</li>
+    </ul>
+    <p class="fine">Everything you set is kept for next time. <button id="resetBtn">Reset the whole panel</button></p>
+    <button id="closeHelp">Close</button>
+  </div>
+</div>
+
+<script src="../../shared/phone.js" data-name="Dylan's Solar 42F" data-sound data-footer="off"></script>
+<script src="desktop/engine.js"></script>
+<script src="desktop/panel.js"></script>
+<script src="desktop/app.js"></script>
+</body>
+</html>

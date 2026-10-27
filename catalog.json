@@ -100,6 +100,38 @@
       "version": "1.4"
     },
     {
+      "id": "solar42f",
+      "name": "Dylan's Solar 42F",
+      "short": "Solar 42F",
+      "subtitle": "A drone synthesizer, after the Elta Music SOLAR 42F",
+      "category": "Music",
+      "description": [
+        "An unofficial tribute to Elta Music's SOLAR 42F drone ambient machine: the whole front panel, laid out like the real one, with every knob, button, switch and jack working and the sound made live as you play.",
+        "Six drone voices (four with five drifting sawtooth oscillators each, two that make sirens, birds, surf and wind), two VCOs with envelopes, a ten-channel mixer, a dual Polivoks-style filter with distortion, a dual effector with six cartridges, LFOs, a joystick, a 5-step sequencer and the touch keyboard. Patch cables too: drag from jack to jack.",
+        "Best on an iPad, held sideways. Play the keyboard with several fingers, and tap the microphone in PREAMP to play your own sounds through it."
+      ],
+      "features": [
+        "Every control of the real panel, in the same place",
+        "Sound made live: nothing recorded",
+        "Patch cables between any output and input",
+        "Six effect cartridges, 18 programs",
+        "Multi-touch keyboard and drone pads",
+        "Remembers your settings",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#26241f",
+      "icon": "apps/solar42f/icons/icon-512.png",
+      "url": "apps/solar42f/",
+      "external": false,
+      "shots": [
+        "apps/solar42f/shots/1.jpg",
+        "apps/solar42f/shots/2.jpg",
+        "apps/solar42f/shots/3.jpg"
+      ],
+      "version": "1.0"
+    },
+    {
       "id": "weather",
       "name": "Dylan's Weather App",
       "short": "Weather",
@@ -195,7 +227,7 @@
         "apps/costar/shots/3.jpg",
         "apps/costar/shots/4.jpg"
       ],
-      "version": "1.14"
+      "version": "1.16"
     },
     {
       "id": "element",
@@ -421,7 +453,7 @@
         "apps/athletics/shots/5.jpg",
         "apps/athletics/shots/6.jpg"
       ],
-      "version": "2.7"
+      "version": "2.8"
     },
     {
       "id": "pokemon",
@@ -553,5 +585,5 @@
       "version": "1.5"
     }
   ],
-  "updated": "2026-10-26"
+  "updated": "2026-10-27"
 }

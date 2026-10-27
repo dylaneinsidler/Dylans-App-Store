@@ -1,0 +1,25 @@
+{
+  "name": "Dylan's Solar 42F",
+  "short": "Solar 42F",
+  "subtitle": "A drone synthesizer, after the Elta Music SOLAR 42F",
+  "category": "Music",
+  "order": 3,
+  "background": "#26241f",
+  "internet": "Not needed",
+  "source": ["Dylan's Solar 42F"],
+  "copy": ["engine.js", "panel.js", "app.js", "style.css"],
+  "description": [
+    "An unofficial tribute to Elta Music's SOLAR 42F drone ambient machine: the whole front panel, laid out like the real one, with every knob, button, switch and jack working and the sound made live as you play.",
+    "Six drone voices (four with five drifting sawtooth oscillators each, two that make sirens, birds, surf and wind), two VCOs with envelopes, a ten-channel mixer, a dual Polivoks-style filter with distortion, a dual effector with six cartridges, LFOs, a joystick, a 5-step sequencer and the touch keyboard. Patch cables too: drag from jack to jack.",
+    "Best on an iPad, held sideways. Play the keyboard with several fingers, and tap the microphone in PREAMP to play your own sounds through it."
+  ],
+  "features": [
+    "Every control of the real panel, in the same place",
+    "Sound made live: nothing recorded",
+    "Patch cables between any output and input",
+    "Six effect cartridges, 18 programs",
+    "Multi-touch keyboard and drone pads",
+    "Remembers your settings",
+    "Works without internet"
+  ]
+}

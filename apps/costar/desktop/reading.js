@@ -332,6 +332,105 @@ window.StarReading = (() => {
     return `${withYear(t.start)}—${withYear(t.end)}`;
   }
 
+  // ---- The day's message: never the same one twice ----
+  // From FIRST_DAY on, every day gets a headline nobody has had before. Going forward a day at a time from there,
+  // each day takes an unused message from the group its strongest transit points to (the part of you it touches,
+  // easy or hard), or, once that group is used up, the next strongest transit's group, and so on. It's worked out
+  // from the sky alone, so every screen shows the same message and nothing has to be remembered. Only after every
+  // message has been used could one come round again.
+  //
+  // More messages can be added later in messages.js as a new batch with its own start date: a batch only joins in
+  // from that date, so the days already shown keep the messages they had.
+  const FIRST_DAY = new Date(2026, 9, 27);
+  const BATCHES = [{ since: FIRST_DAY, groups: HEADLINES }, ...(window.StarMessages || [])
+    .map(b => ({ since: new Date(`${b.since}T00:00`), groups: b.groups }))];
+  // Each group's messages, with the day each one can first be used.
+  const GROUPS = {};
+  for (const { since, groups } of BATCHES) {
+    for (const theme of Object.keys(groups)) {
+      for (const tone of Object.keys(groups[theme])) {
+        for (const [headline, deck] of groups[theme][tone]) {
+          (GROUPS[`${theme}/${tone}`] ||= []).push({ headline, deck, since });
+        }
+      }
+    }
+  }
+  const EVERY = Object.values(GROUPS).flat();
+  const seen = new Set();
+  for (const m of EVERY) {
+    if (seen.has(m.headline)) console.warn('Co-Star: this headline is in the list twice:', m.headline);
+    seen.add(m.headline);
+  }
+
+  // The groups a day's transits point to, strongest first.
+  function groupsOf(transits) {
+    const ranked = transits.map(describe).sort((a, b) => b.score - a.score);
+    if (!ranked.length) ranked.push(describe({ body: 'Moon', target: 'Moon', aspect: 'conjunction', orb: 0, limit: 1 }));
+    return [...new Set(ranked.map(t => `${t.theme}/${t.tone}`))];
+  }
+
+  // Which birth chart a plan was made for: a scrambled code made from it (so the plan, which also goes to the phone
+  // version, never shows anyone's birth date).
+  function chartId(chart) {
+    let a = 2166136261, b = 5381;
+    for (const ch of `${chart.date.toISOString()}|${chart.asc.toFixed(2)}|${chart.mc.toFixed(2)}`) {
+      a = Math.imul(a ^ ch.charCodeAt(0), 16777619); b = Math.imul(b, 33) ^ ch.charCodeAt(0);
+    }
+    return (a >>> 0).toString(36) + (b >>> 0).toString(36);
+  }
+
+  // The plan: every day's message from FIRST_DAY to `last`, going forward a day at a time. It's slow (the planets'
+  // positions for every day, about 75 ms a day), so tools/make-schedule.js works it out ahead of time into
+  // schedule.js, and the screens just look the day up there.
+  // from: the first day to work out (FIRST_DAY unless given); known: days already worked out ({ dayKey: headline }),
+  // taken as they are.
+  function plan(chart, last, onDay, from = FIRST_DAY, known = {}) {
+    const days = [], used = new Set();
+    for (let d = new Date(from); d <= last; d.setDate(d.getDate() + 1)) {
+      const key = dayKey(d);
+      if (known[key] && BY_HEADLINE[known[key]]) { used.add(known[key]); days.push({ day: key, headline: known[key] }); continue; }
+      const ready = m => m.since <= d && !used.has(m.headline);
+      const rand = seeded(`message-${key}`);
+      const noon = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12);
+      let choice = null;
+      for (const g of groupsOf(StarAstro.transits(chart, noon, true))) {
+        const open = (GROUPS[g] || []).filter(ready);
+        if (open.length) { choice = pick(rand, open); break; }
+      }
+      if (!choice) {                            // the sky's groups are all used up: any unused message
+        let open = EVERY.filter(ready);
+        if (!open.length) { used.clear(); open = EVERY.filter(ready); }   // every message used: start again
+        choice = pick(rand, open);
+      }
+      used.add(choice.headline);
+      days.push({ day: key, headline: choice.headline });
+      if (onDay) onDay(days.length);
+    }
+    return days;
+  }
+
+  // Not in schedule.js (someone else's birth chart on the phone version, or past the schedule's end): work it out
+  // here, looking back three weeks (so no repeats within that), and keep the answers on this device so each day
+  // only has to work out itself.
+  const LOOK_BACK = 21;
+  const BY_HEADLINE = Object.fromEntries(EVERY.map(m => [m.headline, m]));
+  function messageFor(chart, today) {
+    const last = startOfDay(today);
+    if (last < FIRST_DAY) return null;
+    const key = dayKey(last), s = window.StarSchedule, id = chartId(chart);
+    if (s && s.chart === id && s.days[key] && BY_HEADLINE[s.days[key]]) return BY_HEADLINE[s.days[key]];
+    const store = `costar.messages.${id}`;
+    let known = {};
+    try { known = JSON.parse(localStorage.getItem(store) || '{}'); } catch (e) { /* no storage: work it out */ }
+    if (!known[key] || !BY_HEADLINE[known[key]]) {
+      const from = new Date(Math.max(+FIRST_DAY, +last - LOOK_BACK * 86400e3));
+      for (const p of plan(chart, last, null, startOfDay(from), known)) known[p.day] = p.headline;
+      const keep = Object.keys(known).filter(k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d) >= from; });
+      try { localStorage.setItem(store, JSON.stringify(Object.fromEntries(keep.map(k => [k, known[k]])))); } catch (e) { /* fine */ }
+    }
+    return BY_HEADLINE[known[key]];
+  }
+
   // ---- Building it ----
 
   function describe(t) {
@@ -375,9 +474,11 @@ window.StarReading = (() => {
     paragraph.push(pick(rand, CLOSERS[top.tone]));
 
     const season = ranked.filter(t => t.body !== 'Moon').sort((a, b) => seasonScore(b) - seasonScore(a));
+    const message = messageFor(chart, today);
     return {
       top,
-      ...(([headline, deck]) => ({ headline, deck }))(pick(rand, HEADLINES[top.theme][top.tone])),
+      ...(message ? { headline: message.headline, deck: message.deck }
+        : (([headline, deck]) => ({ headline, deck }))(pick(rand, HEADLINES[top.theme][top.tone]))),
       glance,
       through: through(top.end, today),
       paragraph: paragraph.join(' '),
@@ -416,5 +517,5 @@ window.StarReading = (() => {
     return `You're built for ${words(born)}; today the sky pulls you toward ${words(now)}.`;
   }
 
-  return { build, card, describe, compare, PLACES };
+  return { build, card, describe, compare, PLACES, plan, chartId, FIRST_DAY, MESSAGES: EVERY.length };
 })();
