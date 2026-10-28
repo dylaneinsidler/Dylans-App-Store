@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dylan's Solar 42F - User's Guide</title>
+<style>
+  body { font-family: "Segoe UI", -apple-system, Helvetica, Arial, sans-serif; color: #1a1a1a; background: #fbfaf6; margin: 0; line-height: 1.55; font-size: 15.5px; }
+  main { max-width: 860px; margin: 0 auto; padding: 26px 34px 60px; }
+  h1 { font-size: 34px; margin: 0 0 4px; letter-spacing: 0.5px; }
+  h1 .red { color: #d5281f; }
+  .sub { color: #666; margin: 0 0 22px; }
+  h2 { font-size: 23px; margin: 34px 0 8px; padding-top: 10px; border-top: 3px solid #111; }
+  h3 { font-size: 17px; margin: 22px 0 4px; }
+  img { width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+  .box { background: #fff3cf; border: 2px solid #e8b83a; border-radius: 10px; padding: 12px 18px; margin: 14px 0; }
+  .box.red { background: #fde7e5; border-color: #d5281f; }
+  ol li, ul li { margin: 4px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 14px; font-size: 14.5px; }
+  th, td { text-align: left; vertical-align: top; padding: 6px 10px; border-bottom: 1px solid #ddd; }
+  th { background: #111; color: #fff; font-weight: 600; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  kbd { background: #eee; border: 1px solid #bbb; border-bottom-width: 2px; border-radius: 4px; padding: 0 6px; font-family: inherit; font-size: 13px; }
+  .toc a { color: #1a1a1a; }
+  .toc { columns: 2; }
+  @media print { main { padding: 0 6px; } h2 { break-before: auto; } .box, table, img { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<main>
+<h1>Dylan's SOLAR <span class="red">42</span>F</h1>
+<p class="sub">User's Guide &nbsp;·&nbsp; version 1.1 &nbsp;·&nbsp; an unofficial tribute to Elta Music's SOLAR 42F drone ambient machine</p>
+
+<img src="guide-panel.png" alt="The whole panel">
+
+<div class="box red">
+  <b>The one thing to know first: nothing plays until a voice is started.</b> Turning knobs and pressing most buttons
+  only <i>changes</i> the sound; it doesn't start it. That's how the real instrument works too. To hear something, start a
+  voice: hold a <b>DRONE VOICES</b> pad (bottom right), press a voice's <b>HOLD</b>, play the touch keyboard, or pick a
+  starter sound from the <b>Sounds</b> menu.
+</div>
+
+<div class="toc">
+  <ol>
+    <li><a href="#start">Quick start</a></li>
+    <li><a href="#menu">The menu bar</a></li>
+    <li><a href="#controls">Knobs, buttons, switches</a></li>
+    <li><a href="#drones">Drone voices 1, 2, 4, 5</a></li>
+    <li><a href="#newdrones">Drone voices 3 and 6</a></li>
+    <li><a href="#vco">VCO A and B, envelopes</a></li>
+    <li><a href="#keyboard">The touch keyboard</a></li>
+    <li><a href="#mixer">The voice mixer</a></li>
+    <li><a href="#filter">Filters and distortion</a></li>
+    <li><a href="#fx">The dual effector</a></li>
+    <li><a href="#mod">LFOs, joystick, sequencer</a></li>
+    <li><a href="#mic">Preamp and envelope follower</a></li>
+    <li><a href="#patch">Patch cables</a></li>
+    <li><a href="#recipes">Things to try</a></li>
+    <li><a href="#keys">Keyboard shortcuts</a></li>
+    <li><a href="#nosound">No sound?</a></li>
+    <li><a href="#ipad">On the iPad</a></li>
+  </ol>
+</div>
+
+<h2 id="start">1. Quick start</h2>
+<ol>
+  <li>Open <b>Dylan's Solar 42F</b> from the icon on the Desktop.</li>
+  <li>Click the big <b>POWER</b> button. The menu bar at the top now says <b>Sound on</b>.</li>
+  <li>Pick <b>Sounds &gt; Warm drone chord</b>. You should hear a slow, rich chord. The meter next to <b>Sound on</b> moves with it.</li>
+  <li>Now change it: press the <b>MUTE</b> buttons on drone voices 1 and 2, turn their <b>TUNE</b> knobs and their <b>VOLT</b> knob.</li>
+  <li>Click the red <b>■ Stop all sound</b> (or press <kbd>Esc</kbd>) to silence everything.</li>
+  <li>Try the other starter sounds in the <b>Sounds</b> menu: each one tells you, at the bottom of the screen, what to play and what to turn.</li>
+</ol>
+
+<h2 id="menu">2. The menu bar</h2>
+<table>
+  <tr><th>Menu</th><th>What's in it</th></tr>
+  <tr><td>File</td><td><b>New</b> puts every knob, switch and cable back where it started. <b>Save this patch</b> saves everything you've set as a file (in Downloads); <b>Open a patch</b> brings one back. <b>Close</b> closes the program.</td></tr>
+  <tr><td>Sounds</td><td>Seven <b>starter sounds</b>: each sets up the panel and starts playing, and a message tells you what to do next. <b>Stop all sound</b> lets go of everything.</td></tr>
+  <tr><td>View</td><td><b>Whole panel</b> or <b>Zoom in</b> (then drag an empty part of the panel, or scroll, to move around). <b>Full screen</b>. <b>Hide the patch cables</b> if they're in the way.</td></tr>
+  <tr><td>Help</td><td>This <b>User's Guide</b>, the <b>Quick start</b>, the <b>Keyboard shortcuts</b>, <b>Test the speakers</b> (plays three notes straight to your speakers, skipping the synth) and <b>About</b>.</td></tr>
+  <tr><td>Right side</td><td><b>Power off / Sound on</b>; the <b>meter</b> (how loud the sound leaving the synth is); <b>■ Stop all sound</b>.</td></tr>
+</table>
+<p>Everything you set is kept: close the program and it opens the same way next time.</p>
+
+<h2 id="controls">3. Knobs, buttons, switches</h2>
+<ul>
+  <li><b>Knobs</b>: press on a knob and drag <b>up</b> to turn it right, <b>down</b> to turn it left. Hold <kbd>Shift</kbd> for small moves. The mouse wheel turns them too. <b>Double-click</b> a knob to put it back where it started.</li>
+  <li><b>Round buttons</b> (HOLD, MUTE, MOD, fm, am...): click to switch on (a white ring shows it's on), click again for off.</li>
+  <li><b>Switches</b> (the little levers): click to flip. Some have three positions; they step through them.</li>
+  <li><b>Lights</b> show what's happening: a voice's yellow light glows while it sounds, the LFO lights pulse with them, the sequencer's red lights show the step.</li>
+  <li><b>Tooltips</b>: rest the mouse on anything for a moment to see what it does.</li>
+</ul>
+
+<h2 id="drones">4. Drone voices 1, 2, 4, 5 (the "classic" voices)</h2>
+<p>Each of these four voices is five sawtooth oscillators that hum together: <b>1</b> and <b>2</b> are low, <b>3</b> is in the middle, <b>4</b> and <b>5</b> are high. They drift a little in pitch over time, like the real analog circuit.</p>
+<table>
+  <tr><th>Control</th><th>What it does</th></tr>
+  <tr><td>Pad 1, 2, 4, 5 (bottom right)</td><td>Plays the voice while you hold it (keys <kbd>1</kbd> <kbd>2</kbd> <kbd>4</kbd> <kbd>5</kbd> too).</td></tr>
+  <tr><td>HOLD</td><td>Keeps the voice playing (its yellow light comes on) until you press it again.</td></tr>
+  <tr><td>MUTE 1–5</td><td>Switches each oscillator off and on: mix and match them to make chords. The red <b>OSC STATUS</b> lights show which are playing.</td></tr>
+  <tr><td>TUNE 1–5</td><td>Each oscillator's pitch (about an octave either way).</td></tr>
+  <tr><td>MOD 1–5</td><td>When on, that oscillator's pitch follows the light on the <b>photo sensor</b> and the CV input (normally LFO A for voices 1 and 2, LFO B for 4 and 5), so it wobbles and bends.</td></tr>
+  <tr><td>VOLT</td><td>Transposes all five oscillators down together. Past halfway, they start modulating each other: a growling, FM-like sound.</td></tr>
+  <tr><td>ATT, RLS</td><td>How slowly the voice fades in (attack) and out (release).</td></tr>
+  <tr><td>CV knob</td><td>How strongly the CV input bends the oscillators that have MOD on.</td></tr>
+  <tr><td>Photo sensor (the big grey circle)</td><td>Hover the mouse over it to cast a shadow, press and hold to cover it: the oscillators with MOD on bend in pitch. Scroll over it to change the "room light".</td></tr>
+</table>
+
+<h2 id="newdrones">5. Drone voices 3 and 6</h2>
+<p>Different, wilder voices: a square-wave tone with its own LFO. Sirens, bird calls, space monsters, volleys of shots, surf and wind.</p>
+<table>
+  <tr><th>Control</th><th>What it does</th></tr>
+  <tr><td>Pad 3 or 6, HOLD</td><td>Play while held / keep playing, as above.</td></tr>
+  <tr><td>rate, the 1/10 button</td><td>The LFO's speed; the button makes it ten times faster.</td></tr>
+  <tr><td>fm</td><td>The LFO bends the pitch up and down (sirens, birds).</td></tr>
+  <tr><td>am</td><td>The LFO chops the sound on and off (volleys, helicopters).</td></tr>
+  <tr><td>mod</td><td>How much the LFO does it.</td></tr>
+  <tr><td>divider</td><td>Mixes in lower, rougher sub-tones.</td></tr>
+  <tr><td>PITCH, hi/low</td><td>The tone's pitch, and its range.</td></tr>
+  <tr><td>NOISE</td><td>Blends in white noise (surf, wind). All the way up, with mod and divider up too, it's pure noise.</td></tr>
+  <tr><td>ATT, RLS</td><td>Fade in, fade out.</td></tr>
+  <tr><td>S&amp;H (sample and hold)</td><td>Grabs a random value at every LFO beat (its red light shows it). Patch its output (the right S&amp;H jack) into a pitch input for random melodies.</td></tr>
+</table>
+
+<h2 id="vco">6. VCO A and B, and their envelopes</h2>
+<p>Two oscillators you play from the <b>touch keyboard</b>. Each has an envelope (envelope A and B, under the mixer) that shapes every note.</p>
+<table>
+  <tr><th>Control</th><th>What it does</th></tr>
+  <tr><td>The big waveform knob</td><td>Six stops: sine, triangle, saw, square, saw-to-inverted-saw, and sine-to-triangle (the last two are shaped by <b>pw</b>).</td></tr>
+  <tr><td>tune</td><td>The pitch, over one octave.</td></tr>
+  <tr><td>oct+3 / low</td><td>The low range, or three octaves up.</td></tr>
+  <tr><td>sub</td><td>Adds a square wave one octave down: a fatter sound.</td></tr>
+  <tr><td>pw, pwm</td><td>The square wave's width; pwm is how much LFO A (for VCO A) or LFO B (for VCO B) sweeps it.</td></tr>
+  <tr><td>cv amt, lin/exp</td><td>How much the cv input changes the pitch. On VCO B, with nothing plugged in, VCO A is there: turn VCO B's <b>cv amt</b> up for metallic FM sounds.</td></tr>
+  <tr><td>A D S R</td><td>Attack (how fast a note starts), Decay (how fast it falls), Sustain (how loud it stays while held), Release (how long it rings after you let go).</td></tr>
+  <tr><td>hold</td><td>Keeps the envelope open, as if a key were held: the VCO plays continuously.</td></tr>
+  <tr><td>The ⋀⋀ button (loop)</td><td>The envelope repeats by itself like an LFO, so the VCO pulses without anyone playing.</td></tr>
+</table>
+
+<h2 id="keyboard">7. The touch keyboard</h2>
+<ul>
+  <li>The twelve white striped <b>plates</b> are the twelve notes of an octave, C to B, left to right. Click one (or touch it on the iPad), or press <kbd>A</kbd> <kbd>W</kbd> <kbd>S</kbd> <kbd>E</kbd> <kbd>D</kbd> <kbd>F</kbd> <kbd>T</kbd> <kbd>G</kbd> <kbd>Y</kbd> <kbd>H</kbd> <kbd>U</kbd> <kbd>J</kbd>.</li>
+  <li>They play <b>VCO A and B together</b>. To hear only one, turn the other's <b>VOL</b> down in the mixer.</li>
+  <li>Pressing higher up a plate is more <b>pressure</b> (it comes out of the pressure jack).</li>
+  <li>The red <b>▽</b> and <b>△</b> buttons (or <kbd>Z</kbd> and <kbd>X</kbd>) change the octave; the blue display shows it. The red knob between them transposes by semitones.</li>
+</ul>
+
+<h2 id="mixer">8. The voice mixer</h2>
+<p>Ten channels, each with <b>PAN</b> (left or right) and <b>VOL</b> (how loud): drone 1, drone 2, drone 3, ext. audio, VCO A, VCO B, preamp, drone 4, drone 5, drone 6. If a voice is playing but silent, check its <b>VOL</b> here. EXT.AUDIO and PREAMP start at zero.</p>
+
+<h2 id="filter">9. Filters and distortion</h2>
+<p>Everything from the mixer goes through two filters, one for the left side and one for the right, modeled on the Polivoks's rough, singing filter.</p>
+<table>
+  <tr><th>Control</th><th>What it does</th></tr>
+  <tr><td>FREQ</td><td>The cutoff: turn it down for a darker, muffled sound, up for bright.</td></tr>
+  <tr><td>RES</td><td>Resonance: a ringing peak at the cutoff. Very high, the filter sings by itself.</td></tr>
+  <tr><td>BP / LP (orange button)</td><td>Low pass (off: keeps everything below the cutoff) or band pass (lit: only a band around it, thinner and vocal).</td></tr>
+  <tr><td>CV jack, MOD</td><td>Patch something into CV (an LFO, the joystick, an envelope) and MOD sets how much it sweeps the cutoff.</td></tr>
+  <tr><td>link</td><td>The CV moves the right filter too.</td></tr>
+  <tr><td>DIST, GAIN</td><td>Distortion: DIST mixes it in, GAIN sets how hard it bites.</td></tr>
+</table>
+
+<h2 id="fx">10. The dual effector</h2>
+<p>Effects on the left and the right channel, from one <b>cartridge</b>.</p>
+<ul>
+  <li><b>Click the cartridge slot</b> to change cartridge (right-click goes back): CATHEDRAL (reverbs), VIBROTREM (tremolo, vibrato, chorus), MAGIC (pitched delays), FILTER (wah and filters), TIME (delays), VIBE (phaser and flangers).</li>
+  <li>The two little <b>switches</b> beside the slot pick each channel's <b>program</b> (1 at the top, 2 in the middle, 3 at the bottom). The line along the very bottom of the panel says which programs are on and what <b>X</b>, <b>Y</b> and <b>Z</b> do in them.</li>
+  <li><b>X, Y, Z</b>: the effect's three settings (for example Feedback, Delay and Reverb).</li>
+  <li><b>BLEND</b>: how much effect you hear. <b>MASTER VOLUME</b>: the overall volume. The knob under the headphones: the output level.</li>
+  <li><b>bypass L / R</b>: that side without the effect. <b>reset</b>: clears the echoes and reverb tails. <b>channel</b> (orange): both channels take the sound mixed to mono.</li>
+</ul>
+<table>
+  <tr><th>Cartridge</th><th>Program 1</th><th>Program 2</th><th>Program 3</th></tr>
+  <tr><td>CATHEDRAL</td><td>Shimmer (X octave up, Y octave down, Z decay)</td><td>Octave-up delay (X feedback, Y delay, Z reverb)</td><td>Space reverb (X feedback, Y delay, Z reverb)</td></tr>
+  <tr><td>VIBROTREM</td><td>Tremolo (X depth, Y rate, Z reverb)</td><td>Vibrato (same)</td><td>Chorus (same)</td></tr>
+  <tr><td>MAGIC</td><td>Pitch delay (X feedback, Y delay, Z pitch)</td><td>Reverse pitch delay (same)</td><td>Bell pitch delay (same)</td></tr>
+  <tr><td>FILTER</td><td>Auto wah (X amount, Y envelope, Z reverb)</td><td>HP/LP filter (X HP cutoff, Y LP cutoff, Z resonance)</td><td>Notch (X cut 1, Y cut 2, Z resonance)</td></tr>
+  <tr><td>TIME</td><td>Delay reverb (X feedback, Y delay, Z reverb)</td><td>Delay chorus (X feedback, Y delay, Z mod depth)</td><td>Delay vibrato (X feedback, Y delay/rate, Z mod depth)</td></tr>
+  <tr><td>VIBE</td><td>Phaser (X depth, Y rate, Z reverb)</td><td>Flanger (same)</td><td>Resonance flanger (X resonance, Y rate, Z mod depth)</td></tr>
+</table>
+
+<h2 id="mod">11. LFOs, joystick, sequencer</h2>
+<p>These don't make sound themselves: they <b>move</b> other things, through the instrument's own connections or your patch cables.</p>
+<table>
+  <tr><th>Section</th><th>What it does</th></tr>
+  <tr><td>LFO A, LFO B</td><td>Slow waves (A is the slow one, B the fast one). <b>wave</b>: triangle to square; <b>rate</b>: speed. Their blue lights pulse with them. Without cables, A moves drone voices 1 and 2 (through MOD) and VCO A's pulse width; B does the same for voices 4 and 5 and VCO B.</td></tr>
+  <tr><td>Joystick</td><td>The little figure bottom left: drag its black knob. It stays where you leave it; double-click to center it. Its X and Y come out of the two JOYSTICK jacks (the X and Y knobs shift them). Patch them to a filter CV or a pitch input.</td></tr>
+  <tr><td>5-step sequencer</td><td>Plays a repeating pattern of up to five voltages. <b>pulser</b>: speed. <b>stages</b>: 3, 4 or 5 steps. <b>step 1–5</b>: each step's voltage. The <b>gate</b> switch under each step: whether it sends a note. Patch <b>cv</b> to a VCO's <b>1v/oct</b> and <b>gate</b> to its envelope's <b>gate</b> to hear a melody (or pick <b>Sounds &gt; Sequencer melody</b>).</td></tr>
+</table>
+
+<h2 id="mic">12. Preamp and envelope follower</h2>
+<p>The real 42F has a contact microphone inside its case. Here it's your computer's microphone: click the <b>🎤</b> in PREAMP to turn it on (allow it when asked), turn up the <b>PREAMP</b> channel's VOL in the mixer, and the sound goes through the filters and effects. <b>gain</b> sets its level. The <b>envelope follower</b> turns how loud it is into a voltage (<b>env</b>) and a <b>gate</b> while there's sound: patch them to make your voice open the filter or trigger a voice.</p>
+
+<h2 id="patch">13. Patch cables</h2>
+<ul>
+  <li><b>Outputs</b> have a small red arrow; <b>inputs</b> a black one.</li>
+  <li><b>Drag</b> from an output jack to an input jack (or the other way) to connect them. An input takes one cable; an output can feed several.</li>
+  <li><b>Drag a plug off an input</b> to move it somewhere else; drop it on empty space to remove it. <b>Click a cable</b> to remove it.</li>
+  <li>With nothing plugged in, many inputs already have something connected inside (rest the mouse on a jack to see what).</li>
+</ul>
+
+<h2 id="recipes">14. Things to try</h2>
+<ul>
+  <li><b>A shifting chord</b>: HOLD drone voice 1, switch MOD on for oscillators 3 and 5, and slowly turn LFO A's rate.</li>
+  <li><b>Random melodies</b>: patch drone 3's <b>S&amp;H</b> output to VCO A's <b>1v/oct</b>, switch envelope A's <b>loop</b> on.</li>
+  <li><b>Hand-played filter</b>: patch <b>joystick X</b> to the filter <b>CV</b>, turn <b>MOD</b> up, set the filters to BP with high RES, and move the joystick.</li>
+  <li><b>Metallic bells</b>: play the keyboard with VCO B's <b>cv amt</b> turned up (VCO A modulates it), through MAGIC's Bell pitch delay.</li>
+  <li><b>Your voice in space</b>: turn on the 🎤, raise PREAMP's VOL, and pick CATHEDRAL's Shimmer with BLEND high.</li>
+</ul>
+
+<h2 id="keys">15. Keyboard shortcuts</h2>
+<table>
+  <tr><td><kbd>A</kbd> <kbd>W</kbd> <kbd>S</kbd> <kbd>E</kbd> <kbd>D</kbd> <kbd>F</kbd> <kbd>T</kbd> <kbd>G</kbd> <kbd>Y</kbd> <kbd>H</kbd> <kbd>U</kbd> <kbd>J</kbd></td><td>The touch keyboard (C to B)</td></tr>
+  <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>Keyboard octave down / up</td></tr>
+  <tr><td><kbd>1</kbd> … <kbd>6</kbd></td><td>Drone voice pads (play while held)</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>Stop all sound (or close the guide)</td></tr>
+  <tr><td><kbd>Shift</kbd> + drag</td><td>Fine knob moves</td></tr>
+  <tr><td><kbd>F11</kbd></td><td>Full screen</td></tr>
+</table>
+
+<h2 id="nosound">16. No sound?</h2>
+<ol>
+  <li><b>Is the power on?</b> The menu bar should say <b>Sound on</b>. If it says <b>Power off</b>, close the program and open it again, then click POWER.</li>
+  <li><b>Is a voice started?</b> Pick <b>Sounds &gt; Warm drone chord</b>. Knobs alone don't make sound.</li>
+  <li><b>Does the meter move?</b> (the bar next to Sound on)
+    <ul>
+      <li><b>No</b>: check the voice's <b>VOL</b> in the mixer, and <b>MASTER VOLUME</b> and the knob under the headphones.</li>
+      <li><b>Yes, but you hear nothing</b>: the synth is working, and Windows is sending the sound somewhere you're not listening. Use <b>Help &gt; Test the speakers</b>. Then click the speaker icon by the clock and check the output. If it's set to <b>CABLE Input</b> (the VB-Audio cable from your Clubhouse setup), you'll only hear it if "Listen to this device" is on for CABLE Output (see the note "Clubhouse music bot - sound setup" on your Desktop), or pick your <b>Speakers/Headphones</b> while you play the synth.</li>
+    </ul></li>
+  <li><b>Still nothing</b>: check the computer's volume isn't muted, and that no other program has taken over the speakers.</li>
+</ol>
+
+<h2 id="ipad">17. On the iPad</h2>
+<ul>
+  <li>Get it from <b>Dylan's App Store</b> (Music), then <b>Share &gt; Add to Home Screen</b>. Hold the iPad sideways.</li>
+  <li>Touch knobs and drag up and down; touch the plates with several fingers; double-tap a knob to reset it.</li>
+  <li>The <b>View &gt; Zoom in</b> menu makes the controls bigger; drag an empty part of the panel to move around.</li>
+  <li>It plays even with the ring/silent switch on.</li>
+</ul>
+</main>
+</body>
+</html>

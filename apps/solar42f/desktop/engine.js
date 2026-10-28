@@ -418,7 +418,7 @@ function solarWorklet() {
       this.lfoA = 0; this.lfoB = 0; this.seqPh = 0; this.step = 0; this.gateLeft = 0; this.lastSeqClock = 0;
       this.fL = new SVF(); this.fR = new SVF(); this.fx = [new FxChannel(0), new FxChannel(23)];
       this.ef = 0; this.kbdPrev = -1; this.kbdVolt = 0; this.trig = 0; this.dc = new Float64Array(4); this.meter = 0;
-      this.frames = 0; this.lastFcL = -1; this.lastFcR = -1;
+      this.frames = 0; this.outPeak = 0;
       this.gL = new Float64Array(10); this.gR = new Float64Array(10); this.ch = new Float64Array(10);
       this.port.onmessage = e => this.message(e.data);
     }
@@ -573,6 +573,7 @@ function solarWorklet() {
         const yL = L - dc[0] + 0.9995 * dc[1]; dc[0] = L; dc[1] = yL;
         const yR = R - dc[2] + 0.9995 * dc[3]; dc[2] = R; dc[3] = yR;
         outL[s] = yL; outR[s] = yR;
+        const pk = Math.max(yL < 0 ? -yL : yL, yR < 0 ? -yR : yR); if (pk > this.outPeak) this.outPeak = pk;
       }
 
       // ---- The lights, about 30 times a second ----
@@ -583,8 +584,9 @@ function solarWorklet() {
           d1: V[0].envOut, d2: V[1].envOut, d3: V[2].envOut, d4: V[3].envOut, d5: V[4].envOut, d6: V[5].envOut,
           sh3: (V[2].sh + 5) / 10, sh6: (V[5].sh + 5) / 10, enva: this.envA.v, envb: this.envB.v,
           pre: Math.min(1, this.meter * 3), efenv: o[oEFENV] / 10, efgate: o[oEFGATE] > 0 ? 1 : 0,
+          out: this.outPeak,                          // how loud the sound leaving the synth is (the menu bar's meter)
         } });
-        this.meter *= 0.5;
+        this.meter *= 0.5; this.outPeak = 0;
       }
       return true;
     }

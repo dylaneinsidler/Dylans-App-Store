@@ -17,49 +17,78 @@
 <link rel="stylesheet" href="desktop/style.css">
 </head>
 <body>
+<!-- The menu bar -->
+<nav id="menubar">
+  <div class="brand"><span class="sun-dot"></span>Dylan's Solar 42F</div>
+  <div class="menu" data-menu="file"><button>File</button>
+    <div class="drop">
+      <button data-do="new">New (start from a blank panel)</button>
+      <button data-do="open">Open a patch…</button>
+      <button data-do="save">Save this patch…</button>
+      <hr>
+      <button data-do="quit">Close</button>
+    </div>
+  </div>
+  <div class="menu" data-menu="sounds"><button>Sounds</button>
+    <div class="drop" id="soundsMenu"></div>
+  </div>
+  <div class="menu" data-menu="view"><button>View</button>
+    <div class="drop">
+      <button data-do="fit">Whole panel</button>
+      <button data-do="zoom">Zoom in (drag an empty part to move around)</button>
+      <button data-do="fullscreen">Full screen (F11)</button>
+      <hr>
+      <button data-do="cables">Hide the patch cables</button>
+    </div>
+  </div>
+  <div class="menu" data-menu="help"><button>Help</button>
+    <div class="drop">
+      <button data-do="guide">User's Guide</button>
+      <button data-do="quick">Quick start</button>
+      <button data-do="keys">Keyboard shortcuts</button>
+      <button data-do="test">Test the speakers</button>
+      <hr>
+      <button data-do="about">About</button>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="status">
+    <span id="powerState">Power off</span>
+    <span class="meter" title="How loud the sound leaving the synth is. If this moves and you hear nothing, the sound is going somewhere else: see Help > User's Guide, 'No sound'."><span id="meterBar"></span></span>
+    <button id="panicBtn" title="Stop all sound: lets go of every HOLD, pad and held envelope (Esc)">■ Stop all sound</button>
+  </div>
+</nav>
+
 <div id="stage"></div>
+
+<!-- Messages: what a starter sound is and how to play it, tips -->
+<div id="toast" hidden></div>
 
 <!-- The power switch: browsers only let sound start after a click or a tap. -->
 <div id="power">
   <button id="powerBtn" aria-label="Power on">
     <span class="sun"></span>
     <span class="big">POWER</span>
-    <span class="small">tap to switch on the SOLAR 42F</span>
+    <span class="small">click to switch on the SOLAR 42F</span>
   </button>
   <p class="turn">Turn the iPad sideways for the whole panel.</p>
 </div>
 
-<div id="tools">
-  <button id="zoomBtn" title="Zoom in on the panel (drag an empty part of it to move around)">⊕</button>
-  <button id="helpBtn" title="How to play it">?</button>
-</div>
-
-<div id="help" hidden>
-  <div class="card">
-    <h2>Dylan's Solar 42F</h2>
-    <p>An unofficial tribute to Elta Music's SOLAR 42F drone ambient machine: the same panel, with every knob, button,
-      switch and jack working, and the sound worked out live as you play.</p>
-    <ul>
-      <li><b>Knobs:</b> drag up and down (Shift for fine moves), or scroll. Double-click (double-tap) to put one back.</li>
-      <li><b>Drone voices:</b> hold a pad bottom right (or keys 1 to 6), or press HOLD on the voice to keep it on.
-        MUTE the five oscillators to make chords; MOD lets them follow the light on the round sensor (hover or press it).</li>
-      <li><b>Touch keyboard:</b> the twelve plates play VCO A and B (keys A W S E D F T G Y H U J; Z and X for octaves).
-        Higher up a plate means more pressure.</li>
-      <li><b>Patch cables:</b> drag from one jack to another. Drag a plug off to move it, tap a cable to remove it.
-        With nothing plugged in, jacks use the instrument's own connections (hover a jack to see which).</li>
-      <li><b>Effector:</b> tap the cartridge slot to change cartridge; the switches beside it pick each channel's program.
-        What X, Y and Z do is written along the bottom.</li>
-      <li><b>Joystick:</b> the figure bottom left. It stays where you leave it; double-tap to center it.</li>
-      <li><b>Contact mic:</b> tap the microphone in PREAMP to play your own sounds through it.</li>
-    </ul>
-    <p class="fine">Everything you set is kept for next time. <button id="resetBtn">Reset the whole panel</button></p>
-    <button id="closeHelp">Close</button>
+<!-- Windows over the panel: the User's Guide, and the small notes (quick start, shortcuts, about) -->
+<div id="sheet" hidden>
+  <div class="sheet-card">
+    <div class="sheet-top"><b id="sheetTitle"></b><button id="sheetClose" title="Close (Esc)">✕</button></div>
+    <iframe id="sheetFrame" title="User's Guide" hidden></iframe>
+    <div id="sheetText"></div>
   </div>
 </div>
+
+<input type="file" id="openFile" accept=".json,application/json" hidden>
 
 <script src="../../shared/phone.js" data-name="Dylan's Solar 42F" data-sound data-footer="off"></script>
 <script src="desktop/engine.js"></script>
 <script src="desktop/panel.js"></script>
+<script src="desktop/sounds.js"></script>
 <script src="desktop/app.js"></script>
 </body>
 </html>

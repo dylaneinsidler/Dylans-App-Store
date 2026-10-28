@@ -119,12 +119,13 @@ const Panel = (() => {
   function toggle(id, x, y, positions, o = {}) {
     defaults[id] = o.def ?? 0;
     const g = el('g', { class: 'btn', 'data-id': id });
-    el('circle', { cx: x, cy: y, r: 11, fill: '#2a2a2a' }, g);
-    el('circle', { cx: x, cy: y, r: 7, fill: '#111' }, g);
-    const lever = el('rect', { x: x - 5, y: y - 2, width: 10, height: 22, rx: 5, fill: COLORS[o.color] || o.color || COLORS.green }, g);
+    el('circle', { cx: x, cy: y, r: 10, fill: '#2a2a2a' }, g);
+    el('circle', { cx: x, cy: y, r: 6, fill: '#111' }, g);
+    // a short lever, so it never covers the labels above and below it
+    const lever = el('rect', { x: x - 4.5, y: y - 2, width: 9, height: 15, rx: 4.5, fill: COLORS[o.color] || o.color || COLORS.green }, g);
     tip(g, o.tipText || id);
     // value 0 = lever down (lower label), 1 = up; three-position switches: 0, 0.5, 1
-    controls[id] = { draw: v => lever.setAttribute('transform', `rotate(${positions === 3 ? (v > 0.75 ? 180 : v > 0.25 ? 90 : 0) : (v > 0.5 ? 180 : 0)} ${x} ${y})`) };
+    controls[id] = { draw: v => lever.setAttribute('transform', `rotate(${positions === 3 ? (v > 0.75 ? 180 : v > 0.25 ? (o.mid === 'right' ? -90 : 90) : 0) : (v > 0.5 ? 180 : 0)} ${x} ${y})`) };
     controls[id].draw(values[id] ?? defaults[id]);
     g.addEventListener('click', () => {
       const v = values[id] ?? 0;
@@ -255,8 +256,8 @@ const Panel = (() => {
     el('rect', { x: 277 + dx, y: 227, width: 58, height: 34, fill: '#111' });
     for (let i = 0; i < 5; i++) leds[`${k}osc${i + 1}`] = el('rect', { x: 281 + dx + i * 10.6, y: 231, width: 8, height: 26, fill: '#e3261d' });
     text(306 + dx, 272, '1 2 3 4 5', { size: 12 });
-    knob(k + 'volt', 296 + dx, 318, { r: 24, color: 'blue', def: 0.2, ticks: true, tipText: 'VOLT: transposes all five oscillators down. Past halfway they start modulating each other (an FM-like growl).' });
-    text(296 + dx, 353, 'VOLT', { size: 16 });
+    knob(k + 'volt', 304 + dx, 318, { r: 21, color: 'blue', def: 0.2, tipText: 'VOLT: transposes all five oscillators down. Past halfway they start modulating each other (an FM-like growl).' });
+    text(304 + dx, 351, 'VOLT', { size: 16 });
     // HOLD / GATE strip
     el('path', { d: `M${18 + dx},${355} H${75 + dx} Q${85 + dx},${355} ${85 + dx},${365} V${465} H${18 + dx} Z`, fill: 'none', stroke: '#111', 'stroke-width': 3 });
     el('rect', { x: 18 + dx, y: 355, width: 22, height: 110, fill: '#111' });
@@ -265,11 +266,11 @@ const Panel = (() => {
     button(k + 'hold', 52 + dx, 380, 15, 'latch', { tipText: 'HOLD: keeps the voice sounding (latches its gate on)' });
     led(k + 'holdled', 52 + dx, 406, '#f0b400', 6);
     jack(k + 'gate', 52 + dx, 440, 'in', { arrow: 'below', name: 'GATE', normal: `drone pad ${n}` });
-    knob(k + 'att', 101 + dx, 380, { r: 17, style: 'plain', def: 0.35, label: 'ATT', ly: 409, tipText: 'ATT: how slowly the voice fades in' });
-    knob(k + 'rls', 153 + dx, 380, { r: 17, style: 'plain', def: 0.5, label: 'RLS', ly: 409, tipText: 'RLS: how slowly the voice fades out' });
-    text(95 + dx, 440, 'ʘ', { size: 24 });
-    jack(k + 'env', 153 + dx, 440, 'out', { arrow: 'below', name: 'env (this voice\'s envelope)' });
-    text(126 + dx, 453, 'env', { size: 13, fill: '#d5281f' });
+    knob(k + 'att', 113 + dx, 380, { r: 16, style: 'plain', def: 0.35, label: 'ATT', ly: 409, tipText: 'ATT: how slowly the voice fades in' });
+    knob(k + 'rls', 157 + dx, 380, { r: 16, style: 'plain', def: 0.5, label: 'RLS', ly: 409, tipText: 'RLS: how slowly the voice fades out' });
+    text(113 + dx, 440, 'ʘ', { size: 22 });
+    jack(k + 'env', 157 + dx, 440, 'out', { arrow: 'below', name: 'env (this voice\'s envelope)' });
+    text(131 + dx, 455, 'env', { size: 12, fill: '#d5281f' });
     el('path', { d: `M${180 + dx},${355} H${228 + dx} V${465}`, fill: 'none', stroke: '#111', 'stroke-width': 3 });
     knob(k + 'cv', 205 + dx, 380, { r: 17, style: 'plain', def: 0.4, label: 'CV', ly: 409, tipText: 'CV: how much the CV input moves the pitch of the oscillators with MOD on' });
     jack(k + 'cvin', 205 + dx, 440, 'in', { arrow: false, name: 'CV', normal: n < 3 ? 'LFO A (through the sensor\'s red light)' : 'LFO B (through the sensor\'s red light)' });
@@ -297,22 +298,19 @@ const Panel = (() => {
     el('path', { d: `M${60 + dx},487 H${94 + dx} V${590}`, fill: 'none', stroke: '#111', 'stroke-width': 1.5, 'stroke-dasharray': '2 3' });
     text(84 + dx, 497, '1', { size: 11 }); text(104 + dx, 497, '10', { size: 11 });
     button(k + 'range', 94 + dx, 512, 12, 'latch', { tipText: 'LFO range: ×1 or ×10 (fast)' });
-    el('path', { d: `M${108 + dx},508 Q${130 + dx},488 ${160 + dx},494`, fill: 'none', stroke: '#d5281f', 'stroke-width': 1.8 });
-    el('path', { d: `M${108 + dx},512 Q${180 + dx},478 ${240 + dx},494`, fill: 'none', stroke: '#d5281f', 'stroke-width': 1.8 });
-    el('path', { d: `M${50 + dx},528 Q${60 + dx},505 ${80 + dx},510`, fill: 'none', stroke: '#d5281f', 'stroke-width': 1.8 });
-    text(160 + dx, 496, 'fm', { size: 15 }); text(244 + dx, 496, 'am', { size: 15 });
-    button(k + 'fm', 181 + dx, 512, 12, 'latch', { def: 1, tipText: 'fm: the LFO bends the pitch (sirens, birds)' });
-    button(k + 'am', 266 + dx, 512, 12, 'latch', { tipText: 'am: the LFO chops the volume (volleys)' });
-    knob(k + 'rate', 45 + dx, 543, { r: 24, color: 'blue', arc: true, label: 'rate', ly: 578, def: 0.4, tipText: 'rate: the LFO\'s speed' });
-    knob(k + 'mod', 136 + dx, 543, { r: 24, color: 'blue', arc: true, label: 'mod', ly: 577, def: 0.4, tipText: 'mod: how much the LFO modulates the tone' });
-    knob(k + 'divider', 222 + dx, 543, { r: 24, color: 'blue', arc: true, label: 'divider', ly: 577, def: 0, tipText: 'divider: mixes in the tone divided down (lower, rougher sub-tones)' });
-    knob(k + 'pitch', 307 + dx, 543, { r: 24, color: 'blue', arc: true, label: 'PITCH', ly: 577, def: 0.45, tipText: 'PITCH: the tone\'s pitch' });
-    button(k + 'hilo', 266 + dx, 576, 12, 'latch', { tipText: 'hi/low: the tone\'s range' });
-    text(270 + dx, 598, 'hi/low', { size: 14 });
-    jack(k + 'lfo', 94 + dx, 590, 'out', { arrow: 'below', name: 'LFO out (square wave)' });
-    jack(k + 'cvin', 181 + dx, 588, 'in', { arrow: false, name: 'cv (pitch)' });
-    el('path', { d: `M${175 + dx},${611} L${187 + dx},${611} L${181 + dx},${604} Z`, fill: '#111' });
-    text(181 + dx, 618, 'cv', { size: 14 });
+    text(152 + dx, 512, 'fm', { size: 15, anchor: 'end' }); text(240 + dx, 512, 'am', { size: 15, anchor: 'end' });
+    button(k + 'fm', 168 + dx, 512, 11, 'latch', { def: 1, tipText: 'fm: the LFO bends the pitch (sirens, birds)' });
+    button(k + 'am', 256 + dx, 512, 11, 'latch', { tipText: 'am: the LFO chops the volume (volleys)' });
+    knob(k + 'rate', 45 + dx, 551, { r: 20, color: 'blue', arc: true, label: 'rate', ly: 584, def: 0.4, tipText: 'rate: the LFO\'s speed' });
+    knob(k + 'mod', 136 + dx, 551, { r: 20, color: 'blue', arc: true, label: 'mod', ly: 584, def: 0.4, tipText: 'mod: how much the LFO modulates the tone' });
+    knob(k + 'divider', 222 + dx, 551, { r: 20, color: 'blue', arc: true, label: 'divider', ly: 584, def: 0, tipText: 'divider: mixes in the tone divided down (lower, rougher sub-tones)' });
+    knob(k + 'pitch', 307 + dx, 551, { r: 20, color: 'blue', arc: true, label: 'PITCH', ly: 584, def: 0.45, tipText: 'PITCH: the tone\'s pitch' });
+    button(k + 'hilo', 300 + dx, 609, 11, 'latch', { tipText: 'hi/low: the tone\'s range' });
+    text(282 + dx, 610, 'hi/low', { size: 13, anchor: 'end' });
+    jack(k + 'lfo', 94 + dx, 595, 'out', { arrow: false, name: 'LFO out (square wave)' });
+    text(118 + dx, 596, '▸', { size: 12, fill: '#d5281f' });
+    jack(k + 'cvin', 181 + dx, 595, 'in', { arrow: false, name: 'cv (pitch)' });
+    text(181 + dx, 620, 'cv', { size: 13 });
     // HOLD / GATE
     el('path', { d: `M${18 + dx},612 H${75 + dx} Q${85 + dx},612 ${85 + dx},622 V732 H${18 + dx} Z`, fill: 'none', stroke: '#111', 'stroke-width': 3 });
     el('rect', { x: 18 + dx, y: 612, width: 22, height: 120, fill: '#111' });
@@ -321,17 +319,15 @@ const Panel = (() => {
     button(k + 'hold', 52 + dx, 635, 15, 'latch', { tipText: 'HOLD: keeps the voice sounding' });
     led(k + 'holdled', 52 + dx, 661, '#f0b400', 6);
     jack(k + 'gate', 52 + dx, 697, 'in', { arrow: 'below', name: 'GATE', normal: `drone pad ${n}` });
-    knob(k + 'att', 102 + dx, 635, { r: 17, style: 'plain', def: 0.3, label: 'ATT', ly: 666 });
-    knob(k + 'rls', 153 + dx, 635, { r: 17, style: 'plain', def: 0.5, label: 'RLS', ly: 666 });
+    knob(k + 'att', 108 + dx, 637, { r: 15, style: 'plain', def: 0.3, label: 'ATT', ly: 664, size: 14 });
+    knob(k + 'rls', 155 + dx, 637, { r: 15, style: 'plain', def: 0.5, label: 'RLS', ly: 664, size: 14 });
     el('rect', { x: 84 + dx, y: 680, width: 37, height: 40, rx: 6, fill: 'none', stroke: '#111', 'stroke-width': 3 });
     text(102 + dx, 701, 'Y', { size: 30, weight: 900 });
     jack(k + 'env', 153 + dx, 697, 'out', { name: 'env out' });
     text(154 + dx, 724, 'env out', { size: 13, fill: '#d5281f' });
-    knob(k + 'noise', 231 + dx, 635, { r: 24, color: 'blue', ticks: false, label: 'NOISE', ly: 667, def: 0, tipText: 'NOISE: white noise in place of the tone (surf, wind). All the way up, with mod and divider up too, for clean noise.' });
-    // S&H: the scattered dots, one lit by the sample & hold
-    [[277, 610, 6], [292, 625, 5], [300, 602, 9], [318, 597, 7], [316, 620, 5], [298, 642, 5], [282, 646, 4], [266, 634, 4]].forEach(([x, y, r]) => el('circle', { cx: x + dx, cy: y, r, fill: '#111' }));
-    led(k + 'shled', 307 + dx, 636, '#ff2a1a', 8);
-    el('path', { d: `M${268 + dx},620 l4,-14 l4,22 l4,-22 l4,22 l4,-14`, fill: 'none', stroke: '#111', 'stroke-width': 1.6 });
+    knob(k + 'noise', 222 + dx, 637, { r: 19, color: 'blue', label: 'NOISE', ly: 664, size: 14, def: 0, tipText: 'NOISE: white noise in place of the tone (surf, wind). All the way up, with mod and divider up too, for clean noise.' });
+    // the sample & hold's light: brighter for a higher held value
+    led(k + 'shled', 300 + dx, 640, '#ff2a1a', 8);
     el('path', { d: `M${185 + dx},676 H${340 + dx} V732 H${185 + dx} Z`, fill: 'none', stroke: '#111', 'stroke-width': 3 });
     tag(290 + dx, 657, 50, 'S&H', { h: 20, size: 14 });
     jack(k + 'shin', 205 + dx, 697, 'in', { arrow: 'below', name: 'S&H in', normal: 'this voice\'s noise' });
@@ -345,30 +341,31 @@ const Panel = (() => {
     box(347 + dx, 473, 321, 259);
     tag(600 + dx, 473, 68, `VCO ${x.toUpperCase()}`, { h: 21 });
     text(508 + dx, 482, 'MORPHING', { size: 13 }); text(508 + dx, 495, 'WAVEFORM', { size: 13 });
-    knob(k + 'cvamt', 404 + dx, 543, { r: 26, color: 'green', arc: true, def: 0, tipText: A ? 'cv amt: how much the cv input moves the pitch' : 'cv amt: how much the cv input moves the pitch. With nothing plugged in, VCO A is there: frequency modulation.' });
+    knob(k + 'cvamt', 404 + dx, 543, { r: 23, color: 'green', arc: true, def: 0, tipText: A ? 'cv amt: how much the cv input moves the pitch' : 'cv amt: how much the cv input moves the pitch. With nothing plugged in, VCO A is there: frequency modulation.' });
     text(404 + dx, 499, 'cv amt', { size: 16 });
     text(372 + dx, 568, 'lin', { size: 12 });
     toggle(k + 'linexp', 370 + dx, 594, 2, { color: 'green', def: 1, tipText: 'lin / exp: how the cv input moves the pitch (exp: by octaves, like a keyboard; lin: by hertz, for clean FM)' });
-    text(370 + dx, 618, 'exp', { size: 12 });
+    text(370 + dx, 621, 'exp', { size: 12 });
     text(478 + dx, 522, 'oct+3', { size: 17 });
     toggle(k + 'oct', 478 + dx, 548, 2, { color: 'green', def: 0, tipText: 'oct+3 / low: the low range, or three octaves up' });
-    text(478 + dx, 568, 'low', { size: 17 });
+    text(478 + dx, 575, 'low', { size: 16 });
     text(540 + dx, 522, '−1 ⊓', { size: 17 });
     toggle(k + 'sub', 540 + dx, 548, 2, { color: 'green', def: 0, tipText: 'sub: adds a square wave one octave down' });
-    text(540 + dx, 568, 'sub', { size: 17 });
-    knob(k + 'tune', 611 + dx, 543, { r: 26, color: 'green', arc: true, def: 0.0, label: 'tune', ly: 583, tipText: 'tune: the pitch, over one octave' });
-    knob(k + 'pwm', 405 + dx, 633, { r: 26, color: 'green', arc: true, def: 0.2, label: 'pwm', ly: 671, tipText: A ? 'pwm: how much the pwm input sweeps the pulse width (LFO A with nothing plugged in)' : 'pwm: how much the pwm input sweeps the pulse width (LFO B with nothing plugged in)' });
-    knob(k + 'pw', 611 + dx, 633, { r: 26, color: 'green', arc: true, def: 0.5, label: 'pw', ly: 671, tipText: 'pw: the square wave\'s width, and the morph of the last two waveforms' });
+    text(540 + dx, 575, 'sub', { size: 16 });
+    knob(k + 'tune', 611 + dx, 543, { r: 23, color: 'green', arc: true, def: 0.0, label: 'tune', ly: 583, tipText: 'tune: the pitch, over one octave' });
+    knob(k + 'pwm', 405 + dx, 637, { r: 23, color: 'green', arc: true, def: 0.2, label: 'pwm', ly: 674, tipText: A ? 'pwm: how much the pwm input sweeps the pulse width (LFO A with nothing plugged in)' : 'pwm: how much the pwm input sweeps the pulse width (LFO B with nothing plugged in)' });
+    knob(k + 'pw', 611 + dx, 637, { r: 23, color: 'green', arc: true, def: 0.5, label: 'pw', ly: 674, tipText: 'pw: the square wave\'s width, and the morph of the last two waveforms' });
     // the waveform selector, with its six shapes around it
-    const cx = 508 + dx, cy = 633;
+    const cx = 508 + dx, cy = 636;
+    // the six shapes around it, at the knob's six stops (from 225 degrees round to 315, like the knob's travel)
     const shapes = ['∿', '⋀', '◿', '⊓', '⋈', '∿̸'];
     shapes.forEach((s, i) => {
-      const a = (-200 + i * 44) * Math.PI / 180;
-      el('line', { x1: cx + 42 * Math.cos(a), y1: cy + 42 * Math.sin(a), x2: cx + 52 * Math.cos(a), y2: cy + 52 * Math.sin(a), stroke: '#111', 'stroke-width': 2 });
-      text(cx + 66 * Math.cos(a), cy + 66 * Math.sin(a), s, { size: 18 });
+      const a = (135 + i * 54) * Math.PI / 180;
+      el('line', { x1: cx + 35 * Math.cos(a), y1: cy + 35 * Math.sin(a), x2: cx + 42 * Math.cos(a), y2: cy + 42 * Math.sin(a), stroke: '#111', 'stroke-width': 2 });
+      text(cx + 52 * Math.cos(a), cy + 52 * Math.sin(a), s, { size: 15 });
     });
-    knob(k + 'morph', cx, cy, { r: 38, color: 'green', def: 0.4, steps: 6, tipText: 'Waveform: sine, triangle, saw, square, saw-to-inverted-saw, sine-to-triangle (pw morphs the last two)' });
-    el('path', { d: `M${541 + dx},686 Q${480 + dx},675 ${440 + dx},652`, fill: 'none', stroke: '#d5281f', 'stroke-width': 2 });
+    knob(k + 'morph', cx, cy, { r: 31, color: 'green', def: 0.4, steps: 6, tipText: 'Waveform: sine, triangle, saw, square, saw-to-inverted-saw, sine-to-triangle (pw morphs the last two)' });
+    
     if (A) {
       jack(k + 'voct', 378 + dx, 697, 'in', { name: '1v/oct', normal: 'the touch keyboard' }); text(380 + dx, 723, '1v/oct', { size: 16 });
       jack(k + 'cv', 472 + dx, 697, 'in', { name: 'cv' }); text(472 + dx, 723, 'cv', { size: 16 });
@@ -385,24 +382,24 @@ const Panel = (() => {
   function drawEnvelope(x, x0) {
     const k = `env${x}.`, A = x === 'a';
     el('path', { d: A ? `M675,597 H945 Q955,597 955,607 V732` : `M1327,597 H1053 Q1043,597 1043,607 V732`, fill: 'none', stroke: '#111', 'stroke-width': 3 });
-    text(x0 + 30, 607, 'hold', { size: 15 });
-    button(k + 'hold', x0 + 62, 617, 15, 'latch', { tipText: 'hold: keeps the envelope open, as if a key were held' });
-    text(x0 + 95, 607, '⋀⋀', { size: 16 });
-    button(k + 'loop', x0 + 128, 617, 15, 'latch', { tipText: 'Loop: the envelope repeats by itself like an LFO (self-generation). Off: it follows the gate (attack, decay, sustain, release).' });
-    text(x0 + 160, 607, '⋀‾\\', { size: 14 });
-    text(x0 + 220, 606, `envelope ${x.toUpperCase()}`, { size: 16 });
-    led(k + 'led', x0 + 193, 620, '#f5b400', 8);
-    ['a', 'd', 's', 'r'].forEach((p, i) => knob(k + p, x0 + 30 + i * 65.5, 656, { r: 25, color: 'green', arc: true, def: [0.15, 0.4, 0.6, 0.45][i], label: p.toUpperCase(), ly: 690, tipText: ['A: attack time', 'D: decay time', 'S: sustain level', 'R: release time'][i] }));
+    text(x0 + 46, 613, 'hold', { size: 15, anchor: 'end' });
+    button(k + 'hold', x0 + 62, 612, 12, 'latch', { tipText: 'hold: keeps the envelope open, as if a key were held' });
+    text(x0 + 110, 613, '⋀⋀', { size: 15, anchor: 'end' });
+    button(k + 'loop', x0 + 126, 612, 12, 'latch', { tipText: 'Loop: the envelope repeats by itself like an LFO (self-generation). Off: it follows the gate (attack, decay, sustain, release).' });
+    text(x0 + 140, 613, '⋀‾\\', { size: 12, anchor: 'start' });
+    text(A ? 947 : 1319, 612, `envelope ${x.toUpperCase()}`, { size: 14, anchor: 'end' });
+    led(k + 'led', A ? 864 : 1241, 612, '#f5b400', 6);
+    ['a', 'd', 's', 'r'].forEach((p, i) => knob(k + p, x0 + 30 + i * 65.5, 659, { r: 21, color: 'green', arc: true, def: [0.15, 0.4, 0.6, 0.45][i], label: p.toUpperCase(), ly: 690, tipText: ['A: attack time', 'D: decay time', 'S: sustain level', 'R: release time'][i] }));
     if (A) {
-      jack('enva.gate', 737, 708, 'in', { name: 'gate', normal: 'the touch keyboard' }); text(706, 722, 'gate', { size: 14 });
-      jack('enva.out', 803, 708, 'out', { name: 'env (envelope A)' }); text(778, 722, 'env', { size: 14, fill: '#d5281f' });
-      jack('enva.vca', 868, 708, 'in', { name: 'vca cv (opens VCO A\'s VCA)', normal: 'envelope A' }); text(860, 726, 'vca cv', { size: 12 });
-      jack('vcoa.out', 934, 708, 'out', { name: 'VCO A (after its VCA)' }); text(918, 728, 'VCO A', { size: 12, fill: '#d5281f' });
+      jack('enva.gate', 737, 704, 'in', { name: 'gate', normal: 'the touch keyboard' }); text(737, 727, 'gate', { size: 12 });
+      jack('enva.out', 803, 704, 'out', { name: 'env (envelope A)' }); text(803, 727, 'env', { size: 12, fill: '#d5281f' });
+      jack('enva.vca', 868, 704, 'in', { name: 'vca cv (opens VCO A\'s VCA)', normal: 'envelope A' }); text(868, 727, 'vca cv', { size: 12 });
+      jack('vcoa.out', 934, 704, 'out', { name: 'VCO A (after its VCA)' }); text(934, 727, 'VCO A', { size: 12, fill: '#d5281f' });
     } else {
-      jack('vcob.out', 1065, 708, 'out', { name: 'VCO B (after its VCA)' }); text(1040, 723, 'VCO B', { size: 13, fill: '#d5281f' });
-      jack('envb.gate', 1131, 708, 'in', { name: 'gate', normal: 'the touch keyboard' }); text(1110, 722, 'gate', { size: 14 });
-      jack('envb.out', 1196, 708, 'out', { name: 'env (envelope B)' }); text(1172, 722, 'env', { size: 14, fill: '#d5281f' });
-      jack('envb.vca', 1262, 708, 'in', { name: 'vca cv (opens VCO B\'s VCA)', normal: 'envelope B' }); text(1266, 723, 'vca cv', { size: 13 });
+      jack('vcob.out', 1065, 704, 'out', { name: 'VCO B (after its VCA)' }); text(1065, 727, 'VCO B', { size: 12, fill: '#d5281f' });
+      jack('envb.gate', 1131, 704, 'in', { name: 'gate', normal: 'the touch keyboard' }); text(1131, 727, 'gate', { size: 12 });
+      jack('envb.out', 1196, 704, 'out', { name: 'env (envelope B)' }); text(1196, 727, 'env', { size: 12, fill: '#d5281f' });
+      jack('envb.vca', 1262, 704, 'in', { name: 'vca cv (opens VCO B\'s VCA)', normal: 'envelope B' }); text(1262, 727, 'vca cv', { size: 12 });
     }
   }
 
@@ -430,17 +427,17 @@ const Panel = (() => {
     text(951, 252, '1', { size: 11 }); text(943, 270, '2', { size: 11 }); text(951, 288, '3', { size: 11 });
     text(1049, 252, '1', { size: 11 }); text(1057, 270, '2', { size: 11 }); text(1049, 288, '3', { size: 11 });
     toggle('fx.progL', 965, 270, 3, { color: 'orange', def: 1, tipText: 'Program for the left channel: 1, 2 or 3' });
-    toggle('fx.progR', 1035, 270, 3, { color: 'orange', def: 0.5, tipText: 'Program for the right channel: 1, 2 or 3' });
+    toggle('fx.progR', 1035, 270, 3, { color: 'orange', def: 0.5, mid: 'right', tipText: 'Program for the right channel: 1, 2 or 3' });
     button('fx.chan', 1000, 268, 14, 'latch', { fill: COLORS.orange, onFill: '#b55c18', tipText: 'channel: off, each channel takes its own side; on, both take the two sides mixed (mono in)' });
     text(1000, 290, 'channel', { size: 12 });
     progLabel = text(1000, 302, '', { size: 9, fill: '#555' });
-    button('fx.resetL', 963, 308, 9, 'momentary', { tipText: 'reset: clears the left channel\'s echoes and reverb' });
-    button('fx.resetR', 1035, 308, 9, 'momentary', { tipText: 'reset: clears the right channel\'s echoes and reverb' });
+    button('fx.resetL', 955, 308, 8, 'momentary', { tipText: 'reset: clears the left channel\'s echoes and reverb' });
+    button('fx.resetR', 1045, 308, 8, 'momentary', { tipText: 'reset: clears the right channel\'s echoes and reverb' });
     text(1000, 309, '◂ reset ▸', { size: 11 });
-    text(963, 328, 'L', { size: 15 }); text(1035, 328, 'R', { size: 15 });
-    button('fx.bypassL', 963, 350, 15, 'latch', { tipText: 'bypass L: the left channel without the effect' });
-    button('fx.bypassR', 1035, 350, 15, 'latch', { tipText: 'bypass R: the right channel without the effect' });
-    text(1000, 351, 'bypass', { size: 12 });
+    text(955, 328, 'L', { size: 14 }); text(1045, 328, 'R', { size: 14 });
+    button('fx.bypassL', 955, 349, 12, 'latch', { tipText: 'bypass L: the left channel without the effect' });
+    button('fx.bypassR', 1045, 349, 12, 'latch', { tipText: 'bypass R: the right channel without the effect' });
+    text(1000, 350, 'bypass', { size: 11 });
     text(1097, 228, 'BLEND', { size: 16 });
     knob('fx.blend', 1097, 297, { r: 24, color: 'orange', ticks: true, def: 0.35, tipText: 'BLEND: how much of the effect is heard' });
     text(1193, 226, 'MASTER', { size: 16 }); text(1193, 242, 'VOLUME', { size: 16 });
@@ -456,15 +453,15 @@ const Panel = (() => {
     el('rect', { x: 1307, y: 351, width: 20, height: 91, fill: '#111' }); text(1317, 397, 'FILTER R', { fill: '#fff', size: 13, rotate: -90 });
     for (const [side, fx, bx, rx] of [['L', 736, 786, 835], ['R', 1163, 1213, 1262]]) {
       text(bx - 30, 361, 'BP ⌒', { size: 11 }); text(bx + 32, 361, '⌐ LP', { size: 11 });
-      knob('flt.freq' + side, fx, 401, { r: 26, color: 'orange', arc: true, def: 0.75, label: 'FREQ', ly: 436, tipText: `FREQ: filter ${side}'s cutoff` });
+      knob('flt.freq' + side, fx, 400, { r: 22, color: 'orange', arc: true, def: 0.75, label: 'FREQ', ly: 436, tipText: `FREQ: filter ${side}'s cutoff` });
       button('flt.mode' + side, bx, 377, 14, 'latch', { fill: COLORS.orange, onFill: '#b55c18', tipText: `BP / LP: filter ${side} as band pass (lit) or low pass` });
-      knob('flt.res' + side, rx, 401, { r: 26, color: 'orange', arc: true, def: 0.2, label: 'RES', ly: 436, tipText: `RES: filter ${side}'s resonance (it sings near the top, and keeps its low end)` });
+      knob('flt.res' + side, rx, 400, { r: 22, color: 'orange', arc: true, def: 0.2, label: 'RES', ly: 436, tipText: `RES: filter ${side}'s resonance (it sings near the top, and keeps its low end)` });
     }
     jack('flt.cv', 882, 401, 'in', { arrow: false, name: 'filter CV (moves filter L, and R too with link on)' });
     el('path', { d: 'M876,424 L888,424 L882,417 Z', fill: '#111' }); text(882, 436, 'CV', { size: 16 });
-    knob('flt.mod', 930, 401, { r: 24, color: 'orange', def: 0.5, label: 'MOD', ly: 436, tipText: 'MOD: how much the filter CV input moves the cutoff' });
-    knob('flt.dist', 998, 401, { r: 24, color: 'orange', ticks: true, def: 0, label: 'DIST', ly: 436, tipText: 'DIST: clean or distorted (stereo distortion after the filters)' });
-    knob('flt.gain', 1068, 401, { r: 24, color: 'orange', ticks: true, def: 0.3, label: 'GAIN', ly: 436, tipText: 'GAIN: how hard it distorts' });
+    knob('flt.mod', 930, 400, { r: 21, color: 'orange', def: 0.5, label: 'MOD', ly: 436, tipText: 'MOD: how much the filter CV input moves the cutoff' });
+    knob('flt.dist', 998, 400, { r: 20, color: 'orange', ticks: true, def: 0, label: 'DIST', ly: 436, tipText: 'DIST: clean or distorted (stereo distortion after the filters)' });
+    knob('flt.gain', 1068, 400, { r: 20, color: 'orange', ticks: true, def: 0.3, label: 'GAIN', ly: 436, tipText: 'GAIN: how hard it distorts' });
     button('flt.link', 1116, 401, 13, 'latch', { tipText: 'link: filter L\'s CV moves filter R too' });
     text(1116, 436, 'link', { size: 15 });
   }
@@ -477,12 +474,12 @@ const Panel = (() => {
       const x = 703 + i * 65.8;
       if (i) el('line', { x1: x - 33, y1: 450, x2: x - 33, y2: 510, stroke: '#111', 'stroke-width': 1.5, 'stroke-dasharray': '2 4' });
       text(x - 8, 456, 'PAN', { size: 11 }); el('circle', { cx: x + 12, cy: 455, r: 2.5, fill: '#111' });
-      text(x - 27, 497, 'L', { size: 10 }); text(x + 27, 497, 'R', { size: 10 });
-      knob('mix.pan' + i, x, 484, { r: 24, color: 'grey', def: pans[i], tipText: `PAN: ${nm} left or right` });
+      text(x - 26, 499, 'L', { size: 9 }); text(x + 26, 499, 'R', { size: 9 });
+      knob('mix.pan' + i, x, 483, { r: 19, color: 'grey', def: pans[i], tipText: `PAN: ${nm} left or right` });
       el('rect', { x: x - 32, y: 509, width: 64, height: 16, fill: '#111' });
       text(x, 518, nm, { fill: '#fff', size: nm.length > 8 ? 10 : 11.5 });
       text(x, 532, 'VOL', { size: 11 });
-      knob('mix.vol' + i, x, 563, { r: 26, color: 'black', arc: true, def: i === 3 || i === 6 ? 0 : 0.6, tipText: `VOL: ${nm}'s level` });
+      knob('mix.vol' + i, x, 564, { r: 21, color: 'black', arc: true, def: i === 3 || i === 6 ? 0 : 0.6, tipText: `VOL: ${nm}'s level` });
     });
     text(997, 603, 'VOICE', { size: 16 }); text(997, 619, 'MIXER', { size: 16 });
   }
@@ -526,10 +523,10 @@ const Panel = (() => {
       toggle('seq.gate' + i, x + 50, 785, 2, { color: 'red', def: 1, tipText: `gate ${i}: whether step ${i} sends a gate` });
       text(x + 50, 812, 'gate', { size: 10 });
     }
-    text(1222, 744, 'cv', { size: 11, fill: '#d5281f' });
+    text(1214, 758, 'cv', { size: 13, fill: '#d5281f', anchor: 'end' });
     jack('seq.cv', 1238, 757, 'out', { arrow: false, name: 'sequencer cv' });
     jack('seq.gate', 1238, 797, 'out', { arrow: false, name: 'sequencer gate' });
-    text(1209, 812, 'gate', { size: 14, fill: '#d5281f' });
+    text(1214, 798, 'gate', { size: 13, fill: '#d5281f', anchor: 'end' });
     tag(503, 838, 783, '', { h: 20 });
     text(595, 848, '5 STEP SEQ.  VOLTAGE', { fill: '#fff', size: 15 });
     for (let x = 700; x < 1280; x += 6) el('rect', { x, y: 841, width: 3, height: 14, fill: '#fff' });
@@ -822,6 +819,25 @@ const Panel = (() => {
     updateProgramNames(); showOscStatus(); drawCables();
   }
 
-  return { build, showLeds, showOscStatus, cables: () => cables.map(c => [c[0], c[1]]), progOf, values,
+  // A whole patch at once (a starter sound, or one you saved): everything back to where it started, then the
+  // patch's own settings and cables.
+  function applyPatch(p) {
+    for (const id in defaults) setValue(id, defaults[id]);
+    for (const id in p.values || {}) setValue(id, p.values[id]);
+    cables = (p.cables || []).map((c, i) => [c[0], c[1], c[2] || CABLE_COLORS[i % CABLE_COLORS.length]]);
+    cablesChanged();
+  }
+  // Everything that keeps a voice sounding, off: HOLDs, pads, the envelopes' hold and loop.
+  function stopAll() {
+    for (let n = 1; n <= 6; n++) { setValue(`d${n}.hold`, 0); setValue(`d${n}.pad`, 0); }
+    for (const x of ['a', 'b']) { setValue(`env${x}.hold`, 0); setValue(`env${x}.loop`, 0); }
+    keysHeld.clear(); fingers.clear(); updatePlates();
+  }
+  function exportPatch() {
+    const v = {};
+    for (const k in values) if (!/\.pad$|^kbd\.note$|^kbd\.press$|^fx\.reset/.test(k)) v[k] = values[k];
+    return { solar42f: 1, values: v, cables };
+  }
+  return { build, showLeds, applyPatch, stopAll, exportPatch, showOscStatus, cables: () => cables.map(c => [c[0], c[1]]), progOf, values,
     resetAll() { for (const id in defaults) setValue(id, defaults[id]); cables = []; cablesChanged(); } };
 })();

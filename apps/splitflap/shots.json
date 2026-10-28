@@ -1,0 +1,5 @@
+[
+  { "name": "On an iPad, held sideways", "url": "", "device": "ipad", "settle": 8000 },
+  { "name": "Another quote", "url": "?say=The best way out is always through.", "device": "ipad", "settle": 8000 },
+  { "name": "On an iPhone", "url": "", "settle": 8000 }
+]

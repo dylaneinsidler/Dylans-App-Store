@@ -1,0 +1,25 @@
+html, body { margin: 0; height: 100%; background: #0a0a0a; overflow: hidden; cursor: default; -webkit-user-select: none; user-select: none; }
+#board { position: absolute; inset: 0; }
+
+/* The board's three layers: the housings, the flaps (drawn by the graphics card), the hinges and spool caps. */
+.layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* the one close button (top right) and the sound switch, faint until the mouse comes near */
+.close-x, #sound { position: fixed; z-index: 10; border: 1px solid #2a2a2a; background: rgba(10, 10, 10, 0.7); color: #888; cursor: pointer;
+  border-radius: 50%; width: 38px; height: 38px; font-size: 16px; opacity: 0; transition: opacity 0.3s; }
+.close-x { top: 12px; right: 14px; }
+#sound { bottom: 12px; right: 14px; }
+body:hover .close-x, body:hover #sound { opacity: 0.7; }
+.close-x:hover, #sound:hover { opacity: 1 !important; color: #ddd; }
+
+/* The lettering. On Windows it's Bahnschrift (built in). Elsewhere (the iPad) Bahnschrift isn't there, so this
+   lookalike comes with the app: Barlow Semi Condensed (free, SIL Open Font License), the same DIN style. */
+@font-face { font-family: 'Flap DIN'; font-weight: 300 349; src: url('fonts/barlow-semi-condensed-300.woff2') format('woff2'); }
+@font-face { font-family: 'Flap DIN'; font-weight: 350 900; src: url('fonts/barlow-semi-condensed-400.woff2') format('woff2'); }
+
+/* On the iPad (no mouse to hover): no X (the Home Screen app closes the iPad way), and the sound switch stays faintly
+   visible, since the iPad stays silent until it's tapped once. */
+@media (hover: none) {
+  .close-x { display: none; }
+  #sound { opacity: 0.45; bottom: calc(12px + env(safe-area-inset-bottom)); }
+}

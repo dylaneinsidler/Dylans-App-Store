@@ -112,11 +112,12 @@
       ],
       "features": [
         "Every control of the real panel, in the same place",
+        "Seven starter sounds that play straight away",
         "Sound made live: nothing recorded",
         "Patch cables between any output and input",
         "Six effect cartridges, 18 programs",
         "Multi-touch keyboard and drone pads",
-        "Remembers your settings",
+        "A full User's Guide built in",
         "Works without internet"
       ],
       "internet": "Not needed",
@@ -129,7 +130,7 @@
         "apps/solar42f/shots/2.jpg",
         "apps/solar42f/shots/3.jpg"
       ],
-      "version": "1.0"
+      "version": "1.1"
     },
     {
       "id": "weather",
@@ -194,7 +195,7 @@
         "apps/torah/shots/4.jpg",
         "apps/torah/shots/5.jpg"
       ],
-      "version": "1.14"
+      "version": "1.16"
     },
     {
       "id": "costar",
@@ -583,7 +584,37 @@
         "apps/bjj/shots/4.jpg"
       ],
       "version": "1.5"
+    },
+    {
+      "id": "splitflap",
+      "name": "Dylan's Split-Flap",
+      "short": "Split-Flap",
+      "subtitle": "A split-flap board of quotes, like the old train stations",
+      "category": "Every Day",
+      "description": [
+        "A split-flap board, like the great departure boards in old train stations: every letter a drum of real-looking flaps that fall, clack and settle, with a new inspirational quote flipping in every minute.",
+        "Best on an iPad held sideways (it works upright too). Swipe up for the next quote, down for the one before. Tap once to hear the clatter."
+      ],
+      "features": [
+        "Flaps that fall and land like real ones",
+        "The clatter, made live",
+        "A new quote every minute",
+        "Swipe up or down to change the quote",
+        "Sideways or upright",
+        "Works without internet"
+      ],
+      "internet": "Not needed",
+      "color": "#0a0a0a",
+      "icon": "apps/splitflap/icons/icon-512.png",
+      "url": "apps/splitflap/",
+      "external": false,
+      "shots": [
+        "apps/splitflap/shots/1.jpg",
+        "apps/splitflap/shots/2.jpg",
+        "apps/splitflap/shots/3.jpg"
+      ],
+      "version": "1.1"
     }
   ],
-  "updated": "2026-10-27"
+  "updated": "2026-10-28"
 }

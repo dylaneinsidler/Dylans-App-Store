@@ -1,0 +1,32 @@
+{
+  "name": "Dylan's Split-Flap",
+  "short": "Split-Flap",
+  "subtitle": "A split-flap board of quotes, like the old train stations",
+  "category": "Every Day",
+  "order": 20,
+  "background": "#0a0a0a",
+  "internet": "Not needed",
+  "source": [
+    "Dylan's Split-Flap"
+  ],
+  "copy": [
+    "board.js",
+    "config.js",
+    "quotes.js",
+    "style.css",
+    "fonts/barlow-semi-condensed-300.woff2",
+    "fonts/barlow-semi-condensed-400.woff2"
+  ],
+  "description": [
+    "A split-flap board, like the great departure boards in old train stations: every letter a drum of real-looking flaps that fall, clack and settle, with a new inspirational quote flipping in every minute.",
+    "Best on an iPad held sideways (it works upright too). Swipe up for the next quote, down for the one before. Tap once to hear the clatter."
+  ],
+  "features": [
+    "Flaps that fall and land like real ones",
+    "The clatter, made live",
+    "A new quote every minute",
+    "Swipe up or down to change the quote",
+    "Sideways or upright",
+    "Works without internet"
+  ]
+}

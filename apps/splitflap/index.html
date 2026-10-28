@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- The iPad / iPhone version of Dylan's Split-Flap: the desktop app's own files (desktop/, copied in by tools/build.mjs),
+     the whole board on one screen. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Split-Flap">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>Dylan's Split-Flap</title>
+<link rel="stylesheet" href="../../shared/phone.css">
+<link rel="stylesheet" href="desktop/style.css">
+<style>body { padding: 0; touch-action: none; overscroll-behavior: none; }</style>
+</head>
+<body>
+<div id="board"></div>
+<button id="sound" title="Sound"></button>
+<script src="../../shared/phone.js" data-name="Dylan's Split-Flap" data-sound data-footer="off"></script>
+<script src="desktop/config.js"></script>
+<script src="desktop/quotes.js"></script>
+<script src="desktop/board.js"></script>
+</body>
+</html>
