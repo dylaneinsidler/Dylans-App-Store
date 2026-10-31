@@ -20,7 +20,7 @@
 // both screens. Inside the Morning and Night Screens it stays quiet.
 //
 // The frame: a dark cabinet with the flaps set into a recess, about an inch all round on the PC, so nothing touches the
-// edge of a screen. Across two monitors it's one board in one frame: the recess runs on across the gap between them.
+// outer edge of a screen. Across two monitors it's one board in one frame: the flaps run straight across where they meet.
 //
 // Two screens: ?side=left shows the left half of the board, ?side=right the right half, ?side=both all of it. Both
 // windows work out the same message and the same motion from the clock, so they flip together without talking.
@@ -289,7 +289,7 @@
 
   // ---- Laying out the board ----
   // The cabinet: satin black all round, and a recess the flaps sit in, with a lit lower edge and a shadow along the top. On
-  // two monitors the recess runs right up to the edge between them, so the two halves read as one board.
+  // two monitors the recess runs off the edge between them, and so do the flaps, so the two halves are one board.
   function drawCabinet(b) {
     const body = b.createLinearGradient(0, 0, 0, H);
     body.addColorStop(0, '#1c1c1e'); body.addColorStop(0.5, '#151516'); body.addColorStop(1, '#101011');
@@ -372,11 +372,11 @@
         else { btn.style.left = `${Math.round(l + (beside - l - small) / 2)}px`; btn.style.bottom = `${Math.max(bt + 8, H - oy - mh * ROWS)}px`; }
       }
     } else {
-      // Two monitors: an inch at the top and bottom and on the outer side. The rest of the width sits at the edge between
-      // the monitors, a small gap, so the flaps don't touch it and the board still runs straight across.
+      // Two monitors: an inch at the top and bottom and on the outer side, and nothing at the edge between the monitors: the
+      // last flap on the left screen ends where the first on the right begins, so it's one board, evenly spaced all the way.
       const edge = Math.round(W * CFG.border);
-      fit(W - edge - 12, H - 2 * edge);
-      ox = side === 'left' ? edge : W - edge - mw * shownCols;
+      fit(W - edge, H - 2 * edge);
+      ox = side === 'left' ? W - mw * shownCols : 0;
       oy = Math.floor((H - mh * ROWS) / 2);
     }
     const prev = modules;

@@ -45,6 +45,14 @@ body.nocables #cables { display: none; }
   border-radius: 10px; font-size: 15px; line-height: 1.45; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); z-index: 25; text-align: center; }
 #toast b { color: #ffcf5a; }
 
+/* The strip after switching on, until there's sound */
+#firstSound { position: fixed; left: 50%; top: 60px; transform: translateX(-50%); z-index: 26; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 8px 14px; width: max-content; max-width: calc(100vw - 24px); box-sizing: border-box; background: #111; color: #fff; padding: 12px 18px; border-radius: 12px;
+  font-size: 15px; line-height: 1.35; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+#firstSound b { color: #ffcf5a; }
+#firstSound button { background: #3fbf4a; color: #06240a; border: 0; border-radius: 8px; padding: 10px 18px; font: inherit; font-weight: 700; cursor: pointer; }
+#firstSound .or { color: #bbb; font-size: 13px; }
+
 /* ---- Power ---- */
 #power { position: fixed; inset: 0; background: rgba(20, 18, 14, 0.92); display: flex; flex-direction: column; align-items: center;
   justify-content: center; z-index: 40; }

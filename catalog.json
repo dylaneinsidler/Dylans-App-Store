@@ -36,7 +36,7 @@
         "apps/ukulele/shots/3.jpg",
         "apps/ukulele/shots/4.jpg"
       ],
-      "version": "1.3"
+      "version": "1.4"
     },
     {
       "id": "bassoon",
@@ -66,7 +66,7 @@
         "apps/bassoon/shots/3.jpg",
         "apps/bassoon/shots/4.jpg"
       ],
-      "version": "1.2"
+      "version": "1.3"
     },
     {
       "id": "poetry",
@@ -97,7 +97,7 @@
         "apps/poetry/shots/4.jpg",
         "apps/poetry/shots/5.jpg"
       ],
-      "version": "1.4"
+      "version": "1.5"
     },
     {
       "id": "solar42f",
@@ -130,7 +130,7 @@
         "apps/solar42f/shots/2.jpg",
         "apps/solar42f/shots/3.jpg"
       ],
-      "version": "1.1"
+      "version": "1.2"
     },
     {
       "id": "weather",
@@ -159,9 +159,10 @@
       "shots": [
         "apps/weather/shots/1.jpg",
         "apps/weather/shots/2.jpg",
-        "apps/weather/shots/3.jpg"
+        "apps/weather/shots/3.jpg",
+        "apps/weather/shots/4.jpg"
       ],
-      "version": "1.6"
+      "version": "1.7"
     },
     {
       "id": "torah",
@@ -195,7 +196,7 @@
         "apps/torah/shots/4.jpg",
         "apps/torah/shots/5.jpg"
       ],
-      "version": "1.16"
+      "version": "1.17"
     },
     {
       "id": "costar",
@@ -228,7 +229,7 @@
         "apps/costar/shots/3.jpg",
         "apps/costar/shots/4.jpg"
       ],
-      "version": "1.16"
+      "version": "1.17"
     },
     {
       "id": "element",
@@ -261,7 +262,7 @@
         "apps/element/shots/5.jpg",
         "apps/element/shots/6.jpg"
       ],
-      "version": "1.11"
+      "version": "1.12"
     },
     {
       "id": "tarot",
@@ -296,7 +297,7 @@
         "apps/tarot/shots/6.jpg",
         "apps/tarot/shots/7.jpg"
       ],
-      "version": "1.4"
+      "version": "1.5"
     },
     {
       "id": "animal",
@@ -325,7 +326,7 @@
         "apps/animal/shots/2.jpg",
         "apps/animal/shots/3.jpg"
       ],
-      "version": "2.1"
+      "version": "2.2"
     },
     {
       "id": "corkboard",
@@ -359,7 +360,7 @@
         "apps/corkboard/shots/3.jpg",
         "apps/corkboard/shots/4.jpg"
       ],
-      "version": "1.39"
+      "version": "1.40"
     },
     {
       "id": "aesop",
@@ -390,7 +391,7 @@
         "apps/aesop/shots/4.jpg",
         "apps/aesop/shots/5.jpg"
       ],
-      "version": "1.6"
+      "version": "1.7"
     },
     {
       "id": "artshow",
@@ -414,7 +415,7 @@
       "url": "https://dylaneinsidler.github.io/World-Art-Show/",
       "external": true,
       "shots": [],
-      "version": "2.10"
+      "version": "2.11"
     },
     {
       "id": "athletics",
@@ -454,7 +455,7 @@
         "apps/athletics/shots/5.jpg",
         "apps/athletics/shots/6.jpg"
       ],
-      "version": "2.8"
+      "version": "2.9"
     },
     {
       "id": "pokemon",
@@ -486,7 +487,7 @@
         "apps/pokemon/shots/4.jpg",
         "apps/pokemon/shots/5.jpg"
       ],
-      "version": "1.5"
+      "version": "1.6"
     },
     {
       "id": "flags",
@@ -521,7 +522,7 @@
         "apps/flags/shots/4.jpg",
         "apps/flags/shots/5.jpg"
       ],
-      "version": "1.6"
+      "version": "1.7"
     },
     {
       "id": "games",
@@ -552,7 +553,7 @@
         "apps/games/shots/4.jpg",
         "apps/games/shots/5.jpg"
       ],
-      "version": "1.5"
+      "version": "1.6"
     },
     {
       "id": "bjj",
@@ -583,7 +584,7 @@
         "apps/bjj/shots/3.jpg",
         "apps/bjj/shots/4.jpg"
       ],
-      "version": "1.5"
+      "version": "1.6"
     },
     {
       "id": "splitflap",
@@ -613,7 +614,7 @@
         "apps/splitflap/shots/2.jpg",
         "apps/splitflap/shots/3.jpg"
       ],
-      "version": "1.2"
+      "version": "1.3"
     }
   ],
   "updated": "2026-10-31"

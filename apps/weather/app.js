@@ -381,6 +381,43 @@
     else { u.textContent = lastOk ? `Weather service not responding — last update ${fmtTime(lastOk)}` : 'Weather service not responding — retrying'; u.className = 'stale'; }
   }
 
+  // ================================================================ The sea at Hollywood Beach (iPad held sideways only)
+  // Windfinder doesn't let other pages read its numbers, so these are Open-Meteo's free marine forecast and wind for the same
+  // stretch of water, with a link to Windfinder's page. Whichever place the forecast is for, this is always Hollywood Beach.
+  const SEA = { lat: 26.01, lon: -80.11, windfinder: 'https://www.windfinder.com/forecast/hollywood_beach' };
+  const seaWide = matchMedia('(min-width: 960px) and (orientation: landscape)');
+  const COMPASS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+  const compass = deg => COMPASS[Math.round(deg / 45) % 8];
+  let seaAt = 0;
+  async function loadSea() {
+    if (!seaWide.matches || Date.now() - seaAt < 25 * 60e3) return;
+    const box = $('sea');
+    try {
+      const read = async url => { const r = await fetch(url); if (!r.ok) throw new Error(r.status); return (await r.json()).current; };
+      const [m, w] = await Promise.all([
+        read(`https://marine-api.open-meteo.com/v1/marine?latitude=${SEA.lat}&longitude=${SEA.lon}&current=wave_height,wave_period,wave_direction,swell_wave_height,swell_wave_period,swell_wave_direction,wind_wave_height,wind_wave_period&length_unit=imperial`),
+        read(`https://api.open-meteo.com/v1/forecast?latitude=${SEA.lat}&longitude=${SEA.lon}&current=wind_speed_10m,wind_gusts_10m,wind_direction_10m&wind_speed_unit=kn`),
+      ]);
+      const ft = v => Number(v).toFixed(1), kt = v => Math.round(v), sec = v => Math.round(v);
+      const stat = (label, big, unit, sub) => `<div><div class="eyebrow">${label}</div><div class="sea-big">${big} <small>${unit}</small></div><div class="sea-sub">${sub}</div></div>`;
+      box.innerHTML = `<div class="sea-head"><div><div class="eyebrow">Sea conditions</div><div class="sea-where">Hollywood Beach</div></div>
+          <a class="sea-link" href="${SEA.windfinder}" target="_blank" rel="noopener">Windfinder &rsaquo;</a></div>
+        <div class="sea-grid">
+          ${stat('Wind', kt(w.wind_speed_10m), 'kt', `from the ${compass(w.wind_direction_10m)}, gusts ${kt(w.wind_gusts_10m)} kt`)}
+          ${stat('Waves', ft(m.wave_height), 'ft', `from the ${compass(m.wave_direction)}`)}
+          ${stat('Wave period', sec(m.wave_period), 's', 'between waves')}
+          ${stat('Swell', ft(m.swell_wave_height), 'ft', `from the ${compass(m.swell_wave_direction)}`)}
+          ${stat('Swell period', sec(m.swell_wave_period), 's', 'between swells')}
+          ${stat('Wind waves', ft(m.wind_wave_height), 'ft', `every ${sec(m.wind_wave_period)} s`)}
+        </div>
+        <div class="sea-note">Updated ${fmtTime(new Date())} &middot; Open-Meteo marine forecast</div>`;
+      box.hidden = false;
+      seaAt = Date.now();
+    } catch (e) { if (!seaAt) box.hidden = true; }
+  }
+  seaWide.addEventListener('change', loadSea);
+  setInterval(loadSea, 5 * 60e3);
+
   function tickClock() {
     const now = new Date();
     $('clockTime').textContent = fmtTime(now);
@@ -434,4 +471,5 @@
   refreshRadar();
   requestAnimationFrame(tick);
   load();
+  loadSea();
 })();

@@ -1,7 +1,7 @@
 {
   "name": "Dylan's iPad Tester",
   "short_name": "iPad Tester",
-  "description": "The App Tester from your PC, on the iPad",
+  "description": "Every one of your apps, live, in iPad form",
   "id": "./",
   "start_url": "./",
   "scope": "./",

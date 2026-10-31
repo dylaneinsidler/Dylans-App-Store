@@ -1,5 +1,29 @@
 [
-  { "name": "Radar", "url": "", "settle": 9000 },
-  { "name": "Right now and rain by hour", "url": "", "settle": 6000, "scroll": "#forecast-screen", "offset": 4 },
-  { "name": "The week", "url": "", "settle": 6000, "scroll": "#days", "offset": 160 }
+  {
+    "name": "Radar",
+    "url": "",
+    "settle": 9000
+  },
+  {
+    "name": "Right now and rain by hour",
+    "url": "",
+    "settle": 6000,
+    "scroll": "#forecast-screen",
+    "offset": 4
+  },
+  {
+    "name": "The week",
+    "url": "",
+    "settle": 6000,
+    "scroll": "#days",
+    "offset": 160
+  },
+  {
+    "name": "On the iPad: the sea at Hollywood Beach",
+    "url": "",
+    "settle": 9000,
+    "device": "ipad",
+    "scroll": "#sea",
+    "offset": 300
+  }
 ]

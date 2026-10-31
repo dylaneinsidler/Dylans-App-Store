@@ -69,11 +69,24 @@
     }
   }
   $('powerBtn').addEventListener('click', async () => {
-    if (await powerOn()) {
-      toast('The SOLAR 42F is on. <b>Nothing plays until a voice is started:</b> hold a <b>DRONE VOICES</b> pad (bottom right, or keys <b>1</b> to <b>6</b>), ' +
-        'press a voice\'s <b>HOLD</b>, play the touch keyboard (keys <b>A</b> to <b>J</b>), or pick a <b>Sounds</b> menu starter sound.', 14);
-    }
+    if (await powerOn()) showFirstSound();
   });
+  // Power on is silent, like the real one, so a strip says what to do, with a button that plays a sound. It stays until there's sound.
+  function showFirstSound() {
+    const strip = document.createElement('div');
+    strip.id = 'firstSound';
+    strip.innerHTML = '<span><b>The power is on, but it stays silent until you start a sound.</b></span>' +
+      '<button type="button">&#9654; Play a sound</button><span class="or">or hold a pad at the bottom right (keys 1 to 6)</span>';
+    document.body.appendChild(strip);
+    strip.querySelector('button').addEventListener('click', () => {
+      const s = SOLAR_SOUNDS[0];
+      Panel.applyPatch(s);
+      toast(`<b>You should hear it now.</b> Press the red <b>Stop all sound</b> to stop it, and try the other sounds in the <b>Sounds</b> menu. If the bar beside it moves but you hear nothing, check the volume, then Help &gt; Test the speakers.`, 16);
+    });
+    const look = setInterval(() => {
+      if (parseFloat($('meterBar').style.width) > 2) { strip.remove(); clearInterval(look); }
+    }, 200);
+  }
   // If the computer suspends the sound (another app takes the speakers), bring it back on the next touch.
   window.addEventListener('pointerdown', () => { if (engine && engine.ctx.state !== 'running') engine.ctx.resume(); });
 

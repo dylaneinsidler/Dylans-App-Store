@@ -49,4 +49,8 @@
 .row.open { background: color-mix(in srgb, var(--accent) 12%, transparent); }
 mark { background: color-mix(in srgb, var(--accent) 35%, transparent); color: inherit; border-radius: 3px; padding: 0 1px; }
 .books { margin: 14px 16px 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
-@media (min-width: 960px) and (orientation: landscape) { .to-all { display: none; } }  /* the list is beside the fable */
+/* The iPad held sideways too: no left and right split. The fable and its picture on top, all the others beneath (Dylan, Oct 31). */
+@media (min-width: 960px) and (orientation: landscape) {
+  .screens { display: block; max-width: 760px; margin: 0 auto; padding: 0; }
+  .screen + .screen { margin-top: 12px; }
+}
