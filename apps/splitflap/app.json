@@ -19,12 +19,12 @@
   ],
   "description": [
     "A split-flap board, like the great departure boards in old train stations: every letter a drum of real-looking flaps that fall, clack and settle, with a new inspirational quote flipping in every minute.",
-    "Best on an iPad held sideways (it works upright too). Swipe up for the next quote, down for the one before. Tap once to hear the clatter."
+    "Best on an iPad held sideways (it works upright too). Swipe up for the next quote, down for the one before. It starts muted: tap the speaker for the clatter."
   ],
   "features": [
     "Flaps that fall and land like real ones",
     "The clatter, made live",
-    "A new quote every minute",
+    "A new quote every 20 seconds",
     "Swipe up or down to change the quote",
     "Sideways or upright",
     "Works without internet"

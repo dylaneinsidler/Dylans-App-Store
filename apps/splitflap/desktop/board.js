@@ -16,7 +16,11 @@
 //
 // The sound: each flap that lands makes a clack (filtered noise and a short wooden knock), panned left to right with
 // the character's place on the board. When hundreds land at once, a sample of them is played, louder, so it sounds
-// like the real clatter without overloading the computer.
+// like the real clatter without overloading the computer. It starts muted; the Sound button (or M) turns it on, on
+// both screens. Inside the Morning and Night Screens it stays quiet.
+//
+// The frame: a dark cabinet with the flaps set into a recess, about an inch all round on the PC, so nothing touches the
+// edge of a screen. Across two monitors it's one board in one frame: the recess runs on across the gap between them.
 //
 // Two screens: ?side=left shows the left half of the board, ?side=right the right half, ?side=both all of it. Both
 // windows work out the same message and the same motion from the clock, so they flip together without talking.
@@ -27,6 +31,8 @@
   const CFG = window.SPLITFLAP;
   const params = new URLSearchParams(location.search);
   const side = ['left', 'right', 'both'].includes(params.get('side')) ? params.get('side') : 'both';
+  const inFrame = window.parent !== window;           // inside the Morning or Night Screens (or the App Tester)
+  if (inFrame) document.documentElement.classList.add('framed');
 
   // The drum: the 50 flaps, in the order they come round.
   const DRUM = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,\'!?-:;"()/&';
@@ -282,9 +288,34 @@
   }
 
   // ---- Laying out the board ----
+  // The cabinet: satin black all round, and a recess the flaps sit in, with a lit lower edge and a shadow along the top. On
+  // two monitors the recess runs right up to the edge between them, so the two halves read as one board.
+  function drawCabinet(b) {
+    const body = b.createLinearGradient(0, 0, 0, H);
+    body.addColorStop(0, '#1c1c1e'); body.addColorStop(0.5, '#151516'); body.addColorStop(1, '#101011');
+    b.fillStyle = body; b.fillRect(0, 0, W, H);
+    const pad = Math.max(3, Math.round(mw * 0.08));
+    const y0 = oy - pad, y1 = oy + mh * ROWS + pad;
+    const x0 = side === 'right' ? -4 : ox - pad, x1 = side === 'left' ? W + 4 : ox + mw * shownCols + pad;
+    const r = Math.max(3, pad * 0.75);
+    const well = () => { b.beginPath(); b.roundRect(x0, y0, x1 - x0, y1 - y0, r); };
+    // the lit edge below and the dark edge above: the recess looks cut in
+    b.save(); b.translate(0, 1.5); well(); b.fillStyle = 'rgba(255, 255, 255, 0.10)'; b.fill(); b.restore();
+    b.save(); b.translate(0, -1.5); well(); b.fillStyle = '#000'; b.fill(); b.restore();
+    well(); b.fillStyle = '#050505'; b.fill();
+    // a thin line round the outside of the cabinet, set in from the edge of the screen
+    const line = Math.max(6, Math.min(oy, side === 'both' ? ox : Math.min(oy, 40)) * 0.28);
+    b.strokeStyle = 'rgba(255, 255, 255, 0.05)'; b.lineWidth = 1;
+    b.beginPath();
+    if (side === 'both') b.roundRect(line + 0.5, line + 0.5, W - 2 * line - 1, H - 2 * line - 1, r);
+    else if (side === 'left') { b.moveTo(W, line + 0.5); b.lineTo(line + 0.5, line + 0.5); b.lineTo(line + 0.5, H - line - 0.5); b.lineTo(W, H - line - 0.5); }
+    else { b.moveTo(0, line + 0.5); b.lineTo(W - line - 0.5, line + 0.5); b.lineTo(W - line - 0.5, H - line - 0.5); b.lineTo(0, H - line - 0.5); }
+    b.stroke();
+  }
   function drawBackAndFront() {
     const b = back.getContext('2d'), f = front.getContext('2d');
     for (const c of [b, f]) { c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H); }
+    drawCabinet(b);
     for (const mod of modules) {
       // the housing: dark, a little lighter in the middle, with a crisp edge
       const g = b.createRadialGradient(mod.x + mw / 2, mod.y + mh * 0.4, 0, mod.x + mw / 2, mod.y + mh * 0.4, mh * 0.7);
@@ -312,13 +343,42 @@
     dpr = window.devicePixelRatio || 1; W = innerWidth; H = innerHeight;
     for (const c of [back, gl_c, front]) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
     gl.viewport(0, 0, gl_c.width, gl_c.height);
-    // the module's shape: about 2 wide to 3 high, like the real ones; as big as the window allows
-    mw = Math.floor(Math.min(W / shownCols, (H / ROWS) * 0.66));
-    mh = Math.floor(mw / 0.66);
-    // Each half sits flush against the seam between the two monitors, so the board runs straight across.
-    const totalW = mw * shownCols, totalH = mh * ROWS;
-    ox = side === 'left' ? W - totalW : side === 'right' ? 0 : Math.floor((W - totalW) / 2);
-    oy = Math.floor((H - totalH) / 2);
+    // The flaps' shape: about 2 wide to 3 high, like the real ones, as big as fits inside the border.
+    const fit = (roomW, roomH) => {
+      mh = Math.floor(roomH / ROWS);
+      mw = Math.floor(Math.min(roomW / shownCols, mh * 0.67));
+      mh = Math.min(mh, Math.floor(mw / 0.66));
+    };
+    if (side === 'both') {
+      // One screen (the iPad, the iPhone, one monitor): the border, inside the notch's and the Home bar's safe areas.
+      const css = getComputedStyle(document.documentElement), inset = n => parseFloat(css.getPropertyValue(n)) || 0;
+      const t = inset('--safe-t'), r = inset('--safe-r'), bt = inset('--safe-b'), l = inset('--safe-l');
+      const edge = Math.max(10, Math.round(Math.min(W, H) * CFG.borderOneScreen));
+      fit(W - l - r - 2 * edge, H - t - bt - 2 * edge);
+      // The sound switch needs a margin of its own: make one if the flaps fill the screen both ways.
+      const BTN = 56, roomV = (H - t - bt - mh * ROWS) / 2, roomH = (W - l - r - mw * shownCols) / 2;
+      const hasMouse = matchMedia('(hover: hover)').matches, x = hasMouse ? 16 : 0;
+      if (!inFrame && roomV < BTN + x && roomH < BTN + x) {
+        if (W >= H) fit(W - l - r - 2 * Math.max(edge, BTN), H - t - bt - 2 * edge);
+        else fit(W - l - r - 2 * edge, H - t - bt - 2 * Math.max(edge, BTN));
+      }
+      ox = Math.floor(l + (W - l - r - mw * shownCols) / 2);
+      oy = Math.floor(t + (H - t - bt - mh * ROWS) / 2);
+      const btn = document.getElementById('sound');
+      if (btn) {
+        const below = H - (oy + mh * ROWS), beside = ox;
+        const small = 44;
+        if (below >= beside && below > small + bt) { btn.style.left = `${Math.max(ox, l + 8)}px`; btn.style.bottom = `${Math.round(bt + (below - bt - small) / 2)}px`; }
+        else { btn.style.left = `${Math.round(l + (beside - l - small) / 2)}px`; btn.style.bottom = `${Math.max(bt + 8, H - oy - mh * ROWS)}px`; }
+      }
+    } else {
+      // Two monitors: an inch at the top and bottom and on the outer side. The rest of the width sits at the edge between
+      // the monitors, a small gap, so the flaps don't touch it and the board still runs straight across.
+      const edge = Math.round(W * CFG.border);
+      fit(W - edge - 12, H - 2 * edge);
+      ox = side === 'left' ? edge : W - edge - mw * shownCols;
+      oy = Math.floor((H - mh * ROWS) / 2);
+    }
     const prev = modules;
     modules = [];
     for (let r = 0; r < ROWS; r++) {
@@ -395,7 +455,7 @@
 
   // ---- The sound ----
   const Clatter = (() => {
-    let ctx = null, out = null, buffers = [], on = CFG.sound;
+    let ctx = null, out = null, buffers = [], on = !!CFG.sound && !inFrame;
     function init() {
       if (ctx) return;
       ctx = new AudioContext();
@@ -453,7 +513,7 @@
     return {
       init, play,
       resume() { if (ctx && ctx.state !== 'running') ctx.resume(); },
-      toggle() { on = !on; return on; },
+      set(v) { on = !!v; },
       get on() { return on; },
       get waiting() { return !!ctx && ctx.state !== 'running'; },   // (an iPad keeps it silent until a tap)
     };
@@ -464,6 +524,7 @@
   // up at `at`, and the count goes on from there.
   const period = CFG.secondsPerMessage * 1000;
   const SERVER = 'http://localhost:47270/shift';
+  let soundTouched = 0;
   let shift = null;
   const numberAt = now => (shift && now >= shift.at ? shift.base + Math.floor((now - shift.at) / period) : Math.floor(now / period));
   const startOf = (no, now) => (shift && now >= shift.at ? shift.at + (no - shift.base) * period : no * period);
@@ -482,7 +543,11 @@
   }
   // Ask the launcher, ten times a second, whether an arrow was pressed on the other screen.
   async function listen() {
-    try { useShift(await (await fetch(SERVER, { cache: 'no-store' })).json()); } catch (e) { /* no launcher: this screen alone */ }
+    try {
+      const told = await (await fetch(SERVER, { cache: 'no-store' })).json();
+      useShift(told);
+      if (typeof told.sound === 'boolean' && told.sound !== Clatter.on && Date.now() - soundTouched > 600) setSound(told.sound, false);
+    } catch (e) { /* no launcher: this screen alone */ }
     setTimeout(listen, 100);
   }
   // An arrow: the next quote (up) or the one before (down), on both screens, a third of a second from now.
@@ -496,10 +561,29 @@
   window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(build, 300); });
 
   const soundBtn = document.getElementById('sound');
-  const showSound = () => { soundBtn.textContent = Clatter.on ? '🔊' : '🔈'; soundBtn.title = Clatter.on ? 'Sound on (M to turn it off)' : 'Sound off (M to turn it on)'; };
-  soundBtn.addEventListener('click', () => { if (Clatter.waiting && Clatter.on) Clatter.resume(); else { Clatter.toggle(); Clatter.resume(); } showSound(); });
+  const SPEAKER = '<path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="currentColor"/>';
+  const WAVES = '<path d="M15 9a4.2 4.2 0 0 1 0 6M17.5 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>';
+  const CROSS = '<path d="M15.5 9.5l5 5M20.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>';
+  const showSound = () => {
+    const on = Clatter.on;
+    soundBtn.classList.toggle('on', on);
+    soundBtn.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${SPEAKER}${on ? WAVES : CROSS}</svg><span>${on ? 'Sound on' : 'Sound off'}</span>`;
+    soundBtn.title = on ? 'Turn the sound off (M)' : 'Turn the sound on (M)';
+    soundBtn.setAttribute('aria-label', soundBtn.title);
+  };
+  // On or off, on both screens: the one that heard it tells the launcher, and the other hears it there.
+  function setSound(v, tell = true) {
+    Clatter.set(v);
+    showSound();
+    if (tell && side !== 'both' && !inFrame) {
+      soundTouched = Date.now();
+      fetch(SERVER, { method: 'POST', body: JSON.stringify({ sound: !!v }) }).catch(() => {});
+    }
+  }
+  soundBtn.addEventListener('click', () => { Clatter.resume(); setSound(!Clatter.on); });
   window.addEventListener('keydown', e => {
-    if (e.key === 'm' || e.key === 'M') { Clatter.toggle(); showSound(); }
+    if (inFrame) return;                              // inside the Screens the keys belong to the Screens
+    if (e.key === 'm' || e.key === 'M') { Clatter.resume(); setSound(!Clatter.on); }
     if (e.key === 'Escape') window.close();
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); if (!e.repeat) step(e.key === 'ArrowUp' ? 1 : -1); }
   });
@@ -520,6 +604,6 @@
     Clatter.init(); showSound();
     // Open on a blank board, then flip in the current quote (both screens open together, so they flip together).
     setTimeout(() => { started = true; tick(); setInterval(tick, 250); }, 900);
-    if (side !== 'both') listen();                    // two screens: hear about arrows pressed on the other one
+    if (side !== 'both' && !inFrame) listen();        // two screens: hear about arrows and the sound on the other one
   })();
 })();
