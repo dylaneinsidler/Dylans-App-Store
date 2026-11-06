@@ -23,12 +23,20 @@
 // outer edge of a screen. Across two monitors it's one board in one frame: the flaps run straight across where they meet.
 //
 // Two screens: ?side=left shows the left half of the board, ?side=right the right half, ?side=both all of it. Both
-// windows work out the same message and the same motion from the clock, so they flip together without talking.
+// windows work out the same message and the same motion from the clock, so they flip together without talking. Dylan
+// wants them to start and finish at exactly the same time, so (since 1.4):
+//   - Each change is set up 1.2 seconds ahead, with the moment it starts, and each frame is drawn for the moment it goes on
+//     screen. Noticing a change only when it was due let one screen start up to a quarter of a second after the other.
+//   - Each window keeps track of the whole board, the half it can't see too, and shares out the spin so the last flap on
+//     each screen lands at the same moment (evenOut).
+//   - On opening, each tells the launcher when it's ready, and the launcher gives both the moment to begin.
 // The up and down arrows change the quote: the window that heard the key tells the launcher (a tiny local server in
-// launch.ps1), which passes it to the other window, and both flip at the same moment, a third of a second later.
+// launch.ps1), which passes it to the other window, and both flip at the same moment, 0.6 seconds later.
 // ?slow=40 is slow motion (for checking the motion in pictures); ?perf writes how evenly frames came into the title.
 (() => {
   const CFG = window.SPLITFLAP;
+  // The App Store's copy (the iPhone and iPad) loads the store's phone.js: it takes the phone's own sound settings.
+  if (CFG.phone && document.querySelector('script[src*="shared/phone.js"]')) Object.assign(CFG, CFG.phone);
   const params = new URLSearchParams(location.search);
   const side = ['left', 'right', 'both'].includes(params.get('side')) ? params.get('side') : 'both';
   const inFrame = window.parent !== window;           // inside the Morning or Night Screens (or the App Tester)
@@ -51,7 +59,21 @@
   }
   pickGrid();
   const SLOW = Math.max(1, +params.get('slow') || 1), T0 = performance.now();
-  const clock = () => performance.timeOrigin + T0 + (performance.now() - T0) / SLOW;   // the clock both screens share
+  let clockBase = performance.timeOrigin;
+  const clockAt = p => clockBase + T0 + (p - T0) / SLOW;
+  const clock = () => clockAt(performance.now());     // the clock both screens share
+  // This window's count runs on its own from when it opened: bring it back to the PC's clock (only while nothing is
+  // moving), so a window left open a long time, or through sleep, can't fall out of step with the other.
+  function keepToPcClock() {
+    if (SLOW > 1) return;
+    let best = Infinity, gap = 0;
+    for (let i = 0; i < 5; i++) {
+      const a = performance.now(), d = Date.now(), b = performance.now();
+      if (b - a < best) { best = b - a; gap = d - clockAt((a + b) / 2); }
+    }
+    if (Math.abs(gap) > 2) clockBase += gap;
+  }
+  keepToPcClock();
 
   // Seeded random numbers, so both screens pick the same jitter for the same character.
   const hash = (...xs) => { let h = 2166136261; for (const x of xs) { h = Math.imul(h ^ (x | 0), 16777619); h ^= h >>> 13; } return ((h >>> 0) % 100000) / 100000; };
@@ -111,7 +133,8 @@
   const back = document.createElement('canvas'), gl_c = document.createElement('canvas'), front = document.createElement('canvas');
   for (const c of [back, gl_c, front]) { c.className = 'layer'; board.appendChild(c); }
   const gl = gl_c.getContext('webgl2', { antialias: true, premultipliedAlpha: true, alpha: true });
-  let W, H, dpr, mw, mh, ox, oy, modules = [], shown = null, started = false;
+  // modules: every character on the whole board. seen: the ones on this screen, the only ones drawn.
+  let W, H, dpr, mw, mh, ox, oy, modules = [], seen = [], shown = null, started = false;
 
   // The flaps' picture: every character's flap card, once, side by side (the "atlas"), as a texture.
   let tex = null;
@@ -222,6 +245,14 @@
     return fallTable[i] + (fallTable[i + 1] - fallTable[i]) * (x - i);
   };
 
+  // How far through its spin a drum is at time t. Evening out the two screens can change its pace from a moment on (a.pace);
+  // this carries straight on from where it was, so nothing jumps.
+  const spunAt = (a, t) => {
+    let from = a.t0, spun = 0, r = 1;
+    if (a.pace) for (const p of a.pace) { if (t < p.at) break; from = p.at; spun = p.spun; r = p.r; }
+    return spun + (t - from) / r;
+  };
+
   const LIGHT_TOP = [1.0, 0.86], LIGHT_BOTTOM = [0.72, 1.0];   // the bottom half sits slightly in the top one's shadow
   const BLUR = [[7, 0.18], [3.5, 0.32]];              // a fast flap's blur: where it was (ms before) and how faint
   let landed = [];
@@ -248,7 +279,7 @@
       quad(mod, c, true, 0, hh, 0, LIGHT_BOTTOM[0], LIGHT_BOTTOM[1]);
       return;
     }
-    const e = t - a.t0, F = a.dur * FALL;
+    const e = spunAt(a, t), F = a.dur * FALL;
     // Flap j (0, 1, 2 ...) is let go j motor steps in, and lands a fall later.
     const released = Math.min(a.n, Math.floor(e / a.dur) + 1);
     const down = e < F ? 0 : Math.min(a.n, Math.floor((e - F) / a.dur) + 1);
@@ -316,7 +347,7 @@
     const b = back.getContext('2d'), f = front.getContext('2d');
     for (const c of [b, f]) { c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H); }
     drawCabinet(b);
-    for (const mod of modules) {
+    for (const mod of seen) {
       // the housing: dark, a little lighter in the middle, with a crisp edge
       const g = b.createRadialGradient(mod.x + mw / 2, mod.y + mh * 0.4, 0, mod.x + mw / 2, mod.y + mh * 0.4, mh * 0.7);
       g.addColorStop(0, '#161616'); g.addColorStop(1, '#0c0c0c');
@@ -382,15 +413,16 @@
     const prev = modules;
     modules = [];
     for (let r = 0; r < ROWS; r++) {
-      for (let c = 0; c < shownCols; c++) {
-        const col = firstCol + c, old = prev.find(p => p.row === r && p.col === col);
+      for (let col = 0; col < COLS; col++) {
+        const old = prev.find(p => p.row === r && p.col === col);
         modules.push({
-          row: r, col, x: ox + c * mw, y: oy + r * mh, cur: old ? old.cur : 0, anim: old ? old.anim : null,
+          row: r, col, x: ox + (col - firstCol) * mw, y: oy + r * mh, cur: old ? old.cur : 0, anim: old ? old.anim : null,
           pan: (col + 0.5) / COLS * 2 - 1, speed: CFG.flipMs * (0.94 + 0.12 * hash(r, col, 5)),   // this drum's own motor
         });
       }
     }
-    verts = new Float32Array(modules.length * 16 * 6 * 7);   // room for 16 half-flaps a character
+    seen = modules.filter(m => m.col >= firstCol && m.col < firstCol + shownCols);
+    verts = new Float32Array(seen.length * 16 * 6 * 7);   // room for 16 half-flaps a character
     makeAtlas();
     drawBackAndFront();
     wake();
@@ -401,22 +433,25 @@
   // Each drum turns to its new character from wherever it is at startAt: still, waiting to start, or in the middle of
   // a spin (then it just keeps spinning, now toward the new character, with no jump).
   function setMessage(grid, startAt, msgNo) {
+    const made = [], kept = [];                        // the spins starting now; those already going
     for (const mod of modules) {
       const target = DRUM.indexOf(grid[mod.row][mod.col]);
       // Each drum starts a few milliseconds after the signal, a little differently each time.
-      const t0 = startAt + 20 + 150 * hash(mod.row, mod.col, msgNo);
+      const t0 = startAt + 20 + 60 * hash(mod.row, mod.col, msgNo);
       let a = mod.anim;
       if (a && a.then) { if (startAt < a.then.t0) a.then = null; else { mod.cur = a.to; a = mod.anim = a.then; } }
       if (a && startAt < a.t0) {                       // hadn't started yet: start from where it still is
         const flips = (target - a.from + N) % N;
         if (!flips) mod.cur = a.from;
         mod.anim = flips ? { from: a.from, to: target, n: flips, t0, dur: mod.speed, k: 0 } : null;
+        if (flips) made.push(mod);
         continue;
       }
-      if (a && startAt - a.t0 < a.n * a.dur) {        // spinning: keep going, toward the new character
-        const released = Math.floor((startAt - a.t0) / a.dur) + 1, at = (a.from + released) % N;
+      if (a && spunAt(a, startAt) < a.n * a.dur) {    // spinning: keep going, toward the new character
+        const released = Math.floor(spunAt(a, startAt) / a.dur) + 1, at = (a.from + released) % N;
         a.n = released + (target - at + N) % N;
         a.to = target;
+        kept.push(mod);
         continue;
       }
       const from = a ? a.to : mod.cur;                 // still (or its last flaps still landing): a new spin
@@ -424,8 +459,52 @@
       if (!flips) continue;
       const next = { from, to: target, n: flips, t0, dur: mod.speed, k: 0 };
       if (a) a.then = next; else mod.anim = next;
+      made.push(mod);
     }
+    if (side !== 'both') evenOut(made, kept, startAt);
     wake();
+  }
+  // Both screens begin and end together. The first drum to start on each screen starts at the same moment, and each screen's
+  // longest spin ends at the same moment: the screen with the shorter spin slows a little and the other speeds up a little,
+  // meeting in the middle. Worked out from the whole board, so both windows get the same answer. If one screen's spin is far
+  // shorter than the other's (a short quote, about 1 change in 200, or an arrow pressed mid-spin), its longest drum goes once
+  // more round instead, as a real one can.
+  function evenOut(made, kept, startAt) {
+    const spin = mod => (mod.anim.then || mod.anim);
+    const items = [
+      ...made.map(mod => ({ mod, a: spin(mod), fresh: true })),
+      ...kept.map(mod => ({ mod, a: mod.anim, fresh: false })),
+    ];
+    // For each: how long after startAt it starts, and how much spin it has left until its last flap lands.
+    const measure = it => {
+      it.wait = it.fresh ? it.a.t0 - startAt : 0;
+      it.left = (it.a.n - 1 + FALL) * it.a.dur - (it.fresh ? 0 : spunAt(it.a, startAt));
+    };
+    const halves = [0, 1].map(h => items.filter(it => (it.mod.col < CFG.columnsPerScreen ? 0 : 1) === h));
+    if (!halves[0].length || !halves[1].length) return;  // one screen has nothing to spin
+    for (const list of halves) {
+      const fresh = list.filter(it => it.fresh);
+      const late = Math.min(...fresh.map(it => it.a.t0)) - (startAt + 20);
+      for (const it of fresh) it.a.t0 -= late;
+      list.forEach(measure);
+    }
+    const spinTime = list => Math.max(...list.map(it => it.wait + it.left));
+    let [a, b] = halves.map(spinTime);
+    const shortList = a < b ? halves[0] : halves[1], longer = Math.max(a, b), shorter = Math.min(a, b);
+    const drum = shortList.reduce((x, y) => (y.wait + y.left > x.wait + x.left ? y : x));
+    if (longer / shorter > (shorter + N * drum.a.dur) / longer) {
+      drum.a.n += N;
+      measure(drum);
+      a = spinTime(halves[0]); b = spinTime(halves[1]);
+    }
+    const both = Math.sqrt(a * b);                     // how long from startAt until the last flap lands, on both screens
+    for (const list of halves) {
+      const r = Math.max(0.25, Math.min(...list.map(it => (both - it.wait) / it.left)));
+      for (const it of list) {
+        if (it.fresh) it.a.dur *= r;
+        else (it.a.pace = it.a.pace || []).push({ at: startAt, spun: spunAt(it.a, startAt), r });
+      }
+    }
   }
 
   // ---- Every frame ----
@@ -434,10 +513,10 @@
   const perf = params.has('perf') ? { last: 0, gaps: [] } : null;
   function frame(now) {
     if (perf) { if (perf.last) perf.gaps.push(now - perf.last); perf.last = now; }
-    const t = clock();
+    const t = clockAt(now);                           // the moment this frame is for, however busy the page was just now
     nv = 0; landed = [];
     let moving = false;
-    for (const mod of modules) { drawModule(mod, t); if (mod.anim) moving = true; }
+    for (const mod of seen) { drawModule(mod, t); if (mod.anim) moving = true; }
     gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
     gl.bufferData(gl.ARRAY_BUFFER, verts.subarray(0, nv * 7), gl.DYNAMIC_DRAW);
     gl.drawArrays(gl.TRIANGLES, 0, nv);
@@ -498,8 +577,11 @@
     }
     function play(pans) {
       if (!on || !ctx || ctx.state !== 'running' || SLOW > 1) return;
-      const most = 10, n = pans.length, pick = n <= most ? pans : Array.from({ length: most }, () => pans[Math.floor(Math.random() * n)]);
-      const gain = 0.16 * Math.min(1.8, Math.sqrt(n / pick.length));
+      const most = 10, n = pans.length, share = CFG.clacks ?? 1;
+      const gain = 0.16 * Math.min(1.8, Math.sqrt(n / Math.min(n, most)));
+      // At most 10 a frame; with clacks under 1, only that share of them (picked at random, so it never sounds regular).
+      let pick = n <= most ? pans : Array.from({ length: most }, () => pans[Math.floor(Math.random() * n)]);
+      if (share < 1) pick = pick.filter(() => Math.random() < share);
       for (const pan of pick) {
         const s = ctx.createBufferSource(), g = ctx.createGain(), p = ctx.createStereoPanner();
         s.buffer = buffers[Math.floor(Math.random() * buffers.length)];
@@ -528,31 +610,75 @@
   let shift = null;
   const numberAt = now => (shift && now >= shift.at ? shift.base + Math.floor((now - shift.at) / period) : Math.floor(now / period));
   const startOf = (no, now) => (shift && now >= shift.at ? shift.at + (no - shift.base) * period : no * period);
-  function tick() {
-    const now = clock(), no = numberAt(now);
-    if (no !== shown) {
-      shown = no;
-      const start = startOf(no, now);
-      setMessage(messageAt(no), start > now - 1500 ? start : now, no);
+  // The first change after a moment: the next on the clock, or the arrow's if that comes first.
+  function nextChange(t) {
+    if (shift && t < shift.at) {
+      const k = Math.floor(t / period) + 1;
+      return k * period < shift.at ? { no: k, at: k * period } : { no: shift.base, at: shift.at };
     }
+    if (shift) { const k = Math.floor((t - shift.at) / period) + 1; return { no: shift.base + k, at: shift.at + k * period }; }
+    const k = Math.floor(t / period) + 1;
+    return { no: k, at: k * period };
+  }
+  // A change is set up ahead of its moment, with that moment: it doesn't matter when each window gets round to it, and the
+  // drawing is already running when it comes. (Hidden in the Screens, timers can slow to once a second: this is ahead of that.)
+  const AHEAD = 1200;
+  let lastAt = null;                                  // when the last change started
+  function change(no, at) { shown = no; lastAt = at; setMessage(messageAt(no), at, no); }
+  // Every drum straight to the quote that was up 5 seconds ago, with no spin, then on by the clock. (5 seconds is longer than
+  // any spin: if the two windows get here either side of a change, they still hold the same quote by the time the next one comes.)
+  function settle(now) {
+    const then = now - 5000, no = numberAt(then), grid = messageAt(no);
+    for (const m of modules) { m.cur = DRUM.indexOf(grid[m.row][m.col]); m.anim = null; }
+    shown = no; lastAt = startOf(no, then);
+    wake();
+  }
+  function tick() {
+    if (!running) keepToPcClock();
+    const now = clock();
+    if (shown === null || (side === 'both' && nextChange(lastAt).at < now - 1500)) {
+      // One screen, with a new size, or back after being put away (the iPad): flip the quote that's up now.
+      const no = numberAt(now), start = startOf(no, now);
+      change(no, start > now - 1500 ? start : now);
+    } else if (side !== 'both' && Math.abs(now - lastAt) > 2 * period + AHEAD) {
+      settle(now);                                    // the PC slept, or its clock was changed
+    }
+    for (let e = nextChange(lastAt); e.at <= now + AHEAD; e = nextChange(lastAt)) change(e.no, e.at);
   }
   function useShift(s) {
-    if (!s || !(s.at > 0) || (shift && shift.at === s.at)) return;
+    if (!s || !(s.at > 0) || (shift && s.at <= shift.at)) return;
+    if (started) for (let e = nextChange(lastAt); e.at < s.at; e = nextChange(lastAt)) change(e.no, e.at);
     shift = s;
-    setTimeout(tick, Math.max(0, (s.at - clock()) / SLOW) + 1);
+    if (started) change(s.base, s.at);
   }
-  // Ask the launcher, ten times a second, whether an arrow was pressed on the other screen.
+  // The first quote flips in at `at`. Both windows use the same moment and the same blank board, so a window that's late
+  // to open joins in the middle of the spin, in step.
+  function begin(at) {
+    if (started) return;
+    started = true;
+    change(numberAt(at), at);
+    tick();
+    setInterval(tick, 250);
+  }
+  // Ask the launcher, ten times a second, whether an arrow was pressed on the other screen. It keeps every press, so a quick
+  // double press reaches both screens as two. Until the board has begun, this also tells it this window is ready, and hears when to begin.
+  let tellReady = false, unanswered = 0;
   async function listen() {
     try {
-      const told = await (await fetch(SERVER, { cache: 'no-store' })).json();
-      useShift(told);
+      const ask = tellReady && !started ? { method: 'POST', body: JSON.stringify({ ready: side }) } : { cache: 'no-store' };
+      const told = await (await fetch(SERVER, ask)).json();
+      unanswered = 0;
+      for (const s of (told.shifts || []).sort((a, b) => a.at - b.at)) useShift(s);
+      if (told.go > 0) begin(told.go);
       if (typeof told.sound === 'boolean' && told.sound !== Clatter.on && Date.now() - soundTouched > 600) setSound(told.sound, false);
-    } catch (e) { /* no launcher: this screen alone */ }
+    } catch (e) {                                     // no launcher: this screen alone (both, then: they begin at the same moment)
+      if (tellReady && ++unanswered === 5) begin(window.DYLAN_OPENED + 3000);
+    }
     setTimeout(listen, 100);
   }
-  // An arrow: the next quote (up) or the one before (down), on both screens, a third of a second from now.
+  // An arrow: the next quote (up) or the one before (down), on both screens, 0.6 seconds from now: time for the other screen to hear, even on a busy PC.
   function step(by) {
-    const at = Math.round(Math.max(clock(), shift ? shift.at : 0) + 330);
+    const at = Math.round(Math.max(clock(), shift ? shift.at : 0) + (side === 'both' ? 330 : 600));
     const s = { base: numberAt(at - 1) + by, at };
     useShift(s);
     fetch(SERVER, { method: 'POST', body: JSON.stringify(s) }).catch(() => {});
@@ -602,8 +728,22 @@
     if (document.fonts) await Promise.all(['350 40px Bahnschrift', '350 40px "Flap DIN"'].map(f => document.fonts.load(f).catch(() => {})));
     build();
     Clatter.init(); showSound();
-    // Open on a blank board, then flip in the current quote (both screens open together, so they flip together).
-    setTimeout(() => { started = true; tick(); setInterval(tick, 250); }, 900);
-    if (side !== 'both' && !inFrame) listen();        // two screens: hear about arrows and the sound on the other one
+    const twoScreens = side !== 'both';
+    if (twoScreens && inFrame) {
+      // In the Screens each window's frame loads at its own moment, long before its turn: no flip on loading, just the quote
+      // that's up (or the one before, if the change to this one may still be spinning). The flips that show come on the clock.
+      settle(clock());
+      started = true;
+      tick(); setInterval(tick, 250);
+    } else if (twoScreens && window.DYLAN_OPENED) {
+      // Opened by the launcher: this window says it's ready (listen), and the launcher gives both windows the moment to begin.
+      // If it can't be reached, or one window is very late, both still begin at the same moment.
+      tellReady = true;
+      const latest = window.DYLAN_OPENED + 20000;
+      setTimeout(() => begin(latest), Math.max(0, (latest - clock()) / SLOW));
+    } else {
+      setTimeout(() => begin(clock() + 300), 600);    // on its own (the iPad, say): a moment on a blank board, then the quote
+    }
+    if (twoScreens && !inFrame) listen();             // two screens: hear about arrows and the sound on the other one
   })();
 })();

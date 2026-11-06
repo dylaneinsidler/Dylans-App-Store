@@ -100,7 +100,8 @@ body { background: #8a6038 url("desktop/cork.svg") repeat; background-size: 360p
 /* The little note at the bottom ("Adding to your calendar") stays on one line. */
 .phone-toast { white-space: nowrap; }
 
-/* Farmers markets this week: a small index card under the map */
+/* Farmers markets this week: a small index card at the very bottom, under both boards (Dylan, November 5, 2026) */
+.screens > #markets { grid-column: 1 / -1; width: 100%; max-width: 592px; margin: 0 auto; padding: 0 16px; box-sizing: border-box; }
 .markets { margin-top: 20px; padding: 18px 16px 10px; background-color: #f8f4e3; }
 .markets h3 { margin: 0; text-align: center; font: 700 19px var(--serif); }
 .mk-sub { text-align: center; font: 600 10px var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); margin: 3px 0 8px; }

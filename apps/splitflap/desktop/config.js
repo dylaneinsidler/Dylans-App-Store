@@ -14,4 +14,7 @@ window.SPLITFLAP = {
   flipMs: 68,               // how often the drum lets a flap go: about 15 flaps a second, like Oat Foundry's
   sound: false,             // the clatter starts muted; the Sound button or M turns it on, on both screens
   volume: 0.8,
+  clacks: 1,                // the share of landing flaps that make a clack: 1 is every one
+  phone: { volume: 0.4, clacks: 0.5 },   // on the iPhone and iPad (the App Store's copy): half as loud, and half the
+                                         // clacks, so the clatter sounds slower (Dylan, November 5, 2026)
 };
