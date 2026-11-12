@@ -11,7 +11,8 @@ window.SPLITFLAP = {
   border: 81 / 1920,        // the border on the PC (top, bottom and outer side; none where the monitors meet), as a share of
                             // the screen's width (these monitors are 23.6 inches across at 1920 pixels, so 81 pixels is an inch)
   borderOneScreen: 0.03,    // on the iPad and iPhone, as a share of the screen's shorter side
-  flipMs: 68,               // how often the drum lets a flap go: about 15 flaps a second, like Oat Foundry's
+  flipMs: 90,               // how often the drum lets a flap go: about 11 flaps a second (it was 68, about 15 a second,
+                            // like Oat Foundry's, until Dylan found it a bit too fast, November 11, 2026)
   sound: false,             // the clatter starts muted; the Sound button or M turns it on, on both screens
   volume: 0.8,
   clacks: 1,                // the share of landing flaps that make a clack: 1 is every one

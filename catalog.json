@@ -162,7 +162,7 @@
         "apps/weather/shots/3.jpg",
         "apps/weather/shots/4.jpg"
       ],
-      "version": "1.8"
+      "version": "1.9"
     },
     {
       "id": "torah",
@@ -415,7 +415,7 @@
       "url": "https://dylaneinsidler.github.io/World-Art-Show/",
       "external": true,
       "shots": [],
-      "version": "2.13"
+      "version": "2.14"
     },
     {
       "id": "athletics",
@@ -614,8 +614,8 @@
         "apps/splitflap/shots/2.jpg",
         "apps/splitflap/shots/3.jpg"
       ],
-      "version": "1.5"
+      "version": "1.6"
     }
   ],
-  "updated": "2026-11-06"
+  "updated": "2026-11-12"
 }

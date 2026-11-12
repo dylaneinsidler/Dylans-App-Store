@@ -16,9 +16,19 @@
   const standalone = navigator.standalone === true ||
     matchMedia('(display-mode: standalone), (display-mode: fullscreen)').matches;
   const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const android = /Android/.test(navigator.userAgent);
   const touch = matchMedia('(pointer: coarse)').matches;
   html.classList.toggle('standalone', standalone);
   html.classList.toggle('ios', ios);
+  html.classList.toggle('android', android);
+  // Android's Chrome offers its own install, which a page can start from a button (an iPhone has no such thing).
+  // It can arrive before the install card exists, so it's kept until the card shows its Install button.
+  let installPrompt = null;
+  addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    installPrompt = e;
+    document.querySelectorAll('[data-phone-install]').forEach(b => { b.hidden = false; });
+  });
   html.classList.toggle('touch', touch);
   html.classList.toggle('shot', shot);
   // Shown inside another page (Morning and Night Screens cycle through the apps in a frame): no install card, no footer.
@@ -79,7 +89,8 @@
 
   const SHARE_ICON = '<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 15V2M5.5 6.5 10 2l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 10H4.5A1.5 1.5 0 0 0 3 11.5v9A1.5 1.5 0 0 0 4.5 22h11a1.5 1.5 0 0 0 1.5-1.5v-9a1.5 1.5 0 0 0-1.5-1.5H13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
-  // In Safari (not from the Home Screen), a card at the top explains how to add the app there.
+  // In the browser (not from the Home Screen), a card at the top explains how to add the app there: Safari's Share
+  // button on an iPhone or iPad; on Android, an Install button (Chrome's own install) or Chrome's ⋮ menu.
   function installCard() {
     if (standalone || shot || framed || !touch) return;
     const key = 'store.hint.' + location.pathname;
@@ -87,12 +98,23 @@
     const card = document.createElement('aside');
     card.className = 'phone-install';
     const icon = document.querySelector('link[rel="apple-touch-icon"]');
+    const how = android
+      ? 'Tap <b>Install</b>, or in Chrome’s <b>⋮</b> menu tap <b>Add to Home screen</b>.'
+      : `Tap Share <i>${SHARE_ICON}</i>${ios ? ' (on newer iPhones it’s in the <b>•••</b> menu)' : ''}, then <b>Add to Home Screen</b>.`;
     card.innerHTML = `
       ${icon ? `<img src="${icon.href}" alt="">` : ''}
       <div><b>Put ${name} on your Home Screen</b>
-      <span>Tap Share <i>${SHARE_ICON}</i>${ios ? ' (on newer iPhones it’s in the <b>•••</b> menu)' : ''}, then <b>Add to Home Screen</b>.</span></div>
-      <button aria-label="Hide">✕</button>`;
-    card.querySelector('button').addEventListener('click', () => { store.set(key, true); card.remove(); });
+      <span>${how}</span></div>
+      <button class="phone-install-go" data-phone-install${installPrompt ? '' : ' hidden'}>Install</button>
+      <button class="phone-install-hide" aria-label="Hide">✕</button>`;
+    card.querySelector('.phone-install-hide').addEventListener('click', () => { store.set(key, true); card.remove(); });
+    card.querySelector('.phone-install-go').addEventListener('click', async () => {
+      if (!installPrompt) return;
+      installPrompt.prompt();
+      const { outcome } = await installPrompt.userChoice;
+      installPrompt = null;
+      if (outcome === 'accepted') card.remove();
+    });
     document.body.prepend(card);
   }
 
@@ -112,7 +134,7 @@
   function start() { installCard(); footer(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 
-  window.Phone = { root, standalone, ios, touch, shot, params, store, share, toast, stayAwake, SHARE_ICON };
+  window.Phone = { root, standalone, ios, android, touch, shot, params, store, share, toast, stayAwake, SHARE_ICON };
 })();
 
 // No zooming in and out (Dylan, October 14, 2026). iPhone Safari ignores the page's user-scalable=no, so pinches are

@@ -34,6 +34,10 @@
 .alert span { color: var(--muted); }
 .alert.severe { background: rgba(240, 82, 79, .12); border-color: rgba(240, 82, 79, .55); }
 .alert.severe b { color: var(--danger); }
+/* A cold front coming (the desktop's front.js): with the alerts, in blue, and a tag on the day it arrives */
+.alert.front { background: rgba(108, 182, 255, .12); border-color: rgba(108, 182, 255, .55); }
+.alert.front b { color: #8cc8ff; }
+.day .name small b.front { color: #8cc8ff; font-weight: 700; }
 
 /* ---- Radar ---- */
 .radar-card { position: relative; height: min(64vh, 520px); border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #2b2d31; }

@@ -7,7 +7,7 @@
   "background": "#0a0e13",
   "internet": "Needed (for the forecast and radar)",
   "source": ["Dylan's Weather App", "Weather Wall"],
-  "copy": ["rain.js"],
+  "copy": ["rain.js", "front.js"],
   "description": [
     "A live, animated weather radar in a soft Windy-style look, with the last hour of rain playing on a loop. Below it: the weather right now, any alerts, the chance of rain hour by hour for the next three days (colored like the radar, with when to expect rain each day), and the 7-day forecast.",
     "It starts on Fort Lauderdale. Tap the place's name to pick yours, or use where you are. Your place stays on your phone. US places only: the forecast and radar come from the National Weather Service."

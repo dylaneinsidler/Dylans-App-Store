@@ -218,7 +218,7 @@
     return r.json();
   }
 
-  function renderDays(periods, hourly) {
+  function renderDays(periods, hourly, front) {
     // A day's rain chance is its highest hourly chance from now on, so the list matches the hourly rows.
     const hourlyMax = new Map();
     for (const q of hourly || []) {
@@ -239,7 +239,7 @@
       const name = d.key === today ? (d.day ? 'Today' : 'Tonight') : date.toLocaleDateString([], { weekday: 'short' });
       const pop = hourlyMax.get(d.key) ?? main.probabilityOfPrecipitation?.value ?? 0;
       return `<div class="day">
-        <div class="name">${name}<small>${date.toLocaleDateString([], { month: 'short', day: 'numeric' })}</small></div>
+        <div class="name">${name}<small>${date.toLocaleDateString([], { month: 'short', day: 'numeric' })}${front && front.dayKey === d.key ? ' <b class="front">❄ Front</b>' : ''}</small></div>
         <div class="icon">${icon(main.shortForecast, !!d.day)}</div>
         <div class="desc">${esc(main.shortForecast.replace(/ And /g, ' & '))}${pop ? `<span class="pop">💧 ${pop}%</span>` : ''}</div>
         <div class="temps">${d.day ? `${d.day.temperature}°` : ''}${d.night ? `<span class="lo">${d.night.temperature}°</span>` : ''}</div>
@@ -345,14 +345,21 @@
     } else if (firstHour) $('nowWind').textContent = `${firstHour.windDirection} ${firstHour.windSpeed}`;
   }
 
+  // The Weather Service's alerts, and first, in blue, a cold front coming (front.js): when, and how much cooler.
+  let alertsHtml = '', frontHtml = '';
   function renderAlerts(features) {
     const seen = new Set();
-    $('alerts').innerHTML = features.filter(f => !seen.has(f.properties.event) && seen.add(f.properties.event)).map(f => {
+    alertsHtml = features.filter(f => !seen.has(f.properties.event) && seen.add(f.properties.event)).map(f => {
       const q = f.properties, end = q.ends || q.expires;
       const until = end ? `until ${new Date(end).toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' })}` : '';
       const severe = q.severity === 'Severe' || q.severity === 'Extreme';
       return `<div class="alert${severe ? ' severe' : ''}"><b>⚠ ${esc(q.event)}</b> <span>${esc(until)}</span></div>`;
     }).join('');
+    $('alerts').innerHTML = frontHtml + alertsHtml;
+  }
+  function renderFront(front) {
+    frontHtml = front ? `<div class="alert front"><b>❄ ${esc(front.line)}</b> <span>${esc(front.sub)}</span></div>` : '';
+    $('alerts').innerHTML = frontHtml + alertsHtml;
   }
 
   let grid = null, station = null, lastOk = null, hourlyCache = null;
@@ -367,7 +374,8 @@
         get(`${API}/alerts/active?point=${place.lat.toFixed(4)},${place.lon.toFixed(4)}`),
       ]);
       if (hr.status === 'fulfilled') { hourlyCache = hr.value.properties.periods; renderHourly(hourlyCache); }
-      if (fc.status === 'fulfilled') renderDays(fc.value.properties.periods, hourlyCache);
+      const front = fc.status === 'fulfilled' && window.Front ? Front.find(fc.value.properties.periods, hourlyCache) : null;
+      if (fc.status === 'fulfilled') { renderFront(front); renderDays(fc.value.properties.periods, hourlyCache, front); }
       if (obs.status === 'fulfilled' || hourlyCache) renderNow(obs.value, hourlyCache);
       if (al.status === 'fulfilled') renderAlerts(al.value.features);
       if (fc.status === 'fulfilled') lastOk = new Date();

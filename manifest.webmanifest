@@ -1,7 +1,7 @@
 {
   "name": "Dylan's App Store",
   "short_name": "App Store",
-  "description": "Free apps for iPhone and iPad, made by Dylan.",
+  "description": "Free apps for iPhone, iPad and Android, made by Dylan.",
   "id": "./",
   "start_url": "./",
   "scope": "./",

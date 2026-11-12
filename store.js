@@ -1,6 +1,7 @@
 // Dylan's App Store. Shows the apps in catalog.json (written by tools/build.mjs), a page for each
 // app (#/app/<id>), and explains how to put an app on the Home Screen: on an iPhone there's no
-// "install" button a web page can press, so the store shows the two taps it takes in Safari.
+// "install" button a web page can press, so the store shows the two taps it takes in Safari. On Android
+// (since 1.52) Chrome has one: the store offers it for itself, and each app's own page (phone.js) for that app.
 //
 // The private store (private/index.html) uses this same file with data-private: after Dylan's
 // password unlocks private/catalog.bin (see private/lock.js), his private apps join the list.
@@ -18,6 +19,14 @@
   const detail = document.getElementById('detail');
   let catalog = { apps: [], categories: [] };
   let privateApps = [];
+  const TAGLINE = 'Free apps for iPhone, iPad and Android, made by Dylan.';
+  // Android's Chrome: its own install, for the store itself (the button shows once Chrome offers it).
+  let installPrompt = null;
+  addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    installPrompt = e;
+    document.querySelectorAll('[data-install]').forEach(b => { b.hidden = false; });
+  });
 
   const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const SHARE = '<svg viewBox="0 0 20 24" aria-hidden="true"><path d="M10 15V2M5.5 6.5 10 2l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 10H4.5A1.5 1.5 0 0 0 3 11.5v9A1.5 1.5 0 0 0 4.5 22h11a1.5 1.5 0 0 0 1.5-1.5v-9a1.5 1.5 0 0 0-1.5-1.5H13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
@@ -44,9 +53,10 @@
     let html = `<div class="wrap">
       <header class="hero">
         <div class="hero-top"><span class="date">${esc(dateWords)}</span>
-          <button class="round" data-share-store>${SHARE} Share</button></div>
+          <span><button class="round" data-install${installPrompt ? '' : ' hidden'}>Install</button>
+          <button class="round" data-share-store>${SHARE} Share</button></span></div>
         <h1>${PRIVATE ? 'Dylan’s Private Apps' : esc(catalog.name || 'Dylan’s App Store')}</h1>
-        <p>${PRIVATE ? 'Just for you: your own apps, plus everything in the store.' : 'Free apps for iPhone and iPad, made by Dylan.'}</p>
+        <p>${PRIVATE ? 'Just for you: your own apps, plus everything in the store.' : TAGLINE}</p>
       </header>`;
 
     if (PRIVATE) html += '<section id="private-box"></section>';
@@ -71,13 +81,14 @@
         <h3>How to get an app</h3>
         <ol>
           <li><b>Tap GET</b> on any app, then <b>Open</b>.</li>
-          <li>In Safari, tap <b>Share</b> <i>${SHARE}</i> (on newer iPhones it’s in the <b>•••</b> menu), then <b>Add to Home Screen</b>.</li>
+          ${android ? '' : `<li>${ios ? '' : '<b>iPhone or iPad:</b> '}In Safari, tap <b>Share</b> <i>${SHARE}</i> (on newer iPhones it’s in the <b>•••</b> menu), then <b>Add to Home Screen</b>.</li>`}
+          ${ios ? '' : `<li>${android ? '' : '<b>Android:</b> '}In Chrome, tap <b>Install</b> at the top of the app, or in Chrome’s <b>⋮</b> menu tap <b>Add to Home screen</b>.</li>`}
           <li>That’s it: it’s on your Home Screen like any app, with its own icon, full screen. Most of them work without internet too.</li>
         </ol>
       </section>
       <footer class="foot">
         <button class="round" data-share-store>${SHARE} Share ${PRIVATE ? 'the public store' : 'this store'} with a friend</button><br>
-        Free, with no ads and no sign-ups. These are web apps: nothing comes from Apple’s App Store.<br>
+        Free, with no ads and no sign-ups. These are web apps: nothing comes from Apple’s or Google’s app stores.<br>
         ${catalog.updated ? `Updated ${esc(new Date(catalog.updated + 'T12:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }))}` : ''}
       </footer>
     </div>`;
@@ -116,7 +127,7 @@
     const facts = [
       ['Category', app.category, ''],
       ['Internet', app.internet === 'Not needed' ? 'None' : 'Needed', app.internet === 'Not needed' ? 'works offline' : app.internet || ''],
-      ['Works on', 'iPhone', '& iPad'],
+      ['Works on', 'iPhone', 'iPad & Android'],
       ['Made by', 'Dylan', app.private ? 'just for you' : 'free'],
     ];
     detail.innerHTML = `<div class="wrap">
@@ -133,7 +144,7 @@
       <div class="info"><h2>Information</h2><dl>
         <dt>Made by</dt><dd>Dylan</dd>
         <dt>Category</dt><dd>${esc(app.category)}</dd>
-        <dt>Works on</dt><dd>iPhone and iPad (and computers)</dd>
+        <dt>Works on</dt><dd>iPhone, iPad, Android phones and tablets (and computers)</dd>
         <dt>Internet</dt><dd>${esc(app.internet || 'Needed')}</dd>
         <dt>Version</dt><dd>${esc(app.version)}</dd>
         <dt>Price</dt><dd>Free</dd></dl></div>
@@ -198,16 +209,22 @@
         <p class="lead">Only Safari can add apps to the Home Screen. Copy the link, open <b>Safari</b>, paste it in the address bar, then tap <b>Share</b> <i>${SHARE}</i> → <b>Add to Home Screen</b>.</p>
         <button class="wide" data-copy="${esc(link)}">Copy the link</button>
         <a class="wide plain" href="${esc(openLink(app))}">Just open it here</a>`;
-    } else if (android) {
+    } else if (android && !standalone) {
       body = `<h2>Put it on your Home Screen</h2>
         <ol class="steps">
-          <li><span class="n">1</span><span>Tap <b>Open</b> below.</span></li>
-          <li><span class="n">2</span><span>In Chrome’s <span class="key">⋮</span> menu, tap <b>Add to Home screen</b> or <b>Install app</b>.</span></li>
+          <li><span class="n">1</span><span>Tap <b>Open</b> below.<small>${esc(app.short)} opens in Chrome, ready to use.</small></span></li>
+          <li><span class="n">2</span><span>Tap <b>Install</b> at the top of ${esc(app.short)}.<small>No Install button? In Chrome’s <span class="key">⋮</span> menu, tap <b>Add to Home screen</b> (or <b>Install app</b>).</small></span></li>
         </ol>
+        <a class="wide" href="${esc(openLink(app))}">Open ${esc(app.short)}</a>
+        <p class="small-print">Then open it from your Home Screen. It opens full screen like any app${app.internet === 'Not needed' ? ', and works without internet' : ''}.</p>`;
+    } else if (android) {
+      // Opened from the installed store: each app installs from its own page in Chrome.
+      body = `<h2>Put it on your Home Screen</h2>
+        <p class="lead">Tap <b>Open</b>, then <b>Install</b> at the top of the app (or, in Chrome, <span class="key">⋮</span> → <b>Add to Home screen</b>).</p>
         <a class="wide" href="${esc(openLink(app))}">Open ${esc(app.short)}</a>`;
     } else {
-      body = `<h2>Made for iPhone and iPad</h2>
-        <p class="lead">Point your iPhone’s camera at this code to open it there, then add it to your Home Screen. It works on this computer too.</p>
+      body = `<h2>Made for phones and tablets</h2>
+        <p class="lead">Point your phone’s camera at this code (an iPhone or an Android phone) to open it there, then add it to your Home Screen. It works on this computer too.</p>
         <div class="qr">${qr(link)}</div>
         <a class="wide" href="${esc(openLink(app))}"${app.external ? ' target="_blank" rel="noopener"' : ''}>Open it here</a>`;
     }
@@ -218,7 +235,7 @@
   function shareSheet() {
     const link = publicRoot().href;
     const { box } = sheet(`<h2>Share Dylan’s App Store</h2>
-      <p class="lead">Friends can point their iPhone’s camera at this code, or you can send them the link.${PRIVATE ? ' (This shares the public store. Your private apps stay private.)' : ''}</p>
+      <p class="lead">Friends can point their phone’s camera at this code (iPhone or Android), or you can send them the link.${PRIVATE ? ' (This shares the public store. Your private apps stay private.)' : ''}</p>
       <div class="qr">${qr(link)}</div>
       <div class="link-box">${esc(link)}</div>
       ${navigator.share ? `<button class="wide" data-send="${esc(link)}">${SHARE} Send the link…</button>` : ''}
@@ -253,6 +270,15 @@
 
   // ------------------------------------------------------------------ taps
   document.addEventListener('click', e => {
+    const install = e.target.closest('[data-install]');
+    if (install) {
+      e.preventDefault();
+      if (installPrompt) installPrompt.prompt().then(() => installPrompt.userChoice).then(({ outcome }) => {
+        installPrompt = null;
+        if (outcome === 'accepted') document.querySelectorAll('[data-install]').forEach(b => { b.hidden = true; });
+      });
+      return;
+    }
     const t = e.target.closest('[data-get],[data-share-store],[data-share-app],[data-copy],[data-send],[data-back]');
     if (!t) {
       const a = e.target.closest('a[href^="#/app/"]');
@@ -266,7 +292,7 @@
       const app = find(t.dataset.shareApp);
       if (navigator.share) send(app.name, appLink(app), `${app.name}, from Dylan’s App Store`); else copy(appLink(app));
     } else if (t.dataset.copy) copy(t.dataset.copy);
-    else if (t.dataset.send) send('Dylan’s App Store', t.dataset.send, 'Free apps for iPhone and iPad, made by Dylan.');
+    else if (t.dataset.send) send('Dylan’s App Store', t.dataset.send, TAGLINE);
     else if ('back' in t.dataset) { if (history.length > 1 && history.state?.fromHome) history.back(); else location.hash = ''; }
   });
   addEventListener('popstate', route);
