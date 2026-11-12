@@ -2,7 +2,8 @@
 // panel drawing (reference-panel.png), and makes every knob, button, switch, jack, plate and the joystick work.
 // Positions are in the drawing's units: 2000 across, 1293 down.
 //
-// Knobs: drag up or down (Shift for fine), or use the mouse wheel; double-click puts a knob back to where it started.
+// Knobs: press and drag up or right to turn clockwise, down or left to turn back (Shift for fine), or use the mouse
+// wheel; double-click puts a knob back to where it started. On a touch screen: drag up and down.
 // Patch cables: drag from a jack to another jack (an output to an input). Drag a cable's plug away from an input to
 // move or remove it; click a cable to remove it.
 
@@ -14,40 +15,96 @@ const Panel = (() => {
   const values = {}, defaults = {}, controls = {}, jacks = {}, leds = {};
   let cables = [], svg, cableLayer, send = () => {}, sendCables = () => {}, onMic = () => {};
 
+  // ---- Where things go, up and down ----
+  // The positions in this file are in the units of the original drawing (2000 across, 1293 down). Since 1.3 the
+  // header is shorter (no DYLAN'S) and the room it freed is shared out between the rows below it: ys() spreads out
+  // the drone voices, the VCOs and the rows under them, yc() the middle column (the effector, the filters, the mixer
+  // and the envelopes), which also moves up into where DYLAN'S was. Every control keeps its size; only where it sits
+  // changes. Each list is [old y, new y] pairs, in a straight line in between.
+  function spread(knots) {
+    return y => {
+      if (y <= knots[0][0]) return y - knots[0][0] + knots[0][1];
+      for (let i = 1; i < knots.length; i++) {
+        if (y <= knots[i][0]) {
+          const [a0, b0] = knots[i - 1], [a1, b1] = knots[i];
+          return b0 + (y - a0) * (b1 - b0) / (a1 - a0);
+        }
+      }
+      const [a, b] = knots[knots.length - 1];
+      return y - a + b;
+    };
+  }
+  const LOWER = [[732, 742], [740, 751], [858, 876], [890, 900]];   // the bottom row and the keyboard, all the way across
+  const ys = spread([[215, 160], [465, 445], [473, 455], ...LOWER]);
+  const yc = spread([[152, 50], [351, 293], [430, 388], [442, 412], [447, 418], [593, 594], [597, 599], ...LOWER]);
+  const Y = (y, x) => Math.round((x > 670 && x < 1330 ? yc : ys)(+y) * 100) / 100;
+
   // ---- Drawing helpers ----
-  function el(tag, attrs, parent) {
+  // put() draws at exactly the position given; el() first moves it to its row's place (above).
+  function put(tag, attrs, parent) {
     const e = document.createElementNS(SVGNS, tag);
     for (const k in attrs) e.setAttribute(k, attrs[k]);
     (parent || svg).appendChild(e);
     return e;
   }
+  function el(tag, attrs, parent) {
+    const a = { ...attrs };
+    if ((tag === 'circle' || tag === 'ellipse') && a.cy != null) a.cy = Y(a.cy, a.cx);
+    else if (tag === 'text' && a.y != null) a.y = Y(a.y, a.x);
+    else if (tag === 'rect' && a.y != null) {
+      const x = +a.x + (+a.width || 0) / 2, top = Y(a.y, x);
+      if (a.height != null) a.height = Y(+a.y + +a.height, x) - top;
+      a.y = top;
+    } else if (tag === 'line') { const x = (+a.x1 + +a.x2) / 2; a.y1 = Y(a.y1, x); a.y2 = Y(a.y2, x); }
+    else if (tag === 'path' && a.d) a.d = movePath(a.d);
+    return put(tag, a, parent);
+  }
+  // A path: every point moved to its place, or (a path drawn with relative steps, like the mixer's emblem) moved as one.
+  const PATH_ARGS = { M: 2, L: 2, T: 2, H: 1, V: 1, C: 6, S: 4, Q: 4, A: 7, Z: 0 };
+  const PATH_YS = { M: [1], L: [1], T: [1], H: [], V: [0], C: [1, 3, 5], S: [1, 3], Q: [1, 3], A: [6], Z: [] };
+  function movePath(d) {
+    const t = d.match(/[a-zA-Z]|-?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?/g);
+    const x0 = +t[1];
+    if (/[mlhvcsqta]/.test(d)) { t[2] = String(Y(t[2], x0)); return t.join(' '); }
+    let cmd = 'M', k = 0;
+    for (let i = 0; i < t.length; i++) {
+      if (/[A-Z]/.test(t[i])) { cmd = t[i]; k = 0; continue; }
+      if (PATH_YS[cmd].includes(k++ % PATH_ARGS[cmd])) t[i] = String(Y(t[i], x0));
+    }
+    return t.join(' ');
+  }
   function text(x, y, s, o = {}) {
-    const t = el('text', { x, y, 'font-size': o.size || 15, 'font-weight': o.weight || 700, fill: o.fill || '#111',
+    const ty = o.abs ? y : Y(y, x);
+    const t = put('text', { x, y: ty, 'font-size': o.size || 15, 'font-weight': o.weight || 700, fill: o.fill || '#111',
       'text-anchor': o.anchor || 'middle', 'dominant-baseline': 'middle', class: 'lbl', ...(o.attrs || {}) }, o.parent);
     t.textContent = s;
-    if (o.rotate) t.setAttribute('transform', `rotate(${o.rotate} ${x} ${y})`);
+    if (o.rotate) t.setAttribute('transform', `rotate(${o.rotate} ${x} ${ty})`);
     return t;
   }
-  const box = (x, y, w, h, o = {}) => el('rect', { x, y, width: w, height: h, rx: o.rx ?? 12, fill: o.fill || 'none',
-    stroke: o.stroke || '#111', 'stroke-width': o.sw ?? 3 });
+  function box(x, y, w, h, o = {}) {
+    const top = Y(y, x + w / 2);
+    return put('rect', { x, y: top, width: w, height: Y(y + h, x + w / 2) - top, rx: o.rx ?? 12, fill: o.fill || 'none',
+      stroke: o.stroke || '#111', 'stroke-width': o.sw ?? 3 });
+  }
   // A black bar with the section's name in white: "LFO A", "DRONE 3", "VCO B"...
   function tag(x, y, w, s, o = {}) {
-    el('rect', { x, y, width: w, height: o.h || 22, fill: '#111', rx: o.rx ?? 0 });
-    text(x + w / 2, y + (o.h || 22) / 2 + 1, s, { fill: '#fff', size: o.size || 15 });
+    const top = Y(y, x + w / 2), bottom = Y(y + (o.h || 22), x + w / 2);
+    put('rect', { x, y: top, width: w, height: bottom - top, fill: '#111', rx: o.rx ?? 0 });
+    text(x + w / 2, (top + bottom) / 2 + 1, s, { fill: '#fff', size: o.size || 15, abs: true });
   }
-  function tip(node, s) { const t = el('title', {}, node); t.textContent = s; }
+  function tip(node, s) { const t = put('title', {}, node); t.textContent = s; }
   function arc(cx, cy, r) {              // the thin travel arc around a knob, with a dot at the start and an arrow at the end
     const a0 = (-225) * Math.PI / 180, a1 = 45 * Math.PI / 180;
     const p = a => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
     const [x0, y0] = p(a0), [x1, y1] = p(a1);
-    el('path', { d: `M${x0},${y0} A${r},${r} 0 1 1 ${x1},${y1}`, fill: 'none', stroke: '#111', 'stroke-width': 1.8 });
-    el('circle', { cx: x0, cy: y0, r: 3.2, fill: '#111' });
-    el('path', { d: `M${x1 - 6},${y1 - 3} L${x1 + 3},${y1 + 4} L${x1 - 2},${y1 - 8} Z`, fill: '#111' });
+    put('path', { d: `M${x0},${y0} A${r},${r} 0 1 1 ${x1},${y1}`, fill: 'none', stroke: '#111', 'stroke-width': 1.8 });
+    put('circle', { cx: x0, cy: y0, r: 3.2, fill: '#111' });
+    put('path', { d: `M${x1 - 6},${y1 - 3} L${x1 + 3},${y1 + 4} L${x1 - 2},${y1 - 8} Z`, fill: '#111' });
   }
   function ticks(cx, cy, r, n = 11) {    // radial tick marks around the effector's knobs
     for (let i = 0; i < n; i++) {
       const a = (-225 + i * 270 / (n - 1)) * Math.PI / 180;
-      el('line', { x1: cx + (r + 3) * Math.cos(a), y1: cy + (r + 3) * Math.sin(a), x2: cx + (r + 11) * Math.cos(a), y2: cy + (r + 11) * Math.sin(a), stroke: '#111', 'stroke-width': 3 });
+      put('line', { x1: cx + (r + 3) * Math.cos(a), y1: cy + (r + 3) * Math.sin(a), x2: cx + (r + 11) * Math.cos(a), y2: cy + (r + 11) * Math.sin(a), stroke: '#111', 'stroke-width': 3 });
     }
   }
 
@@ -61,48 +118,119 @@ const Panel = (() => {
     if (!quiet) { send({ [id]: v }); save(); }
   }
 
+  // How a knob turns with the mouse: press on it and drag up or right to turn it clockwise, down or left to turn it
+  // back (whichever way the mouse moves more), about KNOB_PX pixels for the whole turn; Shift makes it KNOB_FINE times
+  // finer. It keeps turning when the mouse leaves the knob, and lets go the moment the button is let go (or the window
+  // loses the mouse). On a touch screen, as before: drag up and down, TOUCH_PX for the whole turn.
+  const KNOB_PX = 200, KNOB_FINE = 5, TOUCH_PX = 260, STEP_PX = 14;
+  const turning = new Set();             // the knobs being turned right now: each one's "let go"
+  function letGoAll() { [...turning].forEach(f => f(false)); }
+
   // A knob. o: { r, color, style: 'grip' | 'plain', label, ly, arc, ticks, def, steps, tipText }
-  function knob(id, x, y, o) {
-    const r = o.r || 24;
+  function knob(id, x, y0, o) {
+    const r = o.r || 24, y = Y(y0, x);
     defaults[id] = o.def ?? 0.5;
     if (o.arc) arc(x, y, r + 9);
     if (o.ticks) ticks(x, y, r);
-    const g = el('g', { class: 'knob', 'data-id': id });
+    const g = put('g', { class: 'knob', 'data-id': id });
+    put('circle', { cx: x, cy: y, r: r + 6, fill: 'transparent' }, g);   // a little more to grab than the knob itself
     if (o.style === 'plain') {
-      el('circle', { cx: x, cy: y, r, fill: '#111' }, g);
+      put('circle', { cx: x, cy: y, r, fill: '#111' }, g);
     } else {
-      el('circle', { cx: x, cy: y, r, fill: '#2a2a2a' }, g);
-      el('circle', { cx: x, cy: y, r: r - 3.5, fill: 'none', stroke: '#4a4a4a', 'stroke-width': 5, 'stroke-dasharray': '3 2.4' }, g);
-      el('circle', { cx: x, cy: y, r: r * 0.66, fill: COLORS[o.color] || o.color }, g);
+      put('circle', { cx: x, cy: y, r, fill: '#2a2a2a' }, g);
+      put('circle', { cx: x, cy: y, r: r - 3.5, fill: 'none', stroke: '#4a4a4a', 'stroke-width': 5, 'stroke-dasharray': '3 2.4' }, g);
+      put('circle', { cx: x, cy: y, r: r * 0.66, fill: COLORS[o.color] || o.color }, g);
     }
-    const dot = el('circle', { cx: x, cy: y - r * (o.style === 'plain' ? 0.62 : 0.48), r: Math.max(2.6, r * 0.12), fill: o.color === 'grey' ? '#111' : '#fff' }, g);
-    if (o.label) text(x, o.ly ?? y + r + 18, o.label, { size: o.size || 16 });
+    const dot = put('circle', { cx: x, cy: y - r * (o.style === 'plain' ? 0.62 : 0.48), r: Math.max(2.6, r * 0.12), fill: o.color === 'grey' ? '#111' : '#fff' }, g);
+    if (o.label) text(x, o.ly ?? y0 + r + 18, o.label, { size: o.size || 16 });
     tip(g, o.tipText || o.label || id);
     controls[id] = { draw: v => dot.setAttribute('transform', `rotate(${-135 + 270 * v} ${x} ${y})`) };
     controls[id].draw(values[id] ?? defaults[id]);
-    let start = null;
-    g.addEventListener('pointerdown', e => { g.setPointerCapture(e.pointerId); start = { y: e.clientY, v: values[id] }; e.preventDefault(); });
-    g.addEventListener('pointermove', e => {
-      if (!start) return;
-      let v = clamp(start.v + (start.y - e.clientY) / (e.shiftKey ? 1600 : 260), 0, 1);
-      if (o.steps) v = Math.round(v * (o.steps - 1)) / (o.steps - 1);
+
+    // A knob with stops (the waveform selector, the keyboard's encoder) clicks from one stop to the next.
+    const steps = o.steps || 0;
+    const stop = v => (steps ? Math.round(v * (steps - 1)) / (steps - 1) : v);
+    let drag = null, lastClick = 0;
+    const move = e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (e.pointerType === 'mouse' && !(e.buttons & 1)) { end(false); return; }   // let go somewhere it wasn't heard
+      if (!drag.moved) {                 // a click that wobbles a pixel or two doesn't turn it
+        if (Math.abs(e.clientX - drag.x0) + Math.abs(e.clientY - drag.y0) < 3) return;
+        drag.moved = true;
+      }
+      const dx = e.clientX - drag.x, dy = drag.y - e.clientY;
+      drag.x = e.clientX; drag.y = e.clientY;
+      const d = drag.touch || Math.abs(dy) >= Math.abs(dx) ? dy : dx;
+      const px = drag.touch ? TOUCH_PX : steps ? Math.max(KNOB_PX, (steps - 1) * STEP_PX) : KNOB_PX * (e.shiftKey ? KNOB_FINE : 1);
+      drag.v = clamp(drag.v + d / px, 0, 1);
+      const v = stop(drag.v);
       if (v !== values[id]) setValue(id, v);
+    };
+    const up = e => { if (drag && e.pointerId === drag.id) end(e.type === 'pointerup'); };
+    function end(released) {
+      if (!drag) return;
+      const d = drag;
+      drag = null;
+      turning.delete(end);
+      window.removeEventListener('pointermove', move, true);
+      window.removeEventListener('pointerup', up, true);
+      window.removeEventListener('pointercancel', up, true);
+      try { if (g.hasPointerCapture(d.id)) g.releasePointerCapture(d.id); } catch (err) { /* already let go */ }
+      if (!turning.size) document.documentElement.classList.remove('knob-turning');
+      // Two clicks in a row (without turning) put the knob back to where it started.
+      if (released && !d.moved) {
+        const now = performance.now();
+        if (now - lastClick < 450) { lastClick = 0; setValue(id, defaults[id]); } else lastClick = now;
+      } else lastClick = 0;
+    }
+    g.addEventListener('pointerdown', e => {
+      if (e.button !== 0 || drag) return;
+      e.preventDefault();
+      const touch = e.pointerType === 'touch';
+      if (!touch) letGoAll();            // one mouse turns one knob at a time; fingers can turn several
+      drag = { id: e.pointerId, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, v: values[id] ?? defaults[id], moved: false, touch };
+      try { g.setPointerCapture(e.pointerId); } catch (err) { /* the window listeners below still follow it */ }
+      turning.add(end);
+      window.addEventListener('pointermove', move, true);
+      window.addEventListener('pointerup', up, true);
+      window.addEventListener('pointercancel', up, true);
+      if (!touch) document.documentElement.classList.add('knob-turning');
     });
-    g.addEventListener('pointerup', () => { start = null; });
-    g.addEventListener('dblclick', () => setValue(id, defaults[id]));
+    g.addEventListener('lostpointercapture', e => { if (drag && e.pointerId === drag.id) end(false); });
+    // The mouse wheel: one notch is a small step (Shift, a smaller one; a knob with stops, one stop). Chrome turns
+    // Shift + wheel into a sideways scroll, so whichever of the two is bigger counts.
+    let wheelLeft = 0, wheelAt = 0;
     g.addEventListener('wheel', e => {
       e.preventDefault();
-      const step = o.steps ? 1 / (o.steps - 1) : (e.shiftKey ? 0.004 : 0.025);
-      setValue(id, clamp((values[id] ?? 0) + (e.deltaY < 0 ? step : -step), 0, 1));
+      const raw = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      const pxs = e.deltaMode === 1 ? raw * 33 : e.deltaMode === 2 ? raw * 100 : raw;   // about 100 a notch
+      // a mouse wheel's notch counts as one (up to 1.7 notches' worth in one go still counts as one, so a page zoomed
+      // out or more scroll lines in Windows don't make every notch a double step); a touchpad's many small moves add up
+      const notches = clamp(-(Math.abs(pxs) >= 50 ? Math.sign(pxs) * Math.max(1, Math.floor(Math.abs(pxs) / 100 + 0.3)) : pxs / 100), -3, 3);
+      let v;
+      if (steps) {
+        // the touchpad's leftover part of a stop is forgotten after a pause or a change of direction, so the next
+        // notch is never a surprise double step; the tiny extra makes ten 0.1s add up to one stop
+        const now = performance.now();
+        if (now - wheelAt > 600 || Math.sign(notches) !== Math.sign(wheelLeft)) wheelLeft = 0;
+        wheelAt = now;
+        wheelLeft += notches;
+        const n = Math.trunc(wheelLeft + Math.sign(wheelLeft) * 1e-9);
+        if (!n) return;
+        wheelLeft -= n;
+        v = clamp(stop((values[id] ?? 0) + n / (steps - 1)), 0, 1);
+      } else v = clamp((values[id] ?? 0) + notches * (e.shiftKey ? 0.005 : 0.025), 0, 1);
+      if (v !== values[id]) setValue(id, v);
     }, { passive: false });
   }
 
   // A pushbutton. kind: 'latch' (press on, press off) or 'momentary' (on while held).
-  function button(id, x, y, r, kind, o = {}) {
+  function button(id, x, y0, r, kind, o = {}) {
+    const y = Y(y0, x);
     defaults[id] = o.def ?? 0;
-    const g = el('g', { class: 'btn', 'data-id': id });
-    const c = el('circle', { cx: x, cy: y, r, fill: o.fill || '#111' }, g);
-    const ring = el('circle', { cx: x, cy: y, r: r - 4, fill: 'none', stroke: '#fff', 'stroke-width': 2, opacity: 0 }, g);
+    const g = put('g', { class: 'btn', 'data-id': id });
+    const c = put('circle', { cx: x, cy: y, r, fill: o.fill || '#111' }, g);
+    const ring = put('circle', { cx: x, cy: y, r: r - 4, fill: 'none', stroke: '#fff', 'stroke-width': 2, opacity: 0 }, g);
     tip(g, o.tipText || id);
     controls[id] = { draw: v => { ring.setAttribute('opacity', v > 0.5 ? 0.85 : 0); c.setAttribute('fill', v > 0.5 ? (o.onFill || '#3a3a3a') : (o.fill || '#111')); } };
     controls[id].draw(values[id] ?? defaults[id]);
@@ -116,13 +244,14 @@ const Panel = (() => {
   }
 
   // A toggle switch: a lever that points up or down (or up, middle, down). Click to flip it.
-  function toggle(id, x, y, positions, o = {}) {
+  function toggle(id, x, y0, positions, o = {}) {
+    const y = Y(y0, x);
     defaults[id] = o.def ?? 0;
-    const g = el('g', { class: 'btn', 'data-id': id });
-    el('circle', { cx: x, cy: y, r: 10, fill: '#2a2a2a' }, g);
-    el('circle', { cx: x, cy: y, r: 6, fill: '#111' }, g);
+    const g = put('g', { class: 'btn', 'data-id': id });
+    put('circle', { cx: x, cy: y, r: 10, fill: '#2a2a2a' }, g);
+    put('circle', { cx: x, cy: y, r: 6, fill: '#111' }, g);
     // a short lever, so it never covers the labels above and below it
-    const lever = el('rect', { x: x - 4.5, y: y - 2, width: 9, height: 15, rx: 4.5, fill: COLORS[o.color] || o.color || COLORS.green }, g);
+    const lever = put('rect', { x: x - 4.5, y: y - 2, width: 9, height: 15, rx: 4.5, fill: COLORS[o.color] || o.color || COLORS.green }, g);
     tip(g, o.tipText || id);
     // value 0 = lever down (lower label), 1 = up; three-position switches: 0, 0.5, 1
     controls[id] = { draw: v => lever.setAttribute('transform', `rotate(${positions === 3 ? (v > 0.75 ? 180 : v > 0.25 ? (o.mid === 'right' ? -90 : 90) : 0) : (v > 0.5 ? 180 : 0)} ${x} ${y})`) };
@@ -133,24 +262,26 @@ const Panel = (() => {
     });
   }
 
-  function led(id, x, y, color, r = 7) {
-    el('circle', { cx: x, cy: y, r, fill: '#2b2b2b' });
-    const l = el('circle', { cx: x, cy: y, r, fill: color, opacity: 0.15 });
+  function led(id, x, y0, color, r = 7) {
+    const y = Y(y0, x);
+    put('circle', { cx: x, cy: y, r, fill: '#2b2b2b' });
+    const l = put('circle', { cx: x, cy: y, r, fill: color, opacity: 0.15 });
     leds[id] = l;
     return l;
   }
 
   // A jack: a hex nut with a hole. Outputs have a small red arrow pointing out of them, inputs a black one.
-  function jack(id, x, y, kind, o = {}) {
-    const g = el('g', { class: 'jack', 'data-id': id });
+  function jack(id, x, y0, kind, o = {}) {
+    const y = o.abs ? y0 : Y(y0, x);
+    const g = put('g', { class: 'jack', 'data-id': id });
     const hex = [...Array(6)].map((_, i) => { const a = Math.PI / 3 * i; return `${x + 17 * Math.cos(a)},${y + 17 * Math.sin(a)}`; }).join(' ');
-    el('polygon', { points: hex, fill: '#9a9a9a', stroke: '#444', 'stroke-width': 1.5 }, g);
-    el('circle', { cx: x, cy: y, r: 11.5, fill: '#cfcfcf' }, g);
-    el('circle', { cx: x, cy: y, r: 7.5, fill: '#0b0b0b' }, g);
+    put('polygon', { points: hex, fill: '#9a9a9a', stroke: '#444', 'stroke-width': 1.5 }, g);
+    put('circle', { cx: x, cy: y, r: 11.5, fill: '#cfcfcf' }, g);
+    put('circle', { cx: x, cy: y, r: 7.5, fill: '#0b0b0b' }, g);
     if (o.arrow !== false) {
       const c = kind === 'out' ? '#d5281f' : '#111';
       const ax = o.arrow === 'below' ? x : x - 24, ay = o.arrow === 'below' ? y + 25 : y;
-      el('path', { d: o.arrow === 'below' ? `M${ax - 6},${ay + 3} L${ax + 6},${ay + 3} L${ax},${ay - 4} Z`
+      put('path', { d: o.arrow === 'below' ? `M${ax - 6},${ay + 3} L${ax + 6},${ay + 3} L${ax},${ay - 4} Z`
         : `M${ax - 3},${ay - 6} L${ax + 4},${ay} L${ax - 3},${ay + 6} Z`, fill: c });
     }
     tip(g, `${o.name || id} (${kind === 'out' ? 'output' : 'input'})${o.normal ? `. With nothing plugged in: ${o.normal}` : ''}`);
@@ -171,10 +302,10 @@ const Panel = (() => {
       const a = jacks[c[0]], b = jacks[c[1]];
       if (!a || !b) return;
       const color = c[2] || CABLE_COLORS[i % CABLE_COLORS.length];
-      const p = el('path', { d: cablePath(a, b), fill: 'none', stroke: color, 'stroke-width': 7, 'stroke-linecap': 'round', opacity: 0.88, class: 'cable' }, cableLayer);
+      const p = put('path', { d: cablePath(a, b), fill: 'none', stroke: color, 'stroke-width': 7, 'stroke-linecap': 'round', opacity: 0.88, class: 'cable' }, cableLayer);
       tip(p, `${c[0]} → ${c[1]} (click to remove)`);
       p.addEventListener('click', () => { cables.splice(i, 1); cablesChanged(); });
-      for (const j of [a, b]) el('circle', { cx: j.x, cy: j.y, r: 9, fill: color, stroke: '#111', 'stroke-width': 2, 'pointer-events': 'none' }, cableLayer);
+      for (const j of [a, b]) put('circle', { cx: j.x, cy: j.y, r: 9, fill: color, stroke: '#111', 'stroke-width': 2, 'pointer-events': 'none' }, cableLayer);
     });
   }
   function cablesChanged() { drawCables(); sendCables(cables.map(c => [c[0], c[1]])); save(); }
@@ -189,7 +320,7 @@ const Panel = (() => {
     }
     const a = jacks[from];
     color = color || CABLE_COLORS[cables.length % CABLE_COLORS.length];
-    const line = el('path', { d: '', fill: 'none', stroke: color, 'stroke-width': 7, 'stroke-linecap': 'round', opacity: 0.75, 'pointer-events': 'none' }, cableLayer);
+    const line = put('path', { d: '', fill: 'none', stroke: color, 'stroke-width': 7, 'stroke-linecap': 'round', opacity: 0.75, 'pointer-events': 'none' }, cableLayer);
     drag = { from, line, color };
     const move = ev => { const p = toSvg(ev); line.setAttribute('d', cablePath(a, p)); };
     const up = ev => {
@@ -309,8 +440,8 @@ const Panel = (() => {
     text(282 + dx, 610, 'hi/low', { size: 13, anchor: 'end' });
     jack(k + 'lfo', 94 + dx, 595, 'out', { arrow: false, name: 'LFO out (square wave)' });
     text(118 + dx, 596, '▸', { size: 12, fill: '#d5281f' });
-    jack(k + 'cvin', 181 + dx, 595, 'in', { arrow: false, name: 'cv (pitch)' });
-    text(181 + dx, 620, 'cv', { size: 13 });
+    jack(k + 'cvin', 178 + dx, 595, 'in', { arrow: false, name: 'cv (pitch)' });
+    text(178 + dx, 620, 'cv', { size: 13 });
     // HOLD / GATE
     el('path', { d: `M${18 + dx},612 H${75 + dx} Q${85 + dx},612 ${85 + dx},622 V732 H${18 + dx} Z`, fill: 'none', stroke: '#111', 'stroke-width': 3 });
     el('rect', { x: 18 + dx, y: 612, width: 22, height: 120, fill: '#111' });
@@ -345,7 +476,7 @@ const Panel = (() => {
     text(404 + dx, 499, 'cv amt', { size: 16 });
     text(372 + dx, 568, 'lin', { size: 12 });
     toggle(k + 'linexp', 370 + dx, 594, 2, { color: 'green', def: 1, tipText: 'lin / exp: how the cv input moves the pitch (exp: by octaves, like a keyboard; lin: by hertz, for clean FM)' });
-    text(370 + dx, 621, 'exp', { size: 12 });
+    text(365 + dx, 621, 'exp', { size: 12 });
     text(478 + dx, 522, 'oct+3', { size: 17 });
     toggle(k + 'oct', 478 + dx, 548, 2, { color: 'green', def: 0, tipText: 'oct+3 / low: the low range, or three octaves up' });
     text(478 + dx, 575, 'low', { size: 16 });
@@ -356,15 +487,15 @@ const Panel = (() => {
     knob(k + 'pwm', 405 + dx, 637, { r: 23, color: 'green', arc: true, def: 0.2, label: 'pwm', ly: 674, tipText: A ? 'pwm: how much the pwm input sweeps the pulse width (LFO A with nothing plugged in)' : 'pwm: how much the pwm input sweeps the pulse width (LFO B with nothing plugged in)' });
     knob(k + 'pw', 611 + dx, 637, { r: 23, color: 'green', arc: true, def: 0.5, label: 'pw', ly: 674, tipText: 'pw: the square wave\'s width, and the morph of the last two waveforms' });
     // the waveform selector, with its six shapes around it
-    const cx = 508 + dx, cy = 636;
+    const cx = 508 + dx, cy0 = 636, cy = Y(cy0, cx);
     // the six shapes around it, at the knob's six stops (from 225 degrees round to 315, like the knob's travel)
     const shapes = ['∿', '⋀', '◿', '⊓', '⋈', '∿̸'];
     shapes.forEach((s, i) => {
       const a = (135 + i * 54) * Math.PI / 180;
-      el('line', { x1: cx + 35 * Math.cos(a), y1: cy + 35 * Math.sin(a), x2: cx + 42 * Math.cos(a), y2: cy + 42 * Math.sin(a), stroke: '#111', 'stroke-width': 2 });
-      text(cx + 52 * Math.cos(a), cy + 52 * Math.sin(a), s, { size: 15 });
+      put('line', { x1: cx + 35 * Math.cos(a), y1: cy + 35 * Math.sin(a), x2: cx + 42 * Math.cos(a), y2: cy + 42 * Math.sin(a), stroke: '#111', 'stroke-width': 2 });
+      text(cx + 52 * Math.cos(a), cy + 52 * Math.sin(a), s, { size: 15, abs: true });
     });
-    knob(k + 'morph', cx, cy, { r: 31, color: 'green', def: 0.4, steps: 6, tipText: 'Waveform: sine, triangle, saw, square, saw-to-inverted-saw, sine-to-triangle (pw morphs the last two)' });
+    knob(k + 'morph', cx, cy0, { r: 31, color: 'green', def: 0.4, steps: 6, tipText: 'Waveform: sine, triangle, saw, square, saw-to-inverted-saw, sine-to-triangle (pw morphs the last two)' });
     
     if (A) {
       jack(k + 'voct', 378 + dx, 697, 'in', { name: '1v/oct', normal: 'the touch keyboard' }); text(380 + dx, 723, '1v/oct', { size: 16 });
@@ -387,8 +518,8 @@ const Panel = (() => {
     text(x0 + 110, 613, '⋀⋀', { size: 15, anchor: 'end' });
     button(k + 'loop', x0 + 126, 612, 12, 'latch', { tipText: 'Loop: the envelope repeats by itself like an LFO (self-generation). Off: it follows the gate (attack, decay, sustain, release).' });
     text(x0 + 140, 613, '⋀‾\\', { size: 12, anchor: 'start' });
-    text(A ? 947 : 1319, 612, `envelope ${x.toUpperCase()}`, { size: 14, anchor: 'end' });
-    led(k + 'led', A ? 864 : 1241, 612, '#f5b400', 6);
+    text(A ? 947 : 1320, 612, `envelope ${x.toUpperCase()}`, { size: 13, anchor: 'end' });
+    led(k + 'led', A ? 857 : 1240, 612, '#f5b400', 6);
     ['a', 'd', 's', 'r'].forEach((p, i) => knob(k + p, x0 + 30 + i * 65.5, 659, { r: 21, color: 'green', arc: true, def: [0.15, 0.4, 0.6, 0.45][i], label: p.toUpperCase(), ly: 690, tipText: ['A: attack time', 'D: decay time', 'S: sustain level', 'R: release time'][i] }));
     if (A) {
       jack('enva.gate', 737, 704, 'in', { name: 'gate', normal: 'the touch keyboard' }); text(737, 727, 'gate', { size: 12 });
@@ -533,7 +664,7 @@ const Panel = (() => {
     // Preamp (contact mic)
     box(1291, 740, 143, 118, { rx: 10 });
     jack('pre.ext', 1312, 777, 'in', { arrow: false, name: 'ext. source (audio in to the preamp)', normal: 'the contact mic (your computer\'s microphone)' });
-    text(1312, 812, 'ext.', { size: 14 }); text(1312, 826, 'source', { size: 14 });
+    text(1316, 812, 'ext.', { size: 13 }); text(1316, 826, 'source', { size: 13 });
     knob('pre.gain', 1370, 778, { r: 27, color: 'red', def: 0.5, label: 'gain', ly: 815, tipText: 'gain: the preamp\'s level' });
     led('preled', 1420, 777, '#2a8cff', 7);
     const mic = el('g', { class: 'btn' });
@@ -619,12 +750,13 @@ const Panel = (() => {
     // Playing the plates: with the mouse, or with several fingers on a touch screen (each finger is followed on its
     // own; the newest one plays, like the real keyboard). Higher up a plate, or a harder Apple Pencil press, is more pressure.
     defaults['kbd.note'] = -1; defaults['kbd.press'] = 0;
+    const placed = PLATES.map(([x, y0, y1]) => [x, Y(y0, x), Y(y1, x)]);   // where the plates are drawn
     const plateAt = e => {
       const p = toSvg(e);
-      return PLATES.findIndex(([x, y0, y1]) => Math.abs(p.x - x) <= 38 && p.y >= y0 && p.y <= y1);
+      return placed.findIndex(([x, y0, y1]) => Math.abs(p.x - x) <= 38 && p.y >= y0 && p.y <= y1);
     };
     const press = (e, i) => {
-      const [, y0, y1] = PLATES[i];
+      const [, y0, y1] = placed[i];
       const p = toSvg(e);
       const height = clamp(1 - (p.y - y0) / (y1 - y0), 0, 1);
       setValue('kbd.press', e.pointerType === 'pen' && e.pressure > 0 ? e.pressure : height);
@@ -690,37 +822,66 @@ const Panel = (() => {
     const cap = el('circle', { cx: 150, cy: 1080, r: 24, fill: '#444', stroke: '#111', 'stroke-width': 3 }, knobG);
     tip(knobG, 'Joystick: drag it; it stays where you leave it (position locking). Double-click to center it. Outputs X and Y in the JOYSTICK section.');
     defaults['joy.x'] = 0; defaults['joy.y'] = 0;
-    const place = () => { cap.setAttribute('cx', 150 + (values['joy.x'] || 0) * 30); cap.setAttribute('cy', 1080 - (values['joy.y'] || 0) * 30); };
+    const JY = Y(1080, 150);              // the joystick's middle, where it's drawn
+    const place = () => { cap.setAttribute('cx', 150 + (values['joy.x'] || 0) * 30); cap.setAttribute('cy', JY - (values['joy.y'] || 0) * 30); };
     controls['joy.x'] = { draw: place }; controls['joy.y'] = { draw: place };
+    // Like a knob, it lets go the moment the button is let go (or the drag is cancelled, the window loses the mouse,
+    // or the mouse moves with no button held), so it never stays stuck to the mouse. Two clicks or taps in a row
+    // (without moving it) center it.
+    let held = null, lastTap = 0;
+    const mv = ev => {
+      if (!held || ev.pointerId !== held.id) return;
+      if (ev.pointerType === 'mouse' && !(ev.buttons & 1)) { letGo(false); return; }   // let go somewhere it wasn't heard
+      if (!held.moved && Math.abs(ev.clientX - held.x0) + Math.abs(ev.clientY - held.y0) < 3) return;
+      held.moved = true;
+      const p = toSvg(ev);
+      let dx = (p.x - 150) / 30, dy = (JY - p.y) / 30;
+      const m = Math.hypot(dx, dy); if (m > 1) { dx /= m; dy /= m; }
+      setValue('joy.x', dx); setValue('joy.y', dy);
+    };
+    const up = ev => { if (held && ev.pointerId === held.id) letGo(ev.type === 'pointerup'); };
+    function letGo(released) {
+      if (!held) return;
+      const h = held;
+      held = null;
+      window.removeEventListener('pointermove', mv, true);
+      window.removeEventListener('pointerup', up, true);
+      window.removeEventListener('pointercancel', up, true);
+      try { if (knobG.hasPointerCapture(h.id)) knobG.releasePointerCapture(h.id); } catch (err) { /* already let go */ }
+      if (released && !h.moved) {
+        const now = performance.now();
+        if (now - lastTap < 450) { lastTap = 0; setValue('joy.x', 0); setValue('joy.y', 0); } else lastTap = now;
+      } else lastTap = 0;
+    }
     knobG.addEventListener('pointerdown', e => {
-      knobG.setPointerCapture(e.pointerId);
-      const mv = ev => {
-        const p = toSvg(ev);
-        let dx = (p.x - 150) / 30, dy = (1080 - p.y) / 30;
-        const m = Math.hypot(dx, dy); if (m > 1) { dx /= m; dy /= m; }
-        setValue('joy.x', dx); setValue('joy.y', dy);
-      };
-      const up = () => { knobG.removeEventListener('pointermove', mv); knobG.removeEventListener('pointerup', up); };
-      knobG.addEventListener('pointermove', mv); knobG.addEventListener('pointerup', up);
+      if (e.button !== 0 || held) return;
+      e.preventDefault();
+      held = { id: e.pointerId, x0: e.clientX, y0: e.clientY, moved: false };
+      try { knobG.setPointerCapture(e.pointerId); } catch (err) { /* the window listeners below still follow it */ }
+      window.addEventListener('pointermove', mv, true);
+      window.addEventListener('pointerup', up, true);
+      window.addEventListener('pointercancel', up, true);
     });
-    knobG.addEventListener('dblclick', () => { setValue('joy.x', 0); setValue('joy.y', 0); });
+    knobG.addEventListener('lostpointercapture', e => { if (held && e.pointerId === held.id) letGo(false); });
+    window.addEventListener('blur', () => letGo(false));
   }
 
+  // The header, kept short (since 1.3) so the rows below have more room: everything here is placed exactly.
   function drawHeader() {
-    text(70, 37, 'EXT.', { size: 14 }); text(70, 51, 'AUDIO', { size: 14 });
-    jack('ext.audio', 70, 77, 'in', { arrow: false, name: 'EXT. AUDIO in (plays through the EXT.AUDIO mixer channel)' });
-    text(140, 36, 'R', { size: 14 }); text(228, 36, 'L', { size: 14 });
-    el('path', { d: 'M128,44 Q128,52 136,52 H150 M206,52 H220 Q228,52 228,44', fill: 'none', stroke: '#111', 'stroke-width': 1.5 });
-    text(178, 54, 'WET OUT', { size: 14 });
-    text(1880, 37, 'POWER 12V DC 2A', { size: 13 });
-    el('text', { x: 45, y: 198, 'font-size': 118, 'font-weight': 900, 'font-family': '"Arial Black", "Segoe UI Black", sans-serif', fill: '#111', textLength: 400, lengthAdjust: 'spacingAndGlyphs' }).textContent = 'SOLAR';
-    el('text', { x: 468, y: 198, 'font-size': 118, 'font-weight': 900, 'font-family': '"Arial Black", "Segoe UI Black", sans-serif', fill: '#d5281f', textLength: 140, lengthAdjust: 'spacingAndGlyphs' }).textContent = '42';
-    el('text', { x: 612, y: 146, 'font-size': 46, 'font-weight': 900, 'font-family': '"Arial Black", sans-serif', fill: '#111' }).textContent = 'F';
-    // (Elta Music's logo sits here on the real panel. This is an unofficial tribute, so it says so instead.)
-    text(1000, 100, "DYLAN'S", { size: 40, weight: 900, attrs: { 'font-family': '"Arial Black", sans-serif' } });
-    text(1000, 132, 'an unofficial tribute to the Elta Music SOLAR 42F', { size: 11, weight: 600, fill: '#666' });
-    text(1660, 127, 'DRØNE', { size: 46, weight: 500, attrs: { 'letter-spacing': 12 } });
-    text(1660, 183, 'ĀMBIĒNT MĀCHINĒ', { size: 46, weight: 500, attrs: { 'letter-spacing': 10 } });
+    jack('ext.audio', 40, 38, 'in', { abs: true, arrow: false, name: 'EXT. AUDIO in (plays through the EXT.AUDIO mixer channel)' });
+    text(64, 39, 'EXT. AUDIO', { size: 14, anchor: 'start', abs: true });
+    text(168, 22, 'R', { size: 14, abs: true }); text(272, 22, 'L', { size: 14, abs: true });
+    put('path', { d: 'M168,30 Q168,40 176,40 H181 M259,40 H264 Q272,40 272,30', fill: 'none', stroke: '#111', 'stroke-width': 1.5 });
+    text(220, 40, 'WET OUT', { size: 14, abs: true });
+    text(1880, 24, 'POWER 12V DC 2A', { size: 13, abs: true });
+    const LOGO = '"Arial Black", "Segoe UI Black", sans-serif';
+    put('text', { x: 45, y: 146, 'font-size': 100, 'font-weight': 900, 'font-family': LOGO, fill: '#111', textLength: 339, lengthAdjust: 'spacingAndGlyphs' }).textContent = 'SOLAR';
+    put('text', { x: 403, y: 146, 'font-size': 100, 'font-weight': 900, 'font-family': LOGO, fill: '#d5281f', textLength: 119, lengthAdjust: 'spacingAndGlyphs' }).textContent = '42';
+    put('text', { x: 525, y: 102, 'font-size': 39, 'font-weight': 900, 'font-family': LOGO, fill: '#111' }).textContent = 'F';
+    // (Elta Music's logo sits at the top in the middle of the real panel. This is an unofficial tribute, so it says so instead.)
+    text(1000, 24, 'an unofficial tribute to the Elta Music SOLAR 42F', { size: 12, weight: 600, fill: '#666', abs: true });
+    text(1660, 74, 'DRØNE', { size: 40, weight: 500, abs: true, attrs: { 'letter-spacing': 11 } });
+    text(1660, 124, 'ĀMBIĒNT MĀCHINĒ', { size: 40, weight: 500, abs: true, attrs: { 'letter-spacing': 9 } });
   }
 
   // Each cartridge's programs and what X, Y and Z do in them (from the 42F manual).
@@ -791,7 +952,10 @@ const Panel = (() => {
     svg.setAttribute('viewBox', '0 0 2000 1293');
     svg.setAttribute('id', 'panel');
     container.appendChild(svg);
-    el('rect', { x: 0, y: 0, width: 2000, height: 1293, fill: '#fbfaf6' });
+    // Zoomed in, a finger moves the panel around, but not a finger that starts on a knob or the joystick: that one
+    // turns it. (The parts of a picture don't follow the page's touch-action, so they say so here themselves.)
+    svg.addEventListener('touchstart', e => { if (e.target.closest && e.target.closest('.knob, .joy')) e.preventDefault(); }, { passive: false });
+    put('rect', { x: 0, y: 0, width: 2000, height: 1293, fill: '#fbfaf6' });
     drawHeader();
     drawClassicDrone(1, 0); drawClassicDrone(2, 328); drawClassicDrone(4, 1314); drawClassicDrone(5, 1642);
     drawEffectorAndFilters();
@@ -808,9 +972,11 @@ const Panel = (() => {
     drawKeyboard();
     drawPads();
     drawJoystick();
-    hint = text(1000, 1275, '', { size: 15, weight: 600, fill: '#555' });
-    cableLayer = el('g', { id: 'cables' });
+    hint = text(1000, 1278, '', { size: 15, weight: 600, fill: '#555', abs: true });
+    cableLayer = put('g', { id: 'cables' });
     keyboardInput();
+    // A knob being turned lets go if the window loses the mouse (another window comes to the front, Alt+Tab...).
+    window.addEventListener('blur', letGoAll);
     // Fill in every value (saved ones, or the starting position) and draw it.
     for (const id in defaults) { if (values[id] == null) values[id] = defaults[id]; controls[id] && controls[id].draw(values[id]); }
     for (const id of ['fx.resetL', 'fx.resetR']) values[id] = 0;

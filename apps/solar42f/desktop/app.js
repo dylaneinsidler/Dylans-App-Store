@@ -202,7 +202,7 @@
         <li>press the <b>HOLD</b> button on a drone voice (it keeps playing until you press it again);</li>
         <li>play the <b>touch keyboard</b> (the white striped plates), or keys <b>A W S E D F T G Y H U J</b>;</li>
         <li>or pick a starter sound from the <b>Sounds</b> menu.</li></ul></li>
-      <li><b>Shape it</b>: turn knobs (drag up and down), press buttons, flip switches. <b>■ Stop all sound</b> (or Esc) silences everything.</li>
+      <li><b>Shape it</b>: turn knobs (press on one and drag up or right; down or left to turn it back), press buttons, flip switches. <b>■ Stop all sound</b> (or Esc) silences everything.</li>
     </ol>
     <p>The meter in the menu bar shows sound leaving the synth. If it moves but you hear nothing, use <b>Help > Test the speakers</b>.</p>`;
   const KEYS = `
@@ -211,13 +211,13 @@
       <tr><td><kbd>Z</kbd> / <kbd>X</kbd></td><td>keyboard octave down / up</td></tr>
       <tr><td><kbd>1</kbd> … <kbd>6</kbd></td><td>the drone voice pads (play while held)</td></tr>
       <tr><td><kbd>Esc</kbd></td><td>stop all sound (or close a window like this one)</td></tr>
-      <tr><td>drag up / down</td><td>turn a knob (hold <kbd>Shift</kbd> for fine moves); the mouse wheel works too</td></tr>
+      <tr><td>drag up or right / down or left</td><td>turn a knob clockwise / back (hold <kbd>Shift</kbd> for fine moves); the mouse wheel works too</td></tr>
       <tr><td>double-click a knob</td><td>back to where it started</td></tr>
       <tr><td>drag from a jack</td><td>a patch cable; drag a plug off an input to move it, click a cable to remove it</td></tr>
       <tr><td><kbd>F11</kbd></td><td>full screen</td></tr>
     </table>`;
   const ABOUT = `
-    <p><b>Dylan's Solar 42F</b> 1.1: an unofficial tribute to Elta Music's SOLAR 42F drone ambient machine. The panel follows
+    <p><b>Solar 42F</b> 1.3: an unofficial tribute to Elta Music's SOLAR 42F drone ambient machine. The panel follows
     Elta Music's drawing of the 42F and its manual; the sound is made live by models of each part, nothing recorded.
     Works without internet. Made with Claude.</p>`;
 

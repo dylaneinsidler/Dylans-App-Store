@@ -1,7 +1,7 @@
 {
   "name": "Dylan's Oura App",
   "short_name": "Oura",
-  "description": "Your day, your training, your nutritionist, and your health records",
+  "description": "Your day, your training, your nutritionist, your trends, and your health records",
   "id": "./",
   "start_url": "./",
   "scope": "./",

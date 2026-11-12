@@ -4,7 +4,8 @@ html, body { margin: 0; height: 100%; background: #26241f; overflow: hidden; fon
 /* ---- The menu bar ---- */
 #menubar { position: fixed; top: 0; left: 0; right: 0; height: 38px; display: flex; align-items: center; gap: 2px; padding: 0 10px;
   padding-top: env(safe-area-inset-top); background: #111; color: #eee; z-index: 30; font-size: 14px; box-shadow: 0 1px 0 #000; }
-#menubar .brand { font-weight: 700; margin-right: 14px; display: flex; align-items: center; gap: 8px; letter-spacing: 0.3px; }
+#menubar .brand { font-weight: 800; margin-right: 14px; display: flex; align-items: center; gap: 8px; letter-spacing: 1px; }
+#menubar .brand .red { color: #ff4a3d; }
 .sun-dot { width: 14px; height: 14px; border-radius: 50%; background: #d5281f; box-shadow: 0 0 0 2px #111, 0 0 0 3px #eee; }
 .menu { position: relative; }
 .menu > button { background: transparent; color: #eee; border: 0; font: inherit; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
@@ -37,7 +38,9 @@ body.zoomed #panel .sensor, body.zoomed #panel .cable { touch-action: none; }
 body.nocables #cables { display: none; }
 .lbl { font-family: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif; pointer-events: none; }
 .knob, .btn, .jack, .joy, .sensor, .cable { cursor: pointer; }
-.knob { cursor: ns-resize; }
+/* A knob: an open hand over it, a closed one while it's being turned (wherever the mouse goes) */
+.knob { cursor: grab; }
+html.knob-turning, html.knob-turning * { cursor: grabbing !important; }
 .jack:hover circle:last-of-type { fill: #3a3a3a; }
 
 /* ---- Messages ---- */
